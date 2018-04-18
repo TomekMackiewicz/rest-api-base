@@ -3,14 +3,16 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMSSerializer;
 
 /**
  * Item
  *
  * @ORM\Table(name="items")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ItemRepository")
+ * @JMSSerializer\ExclusionPolicy("all")
  */
-class Item
+class Item implements \JsonSerializable
 {
     /**
      * @var int
@@ -18,6 +20,7 @@ class Item
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @JMSSerializer\Expose
      */
     private $id;
 
@@ -25,6 +28,7 @@ class Item
      * @var string
      *
      * @ORM\Column(name="signature", type="string", length=32, unique=true)
+     * @JMSSerializer\Expose
      */
     private $signature;
 
@@ -32,6 +36,7 @@ class Item
      * @var int
      *
      * @ORM\Column(name="status", type="integer")
+     * @JMSSerializer\Expose
      */
     private $status;
 
@@ -39,6 +44,7 @@ class Item
      * @var \DateTime
      *
      * @ORM\Column(name="last_action", type="datetime", nullable=true)
+     * @JMSSerializer\Expose
      */
     private $lastAction;
 
@@ -124,5 +130,10 @@ class Item
     {
         return $this->lastAction;
     }
+    
+    public function jsonSerialize() {
+        return $this->array;
+    }    
+    
 }
 

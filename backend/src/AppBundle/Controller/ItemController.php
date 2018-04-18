@@ -22,49 +22,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
  */
 class ItemController extends FOSRestController implements ClassResourceInterface
 {
-//    /**
-//     * Lists all item entities.
-//     *
-//     * @Route("/", name="admin_item_index")
-//     * @Method("GET")
-//     */
-//    public function indexAction()
-//    {
-//        $em = $this->getDoctrine()->getManager();
-//
-//        $items = $em->getRepository('AppBundle:Item')->findAll();
-//
-//        return $this->render('item/index.html.twig', array(
-//            'items' => $items,
-//        ));
-//    }
-
-//    /**
-//     * Creates a new item entity.
-//     *
-//     * @Route("/new", name="admin_item_new")
-//     * @Method({"GET", "POST"})
-//     */
-//    public function newAction(Request $request)
-//    {
-//        $item = new Item();
-//        $form = $this->createForm('AppBundle\Form\ItemType', $item);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $em = $this->getDoctrine()->getManager();
-//            $em->persist($item);
-//            $em->flush();
-//
-//            return $this->redirectToRoute('admin_item_show', array('id' => $item->getId()));
-//        }
-//
-//        return $this->render('item/new.html.twig', array(
-//            'item' => $item,
-//            'form' => $form->createView(),
-//        ));
-//    }
-
     /**
      * Finds and displays a item entity.
      *
@@ -75,8 +32,55 @@ class ItemController extends FOSRestController implements ClassResourceInterface
      */
     public function getAction(int $id)
     {
-        return $this->getDoctrine()->getRepository('AppBundle:Item')->find($id);
+        $item = $this->getItemRepository()->findOneByIdQuery($id)->getSingleResult(); 
+        if ($item === null) {
+            return new View(null, Response::HTTP_NOT_FOUND);
+        }  
+        
+        return $item;
     }    
+    
+    /**
+     * Lists all items entities.
+     * 
+     * @return Item
+     */
+    public function cgetAction()
+    {
+        return $this->getItemRepository()->findAllQuery()->getResult();
+    }
+    
+    /**
+     * Adds item entity.
+     * 
+     * @param Request $request
+     * @return mixed
+     */
+    public function postAction(Request $request)
+    {
+        $form = $this->createForm('AppBundle\Form\ItemType', null, [
+            'csrf_protection' => false,
+        ]);
+
+        $form->submit($request->request->all());
+
+        if (!$form->isValid()) {
+            return $form;
+        }
+        
+        $item = $form->getData();
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($item);
+        $em->flush();
+
+        $routeOptions = [
+            'id' => $item->getId(),
+            '_format' => $request->get('_format'),
+        ];
+
+        return $this->routeRedirectView('get_item', $routeOptions, Response::HTTP_CREATED);
+    }
     
 //    /**
 //     * Displays a form to edit an existing item entity.
@@ -138,4 +142,12 @@ class ItemController extends FOSRestController implements ClassResourceInterface
 //            ->getForm()
 //        ;
 //    }
+
+    /**
+     * @return ItemRepository
+     */
+    private function getItemRepository() {
+        return $this->get('crv.doctrine_entity_repository.item');
+    }
+    
 }

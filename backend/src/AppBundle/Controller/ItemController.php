@@ -61,7 +61,6 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $form = $this->createForm('AppBundle\Form\ItemType', null, [
             'csrf_protection' => false,
         ]);
-
         $form->submit($request->request->all());
 
         if (!$form->isValid()) {
@@ -69,7 +68,6 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         }
         
         $item = $form->getData();
-
         $em = $this->getDoctrine()->getManager();
         $em->persist($item);
         $em->flush();
@@ -79,7 +77,11 @@ class ItemController extends FOSRestController implements ClassResourceInterface
             '_format' => $request->get('_format'),
         ];
 
-        return $this->routeRedirectView('get_item', $routeOptions, Response::HTTP_CREATED);
+        return $this->routeRedirectView(
+            'get_item', 
+            $routeOptions, 
+            Response::HTTP_CREATED
+        );
     }
     
     /**
@@ -100,7 +102,6 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $form = $this->createForm('AppBundle\Form\ItemType', $item, [
             'csrf_protection' => false,
         ]);
-
         $form->submit($request->request->all());        
 
         if (!$form->isValid()) {
@@ -140,7 +141,6 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $form = $this->createForm('AppBundle\Form\ItemType', $item, [
             'csrf_protection' => false,
         ]);
-
         $form->submit($request->request->all(), false);      
 
         if (!$form->isValid()) {

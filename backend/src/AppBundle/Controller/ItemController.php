@@ -82,6 +82,13 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         return $this->routeRedirectView('get_item', $routeOptions, Response::HTTP_CREATED);
     }
     
+    /**
+     * Replace item entity.
+     * 
+     * @param Request $request
+     * @param int $id
+     * @return View
+     */
     public function putAction(Request $request, int $id)
     {
         $item = $this->getItemRepository()->find($id);
@@ -108,9 +115,20 @@ class ItemController extends FOSRestController implements ClassResourceInterface
             '_format' => $request->get('_format'),
         ];
 
-        return $this->routeRedirectView('get_item', $routeOptions, Response::HTTP_NO_CONTENT);
+        return $this->routeRedirectView(
+            'get_item', 
+            $routeOptions, 
+            Response::HTTP_NO_CONTENT
+        );
     }
-
+    
+    /**
+     * Update item entity.
+     * 
+     * @param Request $request
+     * @param int $id
+     * @return View
+     */
     public function patchAction(Request $request, int $id)
     {
         $item = $this->getItemRepository()->find($id);
@@ -137,45 +155,33 @@ class ItemController extends FOSRestController implements ClassResourceInterface
             '_format' => $request->get('_format'),
         ];
 
-        return $this->routeRedirectView('get_item', $routeOptions, Response::HTTP_NO_CONTENT);
+        return $this->routeRedirectView(
+            'get_item', 
+            $routeOptions, 
+            Response::HTTP_NO_CONTENT
+        );
     }
     
-//
-//    /**
-//     * Deletes a item entity.
-//     *
-//     * @Route("/{id}", name="admin_item_delete")
-//     * @Method("DELETE")
-//     */
-//    public function deleteAction(Request $request, Item $item)
-//    {
-//        $form = $this->createDeleteForm($item);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $em = $this->getDoctrine()->getManager();
-//            $em->remove($item);
-//            $em->flush();
-//        }
-//
-//        return $this->redirectToRoute('admin_item_index');
-//    }
-//
-//    /**
-//     * Creates a form to delete a item entity.
-//     *
-//     * @param Item $item The item entity
-//     *
-//     * @return \Symfony\Component\Form\Form The form
-//     */
-//    private function createDeleteForm(Item $item)
-//    {
-//        return $this->createFormBuilder()
-//            ->setAction($this->generateUrl('admin_item_delete', array('id' => $item->getId())))
-//            ->setMethod('DELETE')
-//            ->getForm()
-//        ;
-//    }
+    /**
+     * Deletes item entity.
+     * 
+     * @param int $id
+     * @return View
+     */
+    public function deleteAction(int $id)
+    {
+        $item = $this->getItemRepository()->find($id);
+
+        if ($item === null) {
+            return new View(null, Response::HTTP_NOT_FOUND);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($item);
+        $em->flush();
+
+        return new View(null, Response::HTTP_NO_CONTENT);
+    }
 
     /**
      * @return ItemRepository

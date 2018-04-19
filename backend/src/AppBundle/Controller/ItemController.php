@@ -82,30 +82,64 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         return $this->routeRedirectView('get_item', $routeOptions, Response::HTTP_CREATED);
     }
     
-//    /**
-//     * Displays a form to edit an existing item entity.
-//     *
-//     * @Route("/{id}/edit", name="admin_item_edit")
-//     * @Method({"GET", "POST"})
-//     */
-//    public function editAction(Request $request, Item $item)
-//    {
-//        $deleteForm = $this->createDeleteForm($item);
-//        $editForm = $this->createForm('AppBundle\Form\ItemType', $item);
-//        $editForm->handleRequest($request);
-//
-//        if ($editForm->isSubmitted() && $editForm->isValid()) {
-//            $this->getDoctrine()->getManager()->flush();
-//
-//            return $this->redirectToRoute('admin_item_edit', array('id' => $item->getId()));
-//        }
-//
-//        return $this->render('item/edit.html.twig', array(
-//            'item' => $item,
-//            'edit_form' => $editForm->createView(),
-//            'delete_form' => $deleteForm->createView(),
-//        ));
-//    }
+    public function putAction(Request $request, int $id)
+    {
+        $item = $this->getItemRepository()->find($id);
+
+        if ($item === null) {
+            return new View(null, Response::HTTP_NOT_FOUND);
+        }
+
+        $form = $this->createForm('AppBundle\Form\ItemType', $item, [
+            'csrf_protection' => false,
+        ]);
+
+        $form->submit($request->request->all());        
+
+        if (!$form->isValid()) {
+            return $form;
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        $routeOptions = [
+            'id' => $item->getId(),
+            '_format' => $request->get('_format'),
+        ];
+
+        return $this->routeRedirectView('get_item', $routeOptions, Response::HTTP_NO_CONTENT);
+    }
+
+    public function patchAction(Request $request, int $id)
+    {
+        $item = $this->getItemRepository()->find($id);
+
+        if ($item === null) {
+            return new View(null, Response::HTTP_NOT_FOUND);
+        }
+
+        $form = $this->createForm('AppBundle\Form\ItemType', $item, [
+            'csrf_protection' => false,
+        ]);
+
+        $form->submit($request->request->all(), false);      
+
+        if (!$form->isValid()) {
+            return $form;
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        $routeOptions = [
+            'id' => $item->getId(),
+            '_format' => $request->get('_format'),
+        ];
+
+        return $this->routeRedirectView('get_item', $routeOptions, Response::HTTP_NO_CONTENT);
+    }
+    
 //
 //    /**
 //     * Deletes a item entity.

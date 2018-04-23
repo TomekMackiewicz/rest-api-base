@@ -54,7 +54,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
      * Adds item entity.
      * 
      * @param Request $request
-     * @return mixed
+     * @return View|\Symfony\Component\Form\Form
      */
     public function postAction(Request $request)
     {

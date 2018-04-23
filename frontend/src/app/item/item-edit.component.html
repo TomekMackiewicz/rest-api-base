@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Edit item</h2>
+            <alert></alert>
+            <div *ngIf="item">
+                <form>
+                    <div class="form-group">
+                        <label for="item-signature">Signature</label>
+                        <input type="text"
+                               class="form-control"
+                               id="item-signature"
+                               name="item-signature" [(ngModel)]="item.signature">
+                    </div>
+                    <button type="submit"
+                            class="btn btn-primary"
+                            (click)="updateItem()">
+                        Save
+                    </button>
+                    <button class="btn btn-default" (click)="goBack()">Back</button>                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

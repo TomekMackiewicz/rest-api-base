@@ -23,6 +23,7 @@ export class ItemService {
         let headers = new Headers({'Content-Type': 'application/json'});
         let options = new RequestOptions({headers: headers});
         let body = item;
+        
         return this.http.post
             ('http://localhost:8000/admin/items', body, options);
     }
@@ -33,7 +34,7 @@ export class ItemService {
         let body = item;
 
         return this.http.patch
-            ('http://localhost:8000/admin/items/' + item.id, body, options); // patch ?
+            ('http://localhost:8000/admin/items/' + item.id, body, options);
     }
 
     deleteItem(item: any) {

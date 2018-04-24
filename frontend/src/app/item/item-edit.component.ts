@@ -59,7 +59,7 @@ export class ItemEditComponent implements OnInit {
             },
             error => {
                 this.loaderService.displayLoader(false);
-                this.alertService.error("Error saving item! " + error);
+                this.alertService.error("Error updating item! " + error);
                 this.ref.markForCheck();
                 return Observable.throw(error);
             }

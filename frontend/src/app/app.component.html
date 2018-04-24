@@ -1,8 +1,93 @@
-
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-
+<nav *ngIf="username" class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button
+                type="button"
+                class="navbar-toggle collapsed"
+                data-toggle="collapse"
+                data-target="#bs-example-navbar-collapse-1"
+                aria-expanded="false"
+                >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a routerLink="/" routerLinkActive="active" class="navbar-brand">Front</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a routerLink="/admin/settings" routerLinkActive="active">Settings</a></li>
+                <li><a routerLink="/admin/documents" routerLinkActive="active">Documents</a></li>
+                <li><a routerLink="/admin/categories" routerLinkActive="active">Categories</a></li>
+                <li><a routerLink="/admin/files/add" routerLinkActive="active">Files</a></li>
+                <li><a routerLink="/admin/forms" routerLinkActive="active">Forms</a></li>
+                <li><a routerLink="/admin/orders" routerLinkActive="active">Orders</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#"
+                       class="dropdown-toggle"
+                       data-toggle="dropdown"
+                       role="button"
+                       aria-haspopup="true"
+                       aria-expanded="false"
+                       >
+                        Welcome, {{username}}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a routerLink="/logout" routerLinkActive="active">Logout</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">One more separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<nav *ngIf="!username" class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button
+                type="button"
+                class="navbar-toggle collapsed"
+                data-toggle="collapse"
+                data-target="#bs-example-navbar-collapse-1"
+                aria-expanded="false"
+                >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a routerLink="/" routerLinkActive="active" class="navbar-brand">{{ 'HOME.TITLE' | translate }}</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+<!--            <form #form="ngForm" (ngSubmit)="submitForm(form)" class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" name="token" class="form-control" placeholder="Search" ngModel>
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+            </form>-->
+            <ul class="nav navbar-nav navbar-right">
+                <li><a class="btn btn-default">{{ 'DOCUMENTS' | translate }}</a></li>
+                <li><a class="btn btn-default"><i class="ion-ios-telephone-outline"></i> 500-000-000</a></li>
+                <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
+                <label>
+                    {{ 'HOME.SELECT' | translate }}
+                    <select #langSelect (change)="translate.use(langSelect.value)">
+                        <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
+                    </select>
+                </label>                
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
 <router-outlet name="header"></router-outlet>
 <div *ngIf="objLoaderStatus" id="loaderWrap">
     <img src="/assets/Eclipse.gif" id="loader"> 

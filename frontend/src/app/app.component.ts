@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { trigger, animate, style, group, animateChild, query, stagger, transition } from '@angular/animations';
 import { LoaderService } from './services/loader.service';
+import { TranslateService } from '@ngx-translate/core';
 import { NgForm } from '@angular/forms';
 
 const slide = [
@@ -54,9 +55,14 @@ export class AppComponent implements OnInit, OnDestroy {
     objLoaderStatus: boolean;
 
     constructor(
+        private translate: TranslateService,
         private loaderService: LoaderService,
         private router: Router
     ) {
+        translate.addLangs(["pl", "en", "uk"]);
+        translate.setDefaultLang('pl');
+        let browserLang = translate.getBrowserLang();
+        translate.use(browserLang.match(/pl|en/) ? browserLang : 'pl');            
         this.username = localStorage.getItem('currentUsername');
         this.objLoaderStatus = false;
     }

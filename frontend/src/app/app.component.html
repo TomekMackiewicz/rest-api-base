@@ -36,8 +36,8 @@
                     </ul>
                 </li>
             </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+        </div>
+    </div>
 </nav>
 <nav *ngIf="!username" class="navbar navbar-default">
     <div class="container">
@@ -57,22 +57,13 @@
             <a routerLink="/" routerLinkActive="active" class="navbar-brand">{{ 'HOME.TITLE' | translate }}</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-<!--            <form #form="ngForm" (ngSubmit)="submitForm(form)" class="navbar-form navbar-left">
-                <div class="form-group">
-                    <input type="text" name="token" class="form-control" placeholder="Search" ngModel>
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>-->
             <ul class="nav navbar-nav navbar-right">
-                <li><a class="btn btn-default">{{ 'DOCUMENTS' | translate }}</a></li>
-                <li><a class="btn btn-default"><i class="ion-ios-telephone-outline"></i> 500-000-000</a></li>
                 <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
-                <label>
-                    {{ 'HOME.SELECT' | translate }}
-                    <select #langSelect (change)="translate.use(langSelect.value)">
+                <li>
+                    <a>{{ 'HOME.SELECT' | translate }}</a></li>
+                <li><select class="navbar-select" #langSelect (change)="translate.use(langSelect.value)">
                         <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
-                    </select>
-                </label>                
+                    </select></li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

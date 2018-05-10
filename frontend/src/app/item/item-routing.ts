@@ -10,15 +10,15 @@ import { FooterComponent } from '../footer/footer.component';
 const itemRoutes: Routes = [
     { path: 'admin', 
         children: [
+            { path: 'items/create', component: ItemCreateComponent },
+            { path: 'items/:id', component: ItemEditComponent },           
             {
                 path: 'items', 
                 component: ItemListComponent,
                 data: { 
                     animation: { value: 'item-list' }
                 }                
-            },
-            { path: 'items/:id', component: ItemEditComponent },
-            { path: 'item/create', component: ItemCreateComponent },
+            },            
         ],        
         canActivate: [ AuthGuard ]
     }   

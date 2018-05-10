@@ -6,7 +6,7 @@ import { MenuComponent } from '../menu/menu.component';
 import { FooterComponent } from '../footer/footer.component';
 import { LoginComponent } from '../login/login.component';
 import { LogoutComponent } from '../logout/logout.component';
-import { ItemListComponent } from '../item/item-list.component';
+//import { ItemListComponent } from '../item/item-list.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { AccessDeniedComponent } from '../denied/denied.component';
 
@@ -27,16 +27,8 @@ const routes: Routes = [
             }
         }                
     },
-    {path: 'admin', 
-        children: [
-            { 
-                path: 'items', 
-                component: ItemListComponent, 
-                data: { 
-                    animation: { value: 'items' }
-                }
-            },               
-        ],         
+    {path: 'admin',
+        redirectTo: '/admin/items',          
         canActivate: [AuthGuard]        
     },
     {path: '', 

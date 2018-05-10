@@ -44,6 +44,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         ReactiveFormsModule,        
         BrowserModule,
         BrowserAnimationsModule,
+        ItemModule,
         AppRoutingModule,
         TranslateModule.forRoot({
             loader: {
@@ -52,8 +53,7 @@ export function HttpLoaderFactory(http: HttpClient) {
                 deps: [HttpClient]
             }
         }),    
-        AlertModule,
-        ItemModule
+        AlertModule       
   ],
   providers: [        
         AuthGuard,

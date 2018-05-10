@@ -40,12 +40,12 @@ export class ItemCreateComponent implements OnInit {
         this.itemService.createItem(this.item).subscribe(
             data => {
                 this.loaderService.displayLoader(false);
-                this.alertService.success('Category created.');
+                this.alertService.success('Item created.');
                 this.ref.markForCheck();
             },
             error => {
                 this.loaderService.displayLoader(false);
-                this.alertService.error("Error saving category! " + error);
+                this.alertService.error("Error saving item! " + error);
                 this.ref.markForCheck();
                 return Observable.throw(error);
             }

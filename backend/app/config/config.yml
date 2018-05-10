@@ -109,7 +109,7 @@ nelmio_cors:
         allow_headers: ["content-type", "authorization"]
         max_age:       3600
     paths:
-        '^/': ~
+        '^/api/': ~
 
 #JMS Serializer
 jms_serializer: ~

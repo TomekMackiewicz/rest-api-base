@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-///import { AuthGuard } from '../guards/auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 import { ItemListComponent } from './item-list.component';
 import { ItemEditComponent } from './item-edit.component';
 import { ItemCreateComponent } from './item-create.component';
@@ -20,7 +20,7 @@ const itemRoutes: Routes = [
             { path: 'items/:id', component: ItemEditComponent },
             { path: 'item/create', component: ItemCreateComponent },
         ],        
-        ///canActivate: [ AuthGuard ]
+        canActivate: [ AuthGuard ]
     }   
 ];
 

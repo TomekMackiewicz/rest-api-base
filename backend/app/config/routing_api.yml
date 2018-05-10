@@ -1,19 +1,19 @@
-items:
+api_items:
     type: rest
     resource: AppBundle\Controller\ItemController
 
-login:
+api_login:
     type: rest
     resource: AppBundle\Controller\RestLoginController
     
-password_management:
+api_password_management:
     type: rest
     resource: AppBundle\Controller\RestPasswordManagementController
     
-profile:
+api_profile:
     type: rest
     resource: AppBundle\Controller\RestProfileController
 
-registration:
+api_registration:
     type: rest
     resource: AppBundle\Controller\RestRegistrationController

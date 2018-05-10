@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpModule, Http } from '@angular/http'; //Needed for login to work
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -13,9 +14,13 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { FooterComponent } from './footer/footer.component';
 import { PageNotFoundComponent } from './404/page-not-found.component';
+import { LoginComponent } from './login/login.component';
+import { LogoutComponent } from './logout/logout.component';
+import { AccessDeniedComponent } from './denied/denied.component';
 
 import { LoaderService } from './services/loader.service';
-///import { AuthGuard } from './guards/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
+import { AuthenticationService } from './services/authentication.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -27,10 +32,16 @@ export function HttpLoaderFactory(http: HttpClient) {
         AppComponent,
         MenuComponent,
         FooterComponent,
-        PageNotFoundComponent
+        PageNotFoundComponent,
+        LoginComponent,
+        LogoutComponent,
+        AccessDeniedComponent        
   ],
   imports: [
         HttpClientModule,
+        HttpModule,
+        FormsModule,
+        ReactiveFormsModule,        
         BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
@@ -44,9 +55,10 @@ export function HttpLoaderFactory(http: HttpClient) {
         AlertModule,
         ItemModule
   ],
-  providers: [
-        LoaderService,
-        ///AuthGuard  
+  providers: [        
+        AuthGuard,
+        AuthenticationService,
+        LoaderService  
   ],
   bootstrap: [AppComponent]
 })

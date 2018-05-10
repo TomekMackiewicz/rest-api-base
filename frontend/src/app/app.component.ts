@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { AuthenticationService } from './services/authentication.service';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { trigger, animate, style, group, animateChild, query, stagger, transition } from '@angular/animations';
@@ -57,6 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
     constructor(
         private translate: TranslateService,
         private loaderService: LoaderService,
+        private authenticationService: AuthenticationService,
         private router: Router
     ) {
         translate.addLangs(["pl", "en", "uk"]);
@@ -68,25 +70,20 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.authenticationService.getUsername().subscribe(currentUsername => this.username = currentUsername);
         this.loaderService.loaderStatus.subscribe((val: boolean) => {
             this.objLoaderStatus = val;
-            //console.log('app ' + val);
         });        
     }
 
-//    getState(outlet) {
-//        return outlet.activatedRouteData.state;
-//    }
+    getState(outlet) {
+        return outlet.activatedRouteData.state;
+    }
 
     prepareRouteTransition(outlet) {
         const animation = outlet.activatedRouteData['animation'] || {};
         return animation['value'] || null;
     }
-// Co to tu robi?
-//    submitForm(form: NgForm) {        
-//        let values = form.value;
-//        this.router.navigateByUrl('texts/full/'+values.token);
-//    }
 
     ngOnDestroy() {
         this.subscription.unsubscribe();

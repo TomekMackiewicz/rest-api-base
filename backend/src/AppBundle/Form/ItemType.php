@@ -13,7 +13,7 @@ class ItemType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('signature')->add('status')->add('lastAction');
+        $builder->add('signature')->add('status');
     }
     
     /**

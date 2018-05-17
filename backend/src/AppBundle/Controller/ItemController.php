@@ -146,7 +146,9 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         if (!$form->isValid()) {
             return $form;
         }
-
+        
+        $item->setLastAction(new \DateTime());
+        
         $em = $this->getDoctrine()->getManager();
         $em->flush();
 

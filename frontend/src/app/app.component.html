@@ -13,11 +13,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a routerLink="/" routerLinkActive="active" class="navbar-brand">Front</a>
+            <a routerLink="/" routerLinkActive="active" class="navbar-brand">
+                Front
+            </a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a routerLink="/admin/items" routerLinkActive="active">Items</a></li>
+                <li>
+                    <a routerLink="/admin/items" routerLinkActive="active">
+                        Items
+                    </a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
@@ -32,7 +38,16 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a routerLink="/logout" routerLinkActive="active">Logout</a></li>
+                        <li>
+                            <a routerLink="/change-password" routerLinkActive="active">
+                                Change password
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/logout" routerLinkActive="active">
+                                Logout
+                            </a>
+                        </li>                       
                     </ul>
                 </li>
             </ul>
@@ -54,16 +69,25 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a routerLink="/" routerLinkActive="active" class="navbar-brand">{{ 'HOME.TITLE' | translate }}</a>
+            <a routerLink="/" routerLinkActive="active" class="navbar-brand">
+                {{ 'HOME.TITLE' | translate }}
+            </a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
                 <li>
                     <a>{{ 'HOME.SELECT' | translate }}</a></li>
-                <li><select class="navbar-select" #langSelect (change)="translate.use(langSelect.value)">
-                        <option *ngFor="let lang of translate.getLangs()" [value]="lang" [selected]="lang === translate.currentLang">{{ lang }}</option>
-                    </select></li>
+                <li>
+                    <select class="navbar-select" 
+                            #langSelect 
+                            (change)="translate.use(langSelect.value)">
+                        <option *ngFor="let lang of translate.getLangs()" 
+                            [value]="lang" 
+                            [selected]="lang === translate.currentLang">{{ lang }}
+                        </option>
+                    </select>
+                </li>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

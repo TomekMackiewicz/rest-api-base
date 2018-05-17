@@ -6,6 +6,7 @@ import { MenuComponent } from '../menu/menu.component';
 import { FooterComponent } from '../footer/footer.component';
 import { LoginComponent } from '../login/login.component';
 import { LogoutComponent } from '../logout/logout.component';
+import { ChangePasswordComponent } from '../change-password/change-password.component';
 //import { ItemListComponent } from '../item/item-list.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { AccessDeniedComponent } from '../denied/denied.component';
@@ -27,6 +28,14 @@ const routes: Routes = [
             }
         }                
     },
+    {path: 'change-password', 
+        component: ChangePasswordComponent,
+        data: {
+            animation: {
+                value: 'change-password',
+            }
+        }                
+    },    
     {path: 'admin',
         redirectTo: '/admin/items',          
         canActivate: [AuthGuard]        

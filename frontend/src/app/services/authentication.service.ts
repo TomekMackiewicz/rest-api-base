@@ -36,6 +36,29 @@ export class AuthenticationService {
         localStorage.removeItem('currentUsername');
         this.subject.next();
     }
+    
+    register(email: string, username: string, password: string) {
+        return this.http.post('http://localhost:8000/api/register', { 
+            email: email, 
+            username: username, 
+            plainPassword: password }
+        ).map((response: Response) => {
+            let result = response.json();
+            if (result) {
+                // ...
+            }
+        });        
+    }
+    
+    changePassword(user:number, currentPassword: string, newPassword: string, confirmPassword: string) {
+        return this.http.patch('http://localhost:8000/api/password/'+user+'/change', { 
+            currentPassword: currentPassword, 
+            newPassword: newPassword,
+            confirmPassword: confirmPassword, 
+        })
+            .map((response: Response) => {
 
+            });        
+    }
 
 }

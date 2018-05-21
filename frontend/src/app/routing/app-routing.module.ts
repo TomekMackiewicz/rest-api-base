@@ -7,6 +7,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { LoginComponent } from '../login/login.component';
 import { LogoutComponent } from '../logout/logout.component';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
+import { RegisterComponent } from '../register/register.component';
 //import { ItemListComponent } from '../item/item-list.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { AccessDeniedComponent } from '../denied/denied.component';
@@ -35,7 +36,15 @@ const routes: Routes = [
                 value: 'change-password',
             }
         }                
-    },    
+    },
+    {path: 'register', 
+        component: RegisterComponent,
+        data: {
+            animation: {
+                value: 'register',
+            }
+        }                
+    },         
     {path: 'admin',
         redirectTo: '/admin/items',          
         canActivate: [AuthGuard]        

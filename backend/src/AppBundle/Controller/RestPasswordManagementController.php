@@ -160,7 +160,6 @@ class RestPasswordManagementController extends FOSRestController implements Clas
             throw new AccessDeniedHttpException();
         }
 
-        /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
         $dispatcher = $this->get('event_dispatcher');
 
         $event = new GetResponseUserEvent($user, $request);
@@ -170,7 +169,6 @@ class RestPasswordManagementController extends FOSRestController implements Clas
             return $event->getResponse();
         }
 
-        /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
         $formFactory = $this->get('fos_user.change_password.form.factory');
 
         $form = $formFactory->createForm([
@@ -183,7 +181,6 @@ class RestPasswordManagementController extends FOSRestController implements Clas
             return $form;
         }
 
-        /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
         $userManager = $this->get('fos_user.user_manager');
 
         $event = new FormEvent($form, $request);
@@ -193,14 +190,14 @@ class RestPasswordManagementController extends FOSRestController implements Clas
 
         if (null === $response = $event->getResponse()) {
             return new JsonResponse(
-                    $this->get('translator')->trans('change_password.flash.success', [], 'FOSUserBundle'), JsonResponse::HTTP_OK
+                $this->get('translator')->trans('change_password.flash.success', [], 'FOSUserBundle'), JsonResponse::HTTP_OK
             );
         }
 
         $dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
 
         return new JsonResponse(
-                $this->get('translator')->trans('change_password.flash.success', [], 'FOSUserBundle'), JsonResponse::HTTP_OK
+            $this->get('translator')->trans('change_password.flash.success', [], 'FOSUserBundle'), JsonResponse::HTTP_OK
         );
     }
 

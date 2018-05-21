@@ -20,10 +20,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class RestRegistrationController extends FOSRestController implements ClassResourceInterface
 {
     /**
-     * @Annotations\Post("/register")
+     * @Annotations\Post("/api/register")
      */
     public function registerAction(Request $request)
-    {
+    {        
         /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
         $formFactory = $this->get('fos_user.registration.form.factory');
         /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
@@ -31,7 +31,8 @@ class RestRegistrationController extends FOSRestController implements ClassResou
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
         $dispatcher = $this->get('event_dispatcher');
 
-        $user = $userManager->createUser();
+        $user = $userManager->createUser();        
+        $user->setPlainPassword($request->request->get('plainPassword'));
         $user->setEnabled(true);
 
         $event = new GetResponseUserEvent($user, $request);
@@ -44,14 +45,11 @@ class RestRegistrationController extends FOSRestController implements ClassResou
         $form = $formFactory->createForm([
             'csrf_protection'    => false
         ]);
-
-        $form->setData($user);
+        $form->setData($user);         
         $form->submit($request->request->all());
 
-        if ( ! $form->isValid()) {
-
+        if (!$form->isValid()) {
             $event = new FormEvent($form, $request);
-
             $dispatcher->dispatch(FOSUserEvents::REGISTRATION_FAILURE, $event);
 
             if (null !== $response = $event->getResponse()) {
@@ -70,13 +68,10 @@ class RestRegistrationController extends FOSRestController implements ClassResou
 
         $userManager->updateUser($user);
 
-        $response = new JsonResponse(
-            [
-                'msg' => $this->get('translator')->trans('registration.flash.user_created', [], 'FOSUserBundle'),
-                'token' => $this->get('lexik_jwt_authentication.jwt_manager')->create($user),
-            ],
-            JsonResponse::HTTP_CREATED,
-            [
+        $response = new JsonResponse([
+            'msg' => $this->get('translator')->trans('registration.flash.user_created', [], 'FOSUserBundle'),
+            'token' => $this->get('lexik_jwt_authentication.jwt_manager')->create($user),
+        ], JsonResponse::HTTP_CREATED, [
                 'Location' => $this->generateUrl(
                     'get_profile',
                     [ 'user' => $user->getId() ],

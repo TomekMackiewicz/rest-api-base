@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertService } from '../alert/alert.service';
-///import { AuthenticationService } from '../services/authentication.service'; //?
+import { AuthenticationService } from '../services/authentication.service'; //?
 import { LoaderService } from '../services/loader.service';
 
 @Component({
@@ -11,12 +11,12 @@ import { LoaderService } from '../services/loader.service';
 
 export class ChangePasswordComponent {
     model: any = {};
-    returnUrl: string;
+    user: any = localStorage.getItem('currentUsername');
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        //private authenticationService: AuthenticationService,
+        private authenticationService: AuthenticationService,
         private alertService: AlertService,
         private loaderService: LoaderService) {}
 
@@ -26,16 +26,15 @@ export class ChangePasswordComponent {
 
     changePassword() {
         this.loaderService.displayLoader(true);
-//        this.authenticationService.login(this.model.username, this.model.password)
-//            .subscribe(
-//            data => {
-//                this.router.navigate([this.returnUrl]);
-//                this.loaderService.displayLoader(false);
-//            },
-//            error => {
-//                this.alertService.error(error);
-//                this.loaderService.displayLoader(false);
-//            });
+        this.authenticationService.changePassword(this.user, this.model.currentPassword, this.model.newPassword, this.model.confirmPassword)
+            .subscribe(
+            data => {
+                this.loaderService.displayLoader(false);
+            },
+            error => {
+                this.alertService.error(error);
+                this.loaderService.displayLoader(false);
+            });
     }
 
 }

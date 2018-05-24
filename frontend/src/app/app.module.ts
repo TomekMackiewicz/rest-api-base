@@ -24,6 +24,9 @@ import { LoaderService } from './services/loader.service';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthenticationService } from './services/authentication.service';
 
+import { EqualValidator } from './shared/validate-equal.directive';
+import { ForbiddenValidatorDirective } from './shared/forbidden-name.directive';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -39,7 +42,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         LogoutComponent,
         ChangePasswordComponent,
         RegisterComponent,
-        AccessDeniedComponent        
+        AccessDeniedComponent,
+        ForbiddenValidatorDirective,
+        EqualValidator     
   ],
   imports: [
         HttpClientModule,

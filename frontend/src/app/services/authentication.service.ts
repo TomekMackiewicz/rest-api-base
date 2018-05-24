@@ -14,7 +14,7 @@ export class AuthenticationService {
     }
 
     constructor(private http: Http) {
-        var currentUsername = localStorage.getItem('currentUsername');
+        var currentUsername = localStorage.getItem('currentUsername');        
     }
 
     login(username: string, password: string) {
@@ -41,8 +41,8 @@ export class AuthenticationService {
         return this.http.post('http://localhost:8000/api/register', { 
             email: email, 
             username: username, 
-            plainPassword: password }
-        ).map((response: Response) => {
+            plainPassword: password 
+        }).map((response: Response) => {
             let result = response.json();
             if (result) {
                 // ...
@@ -57,7 +57,7 @@ export class AuthenticationService {
             confirmPassword: confirmPassword, 
         })
             .map((response: Response) => {
-
+                // ...
             });        
     }
 

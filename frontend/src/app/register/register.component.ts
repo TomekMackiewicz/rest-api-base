@@ -34,14 +34,15 @@ export class RegisterComponent {
             )
             .subscribe(
                 data => {
-                    this.router.navigate([this.returnUrl]);
                     this.loaderService.displayLoader(false);
+                    this.alertService.success('Success', true);
+                    this.router.navigate([this.returnUrl]);                    
                 },
                 error => {
-                    this.alertService.error(error);
                     this.loaderService.displayLoader(false);
+                    this.alertService.error(error);                    
                 }
             );
     }
-
+    
 }

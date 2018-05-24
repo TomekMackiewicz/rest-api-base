@@ -25,7 +25,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { AuthenticationService } from './services/authentication.service';
 
 import { EqualValidator } from './shared/validate-equal.directive';
-import { ForbiddenValidatorDirective } from './shared/forbidden-name.directive';
+import { PatternValidator } from './shared/pattern-validator.directive';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -43,8 +43,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         ChangePasswordComponent,
         RegisterComponent,
         AccessDeniedComponent,
-        ForbiddenValidatorDirective,
-        EqualValidator     
+        EqualValidator,
+        PatternValidator     
   ],
   imports: [
         HttpClientModule,

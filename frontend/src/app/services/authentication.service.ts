@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { Http, Headers, Response } from '@angular/http'; // @angular/common/http
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map'
@@ -43,11 +43,8 @@ export class AuthenticationService {
             username: username, 
             plainPassword: password 
         }).map((response: Response) => {
-            let result = response.json();
-            if (result) {
-                // ...
-            }
-        });        
+            //let result = response.json();
+        }).catch(this.handleError);      
     }
     
     changePassword(user:number, currentPassword: string, newPassword: string, confirmPassword: string) {
@@ -61,4 +58,26 @@ export class AuthenticationService {
             });        
     }
 
+    private handleError(error: any) {
+        let errorResponse = JSON.parse(error._body);
+        let errors = getErrors(errorResponse.errors);       
+        let errMsg = errors ? errors : errorResponse.message ? errorResponse.message : 'Validstion failed';
+
+        return Observable.throw(errMsg);
+    }
+    
+    function getErrors(formErrors: any) {       
+        let errors = Object.values(formErrors.children);
+        let msg = new String();        
+        for (let err of errors) {
+            if (err.errors) { 
+                msg = msg.concat(err.errors[0]);
+                msg = msg.concat("\n");
+            }           
+        }
+        
+        return msg;              
+    }
+    
 }
+

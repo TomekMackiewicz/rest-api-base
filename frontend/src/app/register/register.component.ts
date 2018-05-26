@@ -35,12 +35,13 @@ export class RegisterComponent {
             .subscribe(
                 data => {
                     this.loaderService.displayLoader(false);
-                    this.alertService.success('Success', true);
-                    this.router.navigate([this.returnUrl]);                    
+                    this.alertService.success('Success');
+                    //this.router.navigate([this.returnUrl]);                   
                 },
                 error => {
+                    //console.log('dupa');
                     this.loaderService.displayLoader(false);
-                    this.alertService.error(error);                    
+                    this.alertService.error(error);
                 }
             );
     }

@@ -29,13 +29,15 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @var string
+     * 
      * @JMSSerializer\Expose
      * @JMSSerializer\Type("string")
      */
     protected $username;
 
     /**
-     * @var string The email of the user.
+     * @var string
      *
      * @JMSSerializer\Expose
      * @JMSSerializer\Type("string")

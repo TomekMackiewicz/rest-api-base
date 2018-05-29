@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
                 data => {
                     this.loaderService.displayLoader(false);
                     this.alertService.success('Success', true);
-                    this.router.navigate([this.returnUrl]);
+                    //this.router.navigate([this.returnUrl]);
                     this.ref.markForCheck();
                 },
                 error => {

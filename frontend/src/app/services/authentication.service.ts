@@ -18,17 +18,20 @@ export class AuthenticationService {
     }
 
     login(username: string, password: string) {
-        return this.http.post('http://localhost:8000/api/login_check', { username: username, password: password })
-            .map((response: Response) => {
-                // login successful if there's a jwt token in the response
-                let token = response.json();
-                if (token) {
-                    // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('token', JSON.stringify(token));
-                    localStorage.setItem('currentUsername', username);
-                    this.subject.next(localStorage.getItem('currentUsername'));
-                }
-            });
+        return this.http.post('http://localhost:8000/api/login_check', { 
+            username: username, 
+            password: password 
+        }).map((response: Response) => {
+            let token = response.json();
+            if (token) {
+                localStorage.setItem('token', JSON.stringify(token));
+                localStorage.setItem('currentUsername', username);
+                this.subject.next(localStorage.getItem('currentUsername'));
+            }
+        }).catch((response) => {
+            let error = this.handleError(response);
+            return Observable.throw(error)
+        });
     }
 
     logout() {
@@ -42,9 +45,10 @@ export class AuthenticationService {
             email: email, 
             username: username, 
             plainPassword: password 
-        }).map((response: Response) => {
-            //let result = response.json();
-        }).catch(this.handleError);      
+        }).catch((response) => {
+            let error = this.handleError(response);
+            return Observable.throw(error)
+        });               
     }
     
     changePassword(user:number, currentPassword: string, newPassword: string, confirmPassword: string) {
@@ -59,11 +63,16 @@ export class AuthenticationService {
     }
 
     private handleError(error: any) {
-        let errorResponse = JSON.parse(error._body);        
-        let errors = this.getErrors(errorResponse.errors);       
-        let errMsg = errors ? errors : errorResponse.message ? errorResponse.message : 'Validstion failed';
+        let errorResponse = JSON.parse(error._body);
+        if (errorResponse.hasOwnProperty('errors')) {     
+            var errors = new String(this.getErrors(errorResponse.errors));
+        } else {        
+            var errors = new String();
+        }     
+        let errMsg = Object.keys(errors).length !== 0 && errors.constructor !== Object ? 
+            errors : errorResponse.message ? errorResponse.message : 'Something went wrong.';
 
-        return Observable.throw(errMsg);
+        return errMsg;
     }
     
     getErrors(formErrors: any): String {       

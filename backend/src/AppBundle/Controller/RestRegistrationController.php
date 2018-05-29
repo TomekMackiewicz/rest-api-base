@@ -32,8 +32,8 @@ class RestRegistrationController extends FOSRestController implements ClassResou
         $dispatcher = $this->get('event_dispatcher');
 
         $user = $userManager->createUser();        
-        $user->setPlainPassword($request->request->get('plainPassword'));
-        $user->setEnabled(true);
+        $user->setPlainPassword($request->request->get('plainPassword')); //?
+        $user->setEnabled(true); // ?
 
         $event = new GetResponseUserEvent($user, $request);
         $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
@@ -43,18 +43,15 @@ class RestRegistrationController extends FOSRestController implements ClassResou
         }
 
         $form = $formFactory->createForm([
-            'csrf_protection'    => false
+            'csrf_protection' => false
         ]);
         $form->setData($user);         
         $form->submit($request->request->all());
-
+        // $form->handleRequest($request); ? https://github.com/FriendsOfSymfony/FOSRestBundle/issues/842
+        
         if (!$form->isValid()) {
             $event = new FormEvent($form, $request);
             $dispatcher->dispatch(FOSUserEvents::REGISTRATION_FAILURE, $event);
-
-            if (null !== $response = $event->getResponse()) {
-                return $response;
-            }
 
             return $form;
         }
@@ -88,5 +85,3 @@ class RestRegistrationController extends FOSRestController implements ClassResou
         return $response;
     }
 }
-
-

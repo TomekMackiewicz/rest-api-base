@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertService } from '../alert/alert.service';
 import { AuthenticationService } from '../services/authentication.service';
@@ -9,7 +9,7 @@ import { LoaderService } from '../services/loader.service';
     templateUrl: './register.component.html',       
 })
 
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
     model: any = {};
     returnUrl: string;
 
@@ -18,7 +18,8 @@ export class RegisterComponent {
         private router: Router,
         private authenticationService: AuthenticationService,
         private alertService: AlertService,
-        private loaderService: LoaderService) {}
+        private loaderService: LoaderService,
+        private ref: ChangeDetectorRef) {}
 
     ngOnInit() {
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/login';
@@ -35,15 +36,16 @@ export class RegisterComponent {
             .subscribe(
                 data => {
                     this.loaderService.displayLoader(false);
-                    this.alertService.success('Success');
-                    //this.router.navigate([this.returnUrl]);                   
+                    this.alertService.success('Success', true);
+                    this.router.navigate([this.returnUrl]);
+                    this.ref.markForCheck();
                 },
                 error => {
-                    //console.log('dupa');
                     this.loaderService.displayLoader(false);
                     this.alertService.error(error);
+                    this.ref.markForCheck();
                 }
             );
     }
-    
+        
 }

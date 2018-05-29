@@ -94,7 +94,7 @@
     </div><!-- /.container-fluid -->
 </nav>
 <router-outlet name="header"></router-outlet>
-<div *ngIf="loaderStatus" id="loaderWrap">
+<div *ngIf="objLoaderStatus" id="loaderWrap">
     <img src="/assets/Eclipse.gif" id="loader"> 
 </div>
 <div [@routerAnimations]="prepareRouteTransition(outlet)">    

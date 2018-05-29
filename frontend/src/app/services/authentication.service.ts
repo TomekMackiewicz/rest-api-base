@@ -59,25 +59,25 @@ export class AuthenticationService {
     }
 
     private handleError(error: any) {
-        let errorResponse = JSON.parse(error._body);
-        let errors = getErrors(errorResponse.errors);       
+        let errorResponse = JSON.parse(error._body);        
+        let errors = this.getErrors(errorResponse.errors);       
         let errMsg = errors ? errors : errorResponse.message ? errorResponse.message : 'Validstion failed';
 
         return Observable.throw(errMsg);
     }
     
-    function getErrors(formErrors: any) {       
+    getErrors(formErrors: any): String {       
         let errors = Object.values(formErrors.children);
-        let msg = new String();        
+        let msg = new String();
         for (let err of errors) {
             if (err.errors) { 
                 msg = msg.concat(err.errors[0]);
                 msg = msg.concat("\n");
             }           
-        }
-        
+        }        
+               
         return msg;              
-    }
-    
+    }    
+        
 }
 

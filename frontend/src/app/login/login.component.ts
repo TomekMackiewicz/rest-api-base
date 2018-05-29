@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertService } from '../alert/alert.service';
 import { AuthenticationService } from '../services/authentication.service';
@@ -9,7 +9,7 @@ import { LoaderService } from '../services/loader.service';
     templateUrl: './login.component.html',       
 })
 
-export class LoginComponent {
+export class LoginComponent implements OnInit {
     model: any = {};
     returnUrl: string;
 
@@ -18,12 +18,11 @@ export class LoginComponent {
         private router: Router,
         private authenticationService: AuthenticationService,
         private alertService: AlertService,
-        private loaderService: LoaderService) {}
+        private loaderService: LoaderService,
+        private ref: ChangeDetectorRef) {}
 
     ngOnInit() {
-        // reset login status
         this.authenticationService.logout();
-        // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/admin/items';
     }
 
@@ -34,10 +33,12 @@ export class LoginComponent {
             data => {
                 this.router.navigate([this.returnUrl]);
                 this.loaderService.displayLoader(false);
+                this.ref.markForCheck();
             },
             error => {
                 this.alertService.error(error);
                 this.loaderService.displayLoader(false);
+                this.ref.markForCheck();
             });
     }
 

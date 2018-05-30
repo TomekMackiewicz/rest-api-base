@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { HttpModule, Http } from '@angular/http'; //Needed for login to work
+import { HttpModule, Http } from '@angular/http'; //change to common?
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -18,6 +18,7 @@ import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { RegisterComponent } from './register/register.component';
+import { ProfileComponent } from './profile/profile.component';
 import { AccessDeniedComponent } from './denied/denied.component';
 
 import { LoaderService } from './services/loader.service';
@@ -42,6 +43,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         LogoutComponent,
         ChangePasswordComponent,
         RegisterComponent,
+        ProfileComponent,
         AccessDeniedComponent,
         EqualValidator,
         PatternValidator     

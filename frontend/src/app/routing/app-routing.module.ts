@@ -8,6 +8,7 @@ import { LoginComponent } from '../login/login.component';
 import { LogoutComponent } from '../logout/logout.component';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { RegisterComponent } from '../register/register.component';
+import { ProfileComponent } from '../profile/profile.component';
 //import { ItemListComponent } from '../item/item-list.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { AccessDeniedComponent } from '../denied/denied.component';
@@ -29,7 +30,15 @@ const routes: Routes = [
             }
         }                
     },
-    {path: 'change-password', 
+    {path: 'user/profile', 
+        component: ProfileComponent,
+        data: {
+            animation: {
+                value: 'profile',
+            }
+        }                
+    },    
+    {path: 'user/change-password', 
         component: ChangePasswordComponent,
         data: {
             animation: {

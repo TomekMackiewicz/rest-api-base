@@ -20,7 +20,7 @@ export class AuthenticationService {
     login(username: string, password: string) {
         return this.http.post('http://localhost:8000/api/login_check', { 
             username: username, 
-            password: password 
+            password: password
         }).map((response: Response) => {
             let token = response.json();
             if (token) {
@@ -39,7 +39,7 @@ export class AuthenticationService {
         localStorage.removeItem('currentUsername');
         this.subject.next();
     }
-    
+    // spr, czego chce api - analogicznie do: https://github.com/codereviewvideos/fos-rest-and-user-bundle-integration/blob/master/src/AppBundle/Features/password_change.feature
     register(email: string, username: string, password: string) {
         return this.http.post('http://localhost:8000/api/register', { 
             email: email, 
@@ -51,15 +51,22 @@ export class AuthenticationService {
         });               
     }
     
-    changePassword(user:number, currentPassword: string, newPassword: string, confirmPassword: string) {
-        return this.http.patch('http://localhost:8000/api/password/'+user+'/change', { 
-            currentPassword: currentPassword, 
-            newPassword: newPassword,
-            confirmPassword: confirmPassword, 
-        })
-            .map((response: Response) => {
-                // ...
-            });        
+    changePassword(currentPassword: string, newPassword: string, confirmPassword: string) {
+        return this.http.post('http://localhost:8000/api/password/1/change', { 
+            current_password: currentPassword,
+            plainPassword: {
+              first: newPassword,
+              second: confirmPassword
+            } 
+        }).map((response: Response) => {
+            let token = response.json();
+            if (token) {
+                console.log(token);
+            }
+        }).catch((response) => {
+            console.log(response);
+            return Observable.throw(response)
+        });        
     }
 
     private handleError(error: any) {

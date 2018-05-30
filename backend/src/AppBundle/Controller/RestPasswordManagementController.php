@@ -19,7 +19,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @Annotations\Prefix("password")
+ * @Annotations\Prefix("api/password")
  * @RouteResource("password", pluralize=false)
  */
 class RestPasswordManagementController extends FOSRestController implements ClassResourceInterface {

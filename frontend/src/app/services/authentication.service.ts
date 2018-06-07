@@ -14,7 +14,7 @@ export class AuthenticationService {
     }
 
     constructor(private http: Http) {
-        var currentUsername = localStorage.getItem('currentUsername');        
+        var currentUsername = localStorage.getItem('currentUsername');  // unused      
     }
 
     login(username: string, password: string) {

@@ -34,11 +34,12 @@ export class ChangePasswordComponent {
         ).subscribe(
             data => {
                 this.loaderService.displayLoader(false);
+                this.alertService.success('Success', true);
                 this.ref.markForCheck();
             },
-            error => {
-                this.alertService.error(error);
+            error => {                
                 this.loaderService.displayLoader(false);
+                this.alertService.error(error);
                 this.ref.markForCheck();
             }
         );

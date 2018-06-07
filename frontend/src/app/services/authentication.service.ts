@@ -3,7 +3,6 @@ import { Http, Headers, Response, RequestOptions } from '@angular/http'; // @ang
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
-import * as jwt_decode from "jwt-decode";
 
 @Injectable()
 export class AuthenticationService {
@@ -56,8 +55,13 @@ export class AuthenticationService {
     changePassword(currentPassword: string, newPassword: string, confirmPassword: string) {
         let tokenObj = JSON.parse(localStorage.getItem('token'));                
         return this.http.post(
-            'http://localhost:8000/api/password/1/change', 
-            { current_password: currentPassword, plainPassword: newPassword },            
+            'http://localhost:8000/api/password/1/change', { 
+                current_password: currentPassword,
+                plainPassword: {
+                  first: newPassword,
+                  second: confirmPassword
+                }
+            },            
             { headers: new Headers({
                 'Authorization': 'Bearer '+ tokenObj.token 
             })}

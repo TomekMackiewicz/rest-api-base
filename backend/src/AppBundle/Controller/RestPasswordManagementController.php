@@ -115,8 +115,8 @@ class RestPasswordManagementController extends FOSRestController implements Clas
         $user = $userManager->findUserByConfirmationToken($token);
         if (null === $user) {
             return new JsonResponse(
-                    // no translation provided for this in \FOS\UserBundle\Controller\ResettingController
-                    sprintf('The user with "confirmation token" does not exist for value "%s"', $token), JsonResponse::HTTP_BAD_REQUEST
+                // no translation provided for this in \FOS\UserBundle\Controller\ResettingController
+                sprintf('The user with "confirmation token" does not exist for value "%s"', $token), JsonResponse::HTTP_BAD_REQUEST
             );
         }
         $event = new GetResponseUserEvent($user, $request);
@@ -138,13 +138,13 @@ class RestPasswordManagementController extends FOSRestController implements Clas
         $userManager->updateUser($user);
         if (null === $response = $event->getResponse()) {
             return new JsonResponse(
-                    $this->get('translator')->trans('resetting.flash.success', [], 'FOSUserBundle'), JsonResponse::HTTP_OK
+                $this->get('translator')->trans('resetting.flash.success', [], 'FOSUserBundle'), JsonResponse::HTTP_OK
             );
         }
         // unsure if this is now needed / will work the same
         $dispatcher->dispatch(FOSUserEvents::RESETTING_RESET_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
         return new JsonResponse(
-                $this->get('translator')->trans('resetting.flash.success', [], 'FOSUserBundle'), JsonResponse::HTTP_OK
+            $this->get('translator')->trans('resetting.flash.success', [], 'FOSUserBundle'), JsonResponse::HTTP_OK
         );
     }
 

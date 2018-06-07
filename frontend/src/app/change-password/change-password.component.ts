@@ -27,8 +27,11 @@ export class ChangePasswordComponent {
 
     changePassword() {
         this.loaderService.displayLoader(true);
-        this.authenticationService.changePassword(this.model.currentPassword, this.model.newPassword, this.model.confirmPassword)
-            .subscribe(
+        this.authenticationService.changePassword(
+            this.model.currentPassword, 
+            this.model.newPassword, 
+            this.model.confirmPassword
+        ).subscribe(
             data => {
                 this.loaderService.displayLoader(false);
                 this.ref.markForCheck();
@@ -37,7 +40,8 @@ export class ChangePasswordComponent {
                 this.alertService.error(error);
                 this.loaderService.displayLoader(false);
                 this.ref.markForCheck();
-            });
+            }
+        );
     }
 
 }

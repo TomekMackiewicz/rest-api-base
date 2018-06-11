@@ -27,7 +27,7 @@ export class ItemListComponent implements OnInit {
     getItems() {
         this.loaderService.displayLoader(true);
         this.itemService.getItems().subscribe(
-            data => {
+            (data: Object[]) => {
                 this.items = data;
                 this.loaderService.displayLoader(false);
                 this.ref.detectChanges();

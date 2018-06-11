@@ -28,6 +28,9 @@ import { AuthenticationService } from './services/authentication.service';
 import { EqualValidator } from './shared/validate-equal.directive';
 import { PatternValidator } from './shared/pattern-validator.directive';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './services/token-interceptor'
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -64,12 +67,17 @@ export function HttpLoaderFactory(http: HttpClient) {
                 deps: [HttpClient]
             }
         }),    
-        AlertModule       
+        AlertModule    
   ],
-  providers: [        
+  providers: [
         AuthGuard,
         AuthenticationService,
-        LoaderService  
+        LoaderService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenInterceptor,
+            multi: true
+        }
   ],
   bootstrap: [AppComponent]
 })

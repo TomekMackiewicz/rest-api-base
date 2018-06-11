@@ -1,45 +1,31 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from "@angular/http";
+import { Response, Headers, RequestOptions } from "@angular/http";
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class ItemService {
 
-    constructor(private http: Http) {}
+    constructor(private http: HttpClient) {}
 
     getItem(id: number) {
-        return this.http.get
-            ('http://localhost:8000/admin/items/' + id)
-            .map((res: Response) => res.json());
+        return this.http.get('http://localhost:8000/admin/items/' + id);
     }
 
     getItems() {
-        return this.http.get
-            ('http://localhost:8000/admin/items')
-            .map((res: Response) => res.json());
+        return this.http.get('http://localhost:8000/admin/items')
     }
 
-    createItem(item: any) {
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({headers: headers});
-        let body = item;
-        
-        return this.http.post
-            ('http://localhost:8000/admin/items', body, options);
+    createItem(item: any) {        
+        return this.http.post('http://localhost:8000/admin/items', item);
     }
 
     updateItem(item: any) {
-        let headers = new Headers({'Content-Type': 'application/json'});
-        let options = new RequestOptions({headers: headers});
-        let body = item;
-
-        return this.http.patch
-            ('http://localhost:8000/admin/items/' + item.id, body, options);
+        return this.http.patch('http://localhost:8000/admin/items/' + item.id, item);
     }
 
     deleteItem(item: any) {
-        return this.http.delete
-            ('http://localhost:8000/admin/items/' + item.id);
+        return this.http.delete('http://localhost:8000/admin/items/' + item.id);
     }
 
 }

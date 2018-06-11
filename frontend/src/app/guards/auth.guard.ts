@@ -6,13 +6,14 @@ export class AuthGuard implements CanActivate {
 
     constructor(private router: Router) {}
 
+    public getToken(): string {
+        return localStorage.getItem('token');
+    }
+
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        if (localStorage.getItem('token')) {
-            // logged in so return true
+        if (this.getToken()) {
             return true;
         }
-
-        // not logged in so redirect to login page with the return url
         this.router.navigate(['/denied'], {queryParams: {returnUrl: state.url}});
         return false;
     }

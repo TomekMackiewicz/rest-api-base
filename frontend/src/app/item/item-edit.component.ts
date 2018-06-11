@@ -31,7 +31,7 @@ export class ItemEditComponent implements OnInit {
         this.route.params
             .switchMap((params: Params) => this.itemService.getItem(+params['id']))
             .subscribe(
-                data => { 
+                (data: Item) => { 
                     this.loaderService.displayLoader(false);
                     this.item = data; 
                     this.ref.detectChanges();

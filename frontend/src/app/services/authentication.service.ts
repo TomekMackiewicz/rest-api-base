@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response, RequestOptions } from '@angular/http'; // @angular/common/http
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
@@ -13,7 +13,7 @@ export class AuthenticationService {
         return this.subject.asObservable();
     }
 
-    constructor(private http: Http) {
+    constructor(private http: HttpClient) {
         var currentUsername = localStorage.getItem('currentUsername');  // unused      
     }
 
@@ -52,20 +52,15 @@ export class AuthenticationService {
         });               
     }
 
-    changePassword(currentPassword: string, newPassword: string, confirmPassword: string) {
-        let tokenObj = JSON.parse(localStorage.getItem('token'));                
+    changePassword(currentPassword: string, newPassword: string, confirmPassword: string) {               
         return this.http.post(
             'http://localhost:8000/api/password/1/change', { 
                 current_password: currentPassword,
                 plainPassword: {
-                  first: newPassword,
-                  second: confirmPassword
+                    first: newPassword,
+                    second: confirmPassword
                 }
-            },            
-            { headers: new Headers({
-                'Authorization': 'Bearer '+ tokenObj.token 
-            })}
-        ).map((response: Response) => {}
+            }
         ).catch((response) => {
             return Observable.throw(response)
         });        

@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { HttpModule, Http } from '@angular/http'; //change to common?
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -51,12 +51,12 @@ export function HttpLoaderFactory(http: HttpClient) {
         EqualValidator,
         PatternValidator     
   ],
-  imports: [
-        HttpClientModule,
+  imports: [        
         HttpModule,
         FormsModule,
         ReactiveFormsModule,        
         BrowserModule,
+        HttpClientModule,
         BrowserAnimationsModule,
         ItemModule,
         AppRoutingModule,

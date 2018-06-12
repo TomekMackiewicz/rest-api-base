@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Http, Headers, Response, RequestOptions } from '@angular/http'; // change to common
+//import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
@@ -13,7 +14,9 @@ export class AuthenticationService {
         return this.subject.asObservable();
     }
 
-    constructor(private http: HttpClient) {
+    constructor(
+        private http: Http 
+    ) {
         var currentUsername = localStorage.getItem('currentUsername');  // unused      
     }
 

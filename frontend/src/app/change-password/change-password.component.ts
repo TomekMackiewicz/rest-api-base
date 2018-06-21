@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertService } from '../alert/alert.service';
-import { AuthenticationService } from '../services/authentication.service'; //?
+import { ChangePasswordService } from './change-password.service';
 import { LoaderService } from '../services/loader.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class ChangePasswordComponent {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private authenticationService: AuthenticationService,
+        private changePasswordService: ChangePasswordService,
         private alertService: AlertService,
         private loaderService: LoaderService,
         private ref: ChangeDetectorRef) {}
@@ -27,12 +27,12 @@ export class ChangePasswordComponent {
 
     changePassword() {
         this.loaderService.displayLoader(true);
-        this.authenticationService.changePassword(
+        this.changePasswordService.changePassword(
             this.model.currentPassword, 
             this.model.newPassword, 
             this.model.confirmPassword
         ).subscribe(
-            data => {
+            (data: any) => {
                 this.loaderService.displayLoader(false);
                 this.alertService.success('Success', true);
                 this.ref.markForCheck();

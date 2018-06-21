@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-///import { AuthGuard } from '../guards/auth.guard';
 import { PageNotFoundComponent } from '../404/page-not-found.component';
 import { MenuComponent } from '../menu/menu.component';
 import { FooterComponent } from '../footer/footer.component';
@@ -9,7 +8,6 @@ import { LogoutComponent } from '../logout/logout.component';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { RegisterComponent } from '../register/register.component';
 import { ProfileComponent } from '../profile/profile.component';
-//import { ItemListComponent } from '../item/item-list.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { AccessDeniedComponent } from '../denied/denied.component';
 
@@ -44,7 +42,8 @@ const routes: Routes = [
             animation: {
                 value: 'change-password',
             }
-        }                
+        },          
+        canActivate: [AuthGuard]                
     },
     {path: 'register', 
         component: RegisterComponent,

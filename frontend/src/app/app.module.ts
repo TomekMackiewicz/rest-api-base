@@ -1,11 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule, Http } from '@angular/http'; //change to common?
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TokenInterceptor } from './services/token-interceptor';
 import { ItemModule } from './item/item.module';
 import { AppRoutingModule } from './routing/app-routing.module';
 import { AlertModule } from './alert/alert.module';
@@ -24,12 +25,10 @@ import { AccessDeniedComponent } from './denied/denied.component';
 import { LoaderService } from './services/loader.service';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthenticationService } from './services/authentication.service';
+import { ChangePasswordService } from './change-password/change-password.service';
 
 import { EqualValidator } from './shared/validate-equal.directive';
 import { PatternValidator } from './shared/pattern-validator.directive';
-
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from './services/token-interceptor'
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -73,6 +72,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         AuthGuard,
         AuthenticationService,
         LoaderService,
+        ChangePasswordService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: TokenInterceptor,

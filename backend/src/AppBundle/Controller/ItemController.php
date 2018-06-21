@@ -14,11 +14,11 @@ use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-
+ 
 /**
  * Item controller.
  *
- * @RouteResource("admin/item")
+ * @RouteResource("api/admin/items")
  */
 class ItemController extends FOSRestController implements ClassResourceInterface
 {

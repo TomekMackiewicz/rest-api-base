@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response, RequestOptions } from '@angular/http'; // change to common
-//import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
@@ -15,25 +14,15 @@ export class AuthenticationService {
     }
 
     constructor(
-        private http: Http 
+        private http: HttpClient 
     ) {
         var currentUsername = localStorage.getItem('currentUsername');  // unused      
     }
 
     login(username: string, password: string) {
-        return this.http.post('http://localhost:8000/api/login_check', { 
+        return this.http.post<any>('http://localhost:8000/api/login_check', { 
             username: username, 
             password: password
-        }).map((response: Response) => {
-            let token = response.json();
-            if (token) {
-                localStorage.setItem('token', JSON.stringify(token));
-                localStorage.setItem('currentUsername', username);
-                this.subject.next(localStorage.getItem('currentUsername'));
-            }
-        }).catch((response) => {
-            let error = this.handleError(response);
-            return Observable.throw(error)
         });
     }
 
@@ -42,7 +31,7 @@ export class AuthenticationService {
         localStorage.removeItem('currentUsername');
         this.subject.next();
     }
-    
+        
     // spr, czego chce api - analogicznie do: https://github.com/codereviewvideos/fos-rest-and-user-bundle-integration/blob/master/src/AppBundle/Features/password_change.feature
     register(email: string, username: string, password: string) {
         return this.http.post('http://localhost:8000/api/register', { 
@@ -53,20 +42,6 @@ export class AuthenticationService {
             let error = this.handleError(response);
             return Observable.throw(error)
         });               
-    }
-
-    changePassword(currentPassword: string, newPassword: string, confirmPassword: string) {               
-        return this.http.post(
-            'http://localhost:8000/api/password/1/change', { 
-                current_password: currentPassword,
-                plainPassword: {
-                    first: newPassword,
-                    second: confirmPassword
-                }
-            }
-        ).catch((response) => {
-            return Observable.throw(response)
-        });        
     }
 
     private handleError(error: any) {

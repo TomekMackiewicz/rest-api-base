@@ -1,5 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { AlertService } from '../alert/alert.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { LoaderService } from '../services/loader.service';
@@ -12,7 +14,8 @@ import { LoaderService } from '../services/loader.service';
 export class LoginComponent implements OnInit {
     model: any = {};
     returnUrl: string;
-
+    private subject = new Subject<any>();
+    
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -31,6 +34,12 @@ export class LoginComponent implements OnInit {
         this.authenticationService.login(this.model.username, this.model.password)
             .subscribe(
             data => {
+                let token = data.token;
+                if (token) {
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('currentUsername', this.model.username);
+                    this.subject.next(localStorage.getItem('currentUsername'));
+                }                
                 this.router.navigate([this.returnUrl]);
                 this.loaderService.displayLoader(false);
                 this.ref.markForCheck();

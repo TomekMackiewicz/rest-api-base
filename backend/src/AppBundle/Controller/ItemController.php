@@ -78,7 +78,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         ];
 
         return $this->routeRedirectView(
-            'get_item', 
+            'get_items', 
             $routeOptions, 
             Response::HTTP_CREATED
         );
@@ -117,7 +117,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         ];
 
         return $this->routeRedirectView(
-            'get_item', 
+            'get_items', 
             $routeOptions, 
             Response::HTTP_NO_CONTENT
         );
@@ -158,7 +158,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         ];
 
         return $this->routeRedirectView(
-            'get_item', 
+            'get_items', 
             $routeOptions, 
             Response::HTTP_NO_CONTENT
         );

@@ -32,12 +32,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @RouteResource("profile", pluralize=false)
+ * @RouteResource("api/profile", pluralize=false)
  */
 class RestProfileController extends FOSRestController implements ClassResourceInterface
 {
     /**
-     * @Get("/profile/{user}")
      *
      * @ParamConverter("user", class="AppBundle:User")
      *

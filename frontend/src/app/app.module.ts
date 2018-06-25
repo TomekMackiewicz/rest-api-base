@@ -26,6 +26,7 @@ import { LoaderService } from './services/loader.service';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthenticationService } from './services/authentication.service';
 import { ChangePasswordService } from './change-password/change-password.service';
+import { UserService } from './services/user.service';
 
 import { EqualValidator } from './shared/validate-equal.directive';
 import { PatternValidator } from './shared/pattern-validator.directive';
@@ -72,6 +73,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         AuthGuard,
         AuthenticationService,
         LoaderService,
+        UserService,
         ChangePasswordService,
         {
             provide: HTTP_INTERCEPTORS,

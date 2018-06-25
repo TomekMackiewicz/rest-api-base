@@ -5,6 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { AlertService } from '../alert/alert.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { LoaderService } from '../services/loader.service';
+import * as decode from 'jwt-decode';
 
 @Component({
     selector: 'login',
@@ -37,7 +38,8 @@ export class LoginComponent implements OnInit {
                 let token = data.token;
                 if (token) {
                     localStorage.setItem('token', token);
-                    localStorage.setItem('currentUsername', this.model.username);
+                    localStorage.setItem('currentUsername', decode(token).username);
+                    localStorage.setItem('userId', decode(token).userId);
                     this.subject.next(localStorage.getItem('currentUsername'));
                 }                
                 this.router.navigate([this.returnUrl]);

@@ -1,28 +1,54 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject, Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
+import * as decode from 'jwt-decode';
+import { Router, ActivatedRoute } from '@angular/router';
+import { LoaderService } from '../services/loader.service';
+import { AlertService } from '../alert/alert.service';
 
 @Injectable()
 export class AuthenticationService {
-
-    private subject = new Subject<any>();
-
-    getUsername(): Observable<any> {
-        return this.subject.asObservable();
-    }
+    
+    private returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/admin/items';
+    public currentUsername = new BehaviorSubject<string>(this.getUsername());
 
     constructor(
-        private http: HttpClient 
-    ) {
-        //var currentUsername = localStorage.getItem('currentUsername');  // zob. app.component.ts      
+        private http: HttpClient,
+        private route: ActivatedRoute,
+        private router: Router,
+        private loaderService: LoaderService,
+        private alertService: AlertService    
+    ) {};
+
+    private getUsername(): string {
+        return localStorage.getItem('currentUsername');
     }
 
+    isLoggedIn(): BehaviorSubject<string> {
+        return this.currentUsername;
+    }
+    
     login(username: string, password: string) {
+        this.loaderService.displayLoader(true);        
         return this.http.post<any>('http://localhost:8000/api/login_check', { 
             username: username, 
             password: password
+        }).subscribe(
+            data => {
+                let token = data.token;
+                if (token) {                    
+                    localStorage.setItem('token', token);
+                    localStorage.setItem('currentUsername', decode(token).username);
+                    localStorage.setItem('userId', decode(token).userId);
+                    this.currentUsername.next(localStorage.getItem('currentUsername'));
+                }
+                this.router.navigate([this.returnUrl]);
+                this.loaderService.displayLoader(false);
+            },
+            error => {
+                this.alertService.error(error);
+                this.loaderService.displayLoader(false);
             });        
     }
 
@@ -30,7 +56,7 @@ export class AuthenticationService {
         localStorage.removeItem('token');
         localStorage.removeItem('currentUsername');
         localStorage.removeItem('userId');
-        this.subject.next();
+        this.currentUsername.next('');
     }
         
     // spr, czego chce api - analogicznie do: https://github.com/codereviewvideos/fos-rest-and-user-bundle-integration/blob/master/src/AppBundle/Features/password_change.feature

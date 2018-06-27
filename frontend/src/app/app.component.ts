@@ -1,12 +1,11 @@
 import { Component, ViewEncapsulation, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { AuthenticationService } from './services/authentication.service';
-import { Location } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { trigger, animate, style, group, animateChild, query, stagger, transition } from '@angular/animations';
 import { LoaderService } from './services/loader.service';
 import { TranslateService } from '@ngx-translate/core';
-import { NgForm } from '@angular/forms';
+import { BehaviorSubject } from "rxjs";
 
 const slide = [
     query(':enter, :leave', style({ position: 'fixed', width:'100%' }), { optional: true }),
@@ -51,9 +50,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
     //stateVal = 'slide';
     title = 'Main page';
-    username: any;
+    currentUsername: string;
     subscription: Subscription;
     objLoaderStatus: boolean;
+    isLoggedIn: BehaviorSubject<string>;
 
     constructor(
         private translate: TranslateService,
@@ -64,24 +64,23 @@ export class AppComponent implements OnInit, OnDestroy {
         translate.addLangs(["pl", "en", "uk"]);
         translate.setDefaultLang('pl');
         let browserLang = translate.getBrowserLang();
-        translate.use(browserLang.match(/pl|en/) ? browserLang : 'pl');            
-        //this.username = localStorage.getItem('currentUsername');
-        //this.username = this.authGuard.isLogged();        
+        translate.use(browserLang.match(/pl|en/) ? browserLang : 'pl');        
         this.objLoaderStatus = false;
+        this.isLoggedIn = authenticationService.isLoggedIn();
+        this.currentUsername = this.isLoggedIn.getValue();
     }
 
-    ngOnInit() {        
-        //this.authenticationService.getUsername().subscribe(currentUsername => this.username = currentUsername);
+    ngOnInit() {
         this.loaderService.loaderStatus.subscribe((val: boolean) => {
             this.objLoaderStatus = val;
         });        
     }
 
-    getState(outlet) {
+    getState(outlet: any) {
         return outlet.activatedRouteData.state;
     }
 
-    prepareRouteTransition(outlet) {
+    prepareRouteTransition(outlet: any) {
         const animation = outlet.activatedRouteData['animation'] || {};
         return animation['value'] || null;
     }

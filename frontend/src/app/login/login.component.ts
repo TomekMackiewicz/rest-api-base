@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
                     localStorage.setItem('currentUsername', decode(token).username);
                     localStorage.setItem('userId', decode(token).userId);
                     this.subject.next(localStorage.getItem('currentUsername'));
-                }                
+                }
                 this.router.navigate([this.returnUrl]);
                 this.loaderService.displayLoader(false);
                 this.ref.markForCheck();

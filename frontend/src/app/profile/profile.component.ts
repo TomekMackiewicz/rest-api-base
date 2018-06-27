@@ -30,13 +30,12 @@ export class ProfileComponent implements OnInit {
             .subscribe(
                 (data: User) => { 
                     this.loaderService.displayLoader(false);
-                    this.user = data;
-                    console.log(data); 
+                    this.user = data; 
                     this.ref.detectChanges();
                 },
                 error => {
                     this.loaderService.displayLoader(false);
-                    this.alertService.error("Error loading item! " + error);
+                    this.alertService.error("Error loading user profile! " + error);
                     this.ref.detectChanges();
                     return Observable.throw(error);
                 }                

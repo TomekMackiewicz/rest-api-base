@@ -16,19 +16,20 @@ export class AuthenticationService {
     constructor(
         private http: HttpClient 
     ) {
-        var currentUsername = localStorage.getItem('currentUsername');  // unused      
+        //var currentUsername = localStorage.getItem('currentUsername');  // zob. app.component.ts      
     }
 
     login(username: string, password: string) {
         return this.http.post<any>('http://localhost:8000/api/login_check', { 
             username: username, 
             password: password
-        });
+            });        
     }
 
     logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('currentUsername');
+        localStorage.removeItem('userId');
         this.subject.next();
     }
         

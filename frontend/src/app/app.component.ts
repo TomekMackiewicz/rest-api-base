@@ -65,12 +65,13 @@ export class AppComponent implements OnInit, OnDestroy {
         translate.setDefaultLang('pl');
         let browserLang = translate.getBrowserLang();
         translate.use(browserLang.match(/pl|en/) ? browserLang : 'pl');            
-        this.username = localStorage.getItem('currentUsername');
+        //this.username = localStorage.getItem('currentUsername');
+        //this.username = this.authGuard.isLogged();        
         this.objLoaderStatus = false;
     }
 
-    ngOnInit() {
-        this.authenticationService.getUsername().subscribe(currentUsername => this.username = currentUsername);
+    ngOnInit() {        
+        //this.authenticationService.getUsername().subscribe(currentUsername => this.username = currentUsername);
         this.loaderService.loaderStatus.subscribe((val: boolean) => {
             this.objLoaderStatus = val;
         });        

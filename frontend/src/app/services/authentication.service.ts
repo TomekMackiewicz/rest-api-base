@@ -9,26 +9,32 @@ import { AlertService } from '../alert/alert.service';
 
 @Injectable()
 export class AuthenticationService {
-    
-    private returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/admin/items';
-    public currentUsername = new BehaviorSubject<string>(this.getUsername());
 
+    private returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/admin/items';
+    public currentUsername: BehaviorSubject<string> = new BehaviorSubject<string>('');
+    public admin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    public loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+    getUsername(value: string) {
+        this.currentUsername.next(value);
+    }  
+
+    isAdmin(value: boolean) {
+        this.admin.next(value);
+    }
+
+    isLoggedIn(value: boolean) {
+        this.loggedIn.next(value);
+    }
+                
     constructor(
         private http: HttpClient,
         private route: ActivatedRoute,
         private router: Router,
         private loaderService: LoaderService,
-        private alertService: AlertService    
+        private alertService: AlertService           
     ) {};
-
-    private getUsername(): string {
-        return localStorage.getItem('currentUsername');
-    }
-
-    isLoggedIn(): BehaviorSubject<string> {
-        return this.currentUsername;
-    }
-    
+       
     login(username: string, password: string) {
         this.loaderService.displayLoader(true);        
         return this.http.post<any>('http://localhost:8000/api/login_check', { 
@@ -41,7 +47,13 @@ export class AuthenticationService {
                     localStorage.setItem('token', token);
                     localStorage.setItem('currentUsername', decode(token).username);
                     localStorage.setItem('userId', decode(token).userId);
-                    this.currentUsername.next(localStorage.getItem('currentUsername'));
+                    // Not nice, but what to do...
+                    localStorage.setItem('userRole', decode(token).roles[0]);                    
+                    this.getUsername(localStorage.getItem('currentUsername'));
+                    this.isLoggedIn(true);
+                    if (decode(token).roles[0] == 'ROLE_ADMIN' || decode(token).roles[0] == 'ROLE_SUPER_ADMIN') {
+                        this.isAdmin(true);
+                    }
                 }
                 this.router.navigate([this.returnUrl]);
                 this.loaderService.displayLoader(false);
@@ -56,7 +68,10 @@ export class AuthenticationService {
         localStorage.removeItem('token');
         localStorage.removeItem('currentUsername');
         localStorage.removeItem('userId');
-        this.currentUsername.next('');
+        localStorage.removeItem('userRole');
+        this.isLoggedIn(false);
+        this.isAdmin(false);
+        this.getUsername('');
     }
         
     // spr, czego chce api - analogicznie do: https://github.com/codereviewvideos/fos-rest-and-user-bundle-integration/blob/master/src/AppBundle/Features/password_change.feature

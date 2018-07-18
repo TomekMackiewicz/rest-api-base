@@ -50,11 +50,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
     //stateVal = 'slide';
     title = 'Main page';
-    currentUsername: string;
     subscription: Subscription;
+    username: string;    
     objLoaderStatus: boolean;
-    isLoggedIn: BehaviorSubject<string>;
-
+    isLoggedIn: boolean;
+    isAdmin: boolean;
+    
     constructor(
         private translate: TranslateService,
         private loaderService: LoaderService,
@@ -66,11 +67,21 @@ export class AppComponent implements OnInit, OnDestroy {
         let browserLang = translate.getBrowserLang();
         translate.use(browserLang.match(/pl|en/) ? browserLang : 'pl');        
         this.objLoaderStatus = false;
-        this.isLoggedIn = authenticationService.isLoggedIn();
-        this.currentUsername = this.isLoggedIn.getValue();
+        this.isLoggedIn = false;
+        this.isAdmin = false;        
+        this.username = localStorage.getItem('currentUsername');
     }
 
     ngOnInit() {
+        this.authenticationService.currentUsername.subscribe((val: string) => {
+            this.username = val;
+        });
+        this.authenticationService.loggedIn.subscribe((val: boolean) => {
+            this.isLoggedIn = val;
+        });
+        this.authenticationService.admin.subscribe((val: boolean) => {
+            this.isAdmin = val;
+        });                
         this.loaderService.loaderStatus.subscribe((val: boolean) => {
             this.objLoaderStatus = val;
         });        

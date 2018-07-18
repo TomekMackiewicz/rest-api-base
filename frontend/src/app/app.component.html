@@ -1,4 +1,4 @@
-<nav *ngIf="(isLoggedIn | async)" class="navbar navbar-inverse">
+<nav *ngIf="isLoggedIn" class="navbar navbar-inverse">
     <div class="container-fluid">
         <div class="navbar-header">
             <button
@@ -18,7 +18,7 @@
             </a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
+            <ul *ngIf="isAdmin" class="nav navbar-nav">
                 <li>
                     <a routerLink="/admin/items" routerLinkActive="active">
                         Items
@@ -34,7 +34,7 @@
                        aria-haspopup="true"
                        aria-expanded="false"
                        >
-                        Welcome, {{ currentUsername }}
+                        Welcome, {{ username }}
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
@@ -59,7 +59,7 @@
         </div>
     </div>
 </nav>
-<nav *ngIf="!(isLoggedIn | async)" class="navbar navbar-default">
+<nav *ngIf="!isLoggedIn" class="navbar navbar-default">
     <div class="container">
         <div class="navbar-header">
             <button

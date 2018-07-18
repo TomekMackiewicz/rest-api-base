@@ -10,7 +10,8 @@ import { AlertService } from '../alert/alert.service';
 @Injectable()
 export class AuthenticationService {
 
-    private returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/admin/items';
+    private adminUrl = this.route.snapshot.queryParams['adminUrl'] || '/admin/items';
+    private userUrl = this.route.snapshot.queryParams['userUrl'] || '/user/profile';
     public currentUsername: BehaviorSubject<string> = new BehaviorSubject<string>('');
     public admin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -53,9 +54,11 @@ export class AuthenticationService {
                     this.isLoggedIn(true);
                     if (decode(token).roles[0] == 'ROLE_ADMIN' || decode(token).roles[0] == 'ROLE_SUPER_ADMIN') {
                         this.isAdmin(true);
+                        this.router.navigate([this.adminUrl]);
+                    } else {
+                        this.router.navigate([this.userUrl]);
                     }
-                }
-                this.router.navigate([this.returnUrl]);
+                }                
                 this.loaderService.displayLoader(false);
             },
             error => {

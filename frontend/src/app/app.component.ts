@@ -74,17 +74,17 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.authenticationService.currentUsername.subscribe((val: string) => {
-            this.username = val;
+            this.username = localStorage.getItem('currentUsername') ? localStorage.getItem('currentUsername') : val;
         });
         this.authenticationService.loggedIn.subscribe((val: boolean) => {
-            this.isLoggedIn = val;
+            this.isLoggedIn = localStorage.getItem('currentUsername') ? true : val;
         });
         this.authenticationService.admin.subscribe((val: boolean) => {
-            this.isAdmin = val;
+            this.isAdmin = localStorage.getItem('userRole') == 'ROLE_ADMIN' || localStorage.getItem('userRole') == 'ROLE_SUPER_ADMIN' ? true : val;
         });                
         this.loaderService.loaderStatus.subscribe((val: boolean) => {
-            this.objLoaderStatus = val;
-        });        
+            this.objLoaderStatus = val ? val : false;
+        });       
     }
 
     getState(outlet: any) {

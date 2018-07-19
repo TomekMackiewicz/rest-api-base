@@ -12,7 +12,7 @@ use JMS\Serializer\Annotation as JMSSerializer;
 /**
  * @ORM\Entity
  * @ORM\Table(name="users")
- *
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @UniqueEntity("email")
  * @UniqueEntity("username")
  * @JMSSerializer\ExclusionPolicy("all")

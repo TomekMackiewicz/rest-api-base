@@ -2,6 +2,10 @@ api_items:
     type: rest
     resource: AppBundle\Controller\ItemController
 
+api_users:
+    type: rest
+    resource: AppBundle\Controller\UserController
+
 api_login:
     type: rest
     resource: AppBundle\Controller\RestLoginController

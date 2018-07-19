@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Users</h3>
+            <alert></alert>
+            <table class="table">
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+                <tr *ngFor="let user of users">
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <button class="btn btn-danger" (click)="deleteUser(User)">Delete</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

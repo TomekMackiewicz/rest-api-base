@@ -36,6 +36,13 @@ services:
         arguments:
             - AppBundle\Entity\Item
 
+    crv.doctrine_entity_repository.user:
+        public: true
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - AppBundle\Entity\User
+
     event.jwt_created_listener:
         class: AppBundle\Event\Listener\JWTCreatedListener
         tags:

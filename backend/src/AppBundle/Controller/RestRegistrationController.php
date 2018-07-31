@@ -31,8 +31,7 @@ class RestRegistrationController extends FOSRestController implements ClassResou
         /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
         $dispatcher = $this->get('event_dispatcher');
 
-        $user = $userManager->createUser();        
-        $user->setPlainPassword($request->request->get('plainPassword')); //?
+        $user = $userManager->createUser();
         $user->setEnabled(true); // ?
 
         $event = new GetResponseUserEvent($user, $request);

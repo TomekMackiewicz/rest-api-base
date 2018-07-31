@@ -31,7 +31,8 @@ export class RegisterComponent implements OnInit {
             .register(
                 this.model.email, 
                 this.model.username, 
-                this.model.password
+                this.model.password,
+                this.model.confirmPassword
             )
             .subscribe(
                 data => {

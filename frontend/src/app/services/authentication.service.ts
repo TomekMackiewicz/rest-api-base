@@ -77,12 +77,14 @@ export class AuthenticationService {
         this.getUsername('');
     }
         
-    // spr, czego chce api - analogicznie do: https://github.com/codereviewvideos/fos-rest-and-user-bundle-integration/blob/master/src/AppBundle/Features/password_change.feature
-    register(email: string, username: string, password: string) {
+    register(email: string, username: string, password: string, confirmPassword: string) {
         return this.http.post('http://localhost:8000/api/register', { 
             email: email, 
             username: username, 
-            plainPassword: password 
+            plainPassword: {
+                first: password,
+                second: confirmPassword
+            } 
         }).catch((response) => {
             let error = this.handleError(response);
             return Observable.throw(error)

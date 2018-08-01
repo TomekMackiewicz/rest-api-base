@@ -54,11 +54,30 @@ export class UserListComponent implements OnInit {
                 error => {
                     this.loaderService.displayLoader(false);
                     this.ref.markForCheck();                    
-                    this.alertService.error("Error deleting user! " + error);
+                    this.alertService.error("Error deleting user: " + error);
                     return Observable.throw(error);
                 }
             );
         }
+    }
+    
+    toogleUserStatus(user: any) {
+        user.enabled = user.enabled ? false : true;
+        this.loaderService.displayLoader(true);
+        this.userService.toogleUserStatus(user).subscribe(
+            data => {
+                this.getUsers();
+                this.loaderService.displayLoader(false); // potrzebne tu?
+                this.ref.markForCheck(); // potrzebne tu?
+                this.alertService.success("User status changed.");
+            },
+            error => {
+                this.loaderService.displayLoader(false);
+                this.ref.markForCheck();                    
+                this.alertService.error("Error changing user status: " + error);
+                return Observable.throw(error);
+            }
+        );
     }
 
 }

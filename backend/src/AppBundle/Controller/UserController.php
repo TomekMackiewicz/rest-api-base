@@ -72,6 +72,46 @@ class UserController extends FOSRestController implements ClassResourceInterface
     }
 
     /**
+     * Update user entity.
+     * 
+     * @param Request $request
+     * @param int $id
+     * @return View
+     */
+    public function patchAction(Request $request, int $id)
+    {
+        $user = $this->getUserRepository()->find($id);
+
+        if ($user === null) {
+            return new View(null, Response::HTTP_NOT_FOUND);
+        }
+
+        $form = $this->createForm('AppBundle\Form\UserType', $user, [
+            'csrf_protection' => false,
+        ]);
+        
+        $form->submit($request->request->all(), false);      
+
+        if (!$form->isValid()) {
+            return $form;
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        $routeOptions = [
+            'id' => $user->getId(),
+            '_format' => $request->get('_format'),
+        ];
+
+        return $this->routeRedirectView(
+            'get_users', 
+            $routeOptions, 
+            Response::HTTP_NO_CONTENT
+        );
+    }    
+    
+    /**
      * @return UserRepository
      */
     private function getUserRepository() {

@@ -6,14 +6,30 @@
             <table class="table">
                 <tr>
                     <th>Username</th>
-                    <th>Email</th>
+                    <th>Email</th>                   
+                    <th>Roles</th>
+                    <th>Last login</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
                 <tr *ngFor="let user of users">
                     <td>{{ user.username }}</td>
                     <td>{{ user.email }}</td>
+                    <ng-container *ngIf="user.roles.length; else isUser">
+                        <td *ngFor="let role of user.roles">Admin</td>
+                    </ng-container>
+                    <ng-template #isUser>
+                        <td>User</td>
+                    </ng-template>                
+                    <td>{{ user.lastLogin | date:'dd.MM.y HH:mm' }}</td>                    
+                    <td *ngIf="user.enabled; else userDisabled">
+                        <button class="btn btn-success btn-sm" (click)="toogleUserStatus(user)">Enabled</button>
+                    </td>
+                    <ng-template #userDisabled>
+                        <td><button class="btn btn-danger btn-sm" (click)="toogleUserStatus(user)">Disabled</button></td>
+                    </ng-template>
                     <td>
-                        <button class="btn btn-danger" (click)="deleteUser(User)">Delete</button>
+                        <button class="btn btn-danger btn-sm" (click)="deleteUser(user)">Delete</button>
                     </td>
                 </tr>
             </table>

@@ -17,5 +17,9 @@ export class UserService {
     deleteUser(user: any) {
         return this.http.delete('http://localhost:8000/api/admin/users/' + user.id);
     }
+    
+    toogleUserStatus(user: any) {
+        return this.http.patch('http://localhost:8000/api/admin/users/' + user.id, user);
+    }
 
 }

@@ -27,5 +27,23 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    crv.doctrine_entity_repository.item:
+        public: true
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments:
+            - App\Entity\Item
+
+    crv.doctrine_entity_repository.user:
+        public: true
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine", getRepository]
+        arguments: 
+            - App\Entity\User
+
+    event.jwt_created_listener:
+        class: App\Event\Listener\JWTCreatedListener
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
+            
+    FOS\UserBundle\Form\Factory\FormFactory: '@fos_user.registration.form.factory'

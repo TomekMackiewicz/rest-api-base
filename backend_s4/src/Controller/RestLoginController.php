@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
-use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
+use FOS\RestBundle\Routing\ClassResourceInterface;
 
 /**
  * @RouteResource("api/login", pluralize=false)

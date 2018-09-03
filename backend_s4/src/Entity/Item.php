@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMSSerializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Item
@@ -28,6 +29,7 @@ class Item implements \JsonSerializable
      * @var string
      *
      * @ORM\Column(name="signature", type="string", length=32, unique=true)
+     * @Assert\NotBlank(message="Please enter a signature")
      * @JMSSerializer\Expose
      */
     private $signature;
@@ -36,6 +38,7 @@ class Item implements \JsonSerializable
      * @var int
      *
      * @ORM\Column(name="status", type="integer")
+     * @Assert\NotBlank(message="Please enter a status")
      * @JMSSerializer\Expose
      */
     private $status;

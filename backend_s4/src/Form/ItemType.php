@@ -34,6 +34,4 @@ class ItemType extends AbstractType
     {
         return 'app_item';
     }
-
-
 }

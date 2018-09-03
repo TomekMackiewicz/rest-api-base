@@ -4,5 +4,5 @@ Simple Symfony 3.4/4 + Angular 6 app which may serve as a starting point to buil
 - User management (admin can activate/disable or delete user)<br>
 - Basic CRUD example with single entity<br>
 - Bootstrap integration<br>
-
+- translations<br>
 

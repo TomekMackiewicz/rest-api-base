@@ -24,6 +24,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { AccessDeniedComponent } from './denied/denied.component';
 
 import { LoaderService } from './services/loader.service';
+import { ErrorService } from './services/error.service';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthenticationService } from './services/authentication.service';
 import { ChangePasswordService } from './change-password/change-password.service';
@@ -75,6 +76,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         AuthGuard,
         AuthenticationService,
         LoaderService,
+        ErrorService,
         UserService,
         ChangePasswordService,
         {

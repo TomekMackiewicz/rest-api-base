@@ -10,7 +10,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class ItemRepository extends EntityRepository
 {       
-    public function findOneByIdQuery(int $id)
+    public function findOneById(int $id)
     {
         $query = $this->_em->createQuery("SELECT i FROM App:Item i WHERE i.id = :id");
         $query->setParameter('id', $id);
@@ -18,7 +18,7 @@ class ItemRepository extends EntityRepository
         return $query;
     }
 
-    public function findAllQuery()
+    public function findAll()
     {
         return $this->_em->createQuery("SELECT i FROM App:Item i");
     }

@@ -3,14 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Item;
-use FOS\RestBundle\View\View;
-use FOS\RestBundle\Controller\Annotations;
-use FOS\RestBundle\View\RouteRedirectView;
+use App\Service\ErrorHandler;
+use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
-use FOS\RestBundle\Controller\Annotations\RouteResource;
-use Symfony\Component\HttpFoundation\Request;
+use FOS\RestBundle\View\RouteRedirectView;
+use FOS\RestBundle\View\View;
 use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -18,21 +18,29 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 /**
  * Item controller.
  *
- * @RouteResource("api/admin/items")
+ * @RouteResource("api/admin/item")
  */
 class ItemController extends FOSRestController implements ClassResourceInterface
 {
+    
+    public function __construct(ErrorHandler $errorHandler)
+    {
+        $this->errorHandler = $errorHandler;
+    }
+    
     /**
-     * Finds and displays a item entity.
+     * Find and display item entity.
      *
      * @param int $id
+     * 
      * @return mixed
+     * 
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getAction(int $id)
     {
-        $item = $this->getItemRepository()->findOneByIdQuery($id)->getSingleResult(); 
+        $item = $this->getItemRepository()->findOneById($id)->getSingleResult(); 
         if ($item === null) {
             return new View(null, Response::HTTP_NOT_FOUND);
         }  
@@ -41,19 +49,20 @@ class ItemController extends FOSRestController implements ClassResourceInterface
     }    
     
     /**
-     * Lists all items entities.
+     * List all item entities.
      * 
      * @return Item
      */
     public function cgetAction()
     {
-        return $this->getItemRepository()->findAllQuery()->getResult();
+        return $this->getItemRepository()->findAll()->getResult();
     }
     
     /**
-     * Adds item entity.
+     * Add item entity.
      * 
      * @param Request $request
+     * 
      * @return View|\Symfony\Component\Form\Form
      */
     public function postAction(Request $request)
@@ -62,9 +71,10 @@ class ItemController extends FOSRestController implements ClassResourceInterface
             'csrf_protection' => false,
         ]);
         $form->submit($request->request->all());
-
+    
         if (!$form->isValid()) {
-            return $form;
+            $errors = $this->errorHandler->formErrorsToArray($form);
+            return new View($errors, Response::HTTP_BAD_REQUEST);
         }
         
         $item = $form->getData();
@@ -72,16 +82,9 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $em->persist($item);
         $em->flush();
 
-        $routeOptions = [
-            'id' => $item->getId(),
-            '_format' => $request->get('_format'),
-        ];
+        $routeOptions = ['id' => $item->getId(), '_format' => $request->get('_format')];
 
-        return $this->routeRedirectView(
-            'get_items', 
-            $routeOptions, 
-            Response::HTTP_CREATED
-        );
+        return $this->routeRedirectView('get_item', $routeOptions, Response::HTTP_CREATED);
     }
     
     /**
@@ -102,7 +105,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $form = $this->createForm('App\Form\ItemType', $item, [
             'csrf_protection' => false,
         ]);
-        $form->submit($request->request->all());        
+        $form->submit($request->request->all());
 
         if (!$form->isValid()) {
             return $form;
@@ -117,8 +120,8 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         ];
 
         return $this->routeRedirectView(
-            'get_items', 
-            $routeOptions, 
+            'get_items',
+            $routeOptions,
             Response::HTTP_NO_CONTENT
         );
     }
@@ -141,7 +144,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $form = $this->createForm('App\Form\ItemType', $item, [
             'csrf_protection' => false,
         ]);
-        $form->submit($request->request->all(), false);      
+        $form->submit($request->request->all(), false);
 
         if (!$form->isValid()) {
             return $form;
@@ -158,8 +161,8 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         ];
 
         return $this->routeRedirectView(
-            'get_items', 
-            $routeOptions, 
+            'get_items',
+            $routeOptions,
             Response::HTTP_NO_CONTENT
         );
     }

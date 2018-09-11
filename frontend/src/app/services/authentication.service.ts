@@ -43,21 +43,20 @@ export class AuthenticationService {
             password: password
         }).subscribe(
             data => {
-                let token = data.token;
-                if (token) {                    
-                    localStorage.setItem('token', token);
-                    localStorage.setItem('currentUsername', decode(token).username);
-                    localStorage.setItem('userId', decode(token).userId);
-                    // Not nice, but what to do...
-                    localStorage.setItem('userRole', decode(token).roles[0]);                    
+                var token: any = decode(data.token);
+                if (token) {                
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('currentUsername', token.username);
+                    localStorage.setItem('userId', token.userId);
+                    localStorage.setItem('userRole', token.roles[0]);                    
                     this.getUsername(localStorage.getItem('currentUsername'));
                     this.isLoggedIn(true);
-                    if (decode(token).roles[0] == 'ROLE_ADMIN' || decode(token).roles[0] == 'ROLE_SUPER_ADMIN') {
+                    if (token.roles[0] == 'ROLE_ADMIN' || token.roles[0] == 'ROLE_SUPER_ADMIN') {
                         this.isAdmin(true);
                         this.router.navigate([this.adminUrl]);
                     } else {
                         this.router.navigate([this.userUrl]);
-                    }
+                    }                
                 }                
                 this.loaderService.displayLoader(false);
             },

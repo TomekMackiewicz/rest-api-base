@@ -7,6 +7,8 @@ use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 
 /**
+ * Login controller.
+ * 
  * @RouteResource("api/login", pluralize=false)
  */
 class RestLoginController extends FOSRestController implements ClassResourceInterface

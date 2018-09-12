@@ -7,13 +7,9 @@ use App\Service\ErrorHandler;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
-use FOS\RestBundle\View\RouteRedirectView;
 use FOS\RestBundle\View\View;
-use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
  
 /**
  * Item controller.
@@ -55,7 +51,12 @@ class ItemController extends FOSRestController implements ClassResourceInterface
      */
     public function cgetAction()
     {
-        return $this->getItemRepository()->findAll()->getResult();
+        $items = $this->getItemRepository()->findAll()->getResult();
+        if ($items === null) {
+            return new View(null, Response::HTTP_NOT_FOUND);
+        }
+        
+        return $items;
     }
     
     /**
@@ -63,7 +64,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
      * 
      * @param Request $request
      * 
-     * @return View|\Symfony\Component\Form\Form
+     * @return View
      */
     public function postAction(Request $request)
     {
@@ -81,10 +82,8 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $em = $this->getDoctrine()->getManager();
         $em->persist($item);
         $em->flush();
-
-        $routeOptions = ['id' => $item->getId(), '_format' => $request->get('_format')];
-
-        return $this->routeRedirectView('get_item', $routeOptions, Response::HTTP_CREATED);
+        
+        return new View($item, Response::HTTP_CREATED);
     }
     
     /**
@@ -92,6 +91,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
      * 
      * @param Request $request
      * @param int $id
+     * 
      * @return View
      */
     public function putAction(Request $request, int $id)
@@ -108,22 +108,14 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $form->submit($request->request->all());
 
         if (!$form->isValid()) {
-            return $form;
+            $errors = $this->errorHandler->formErrorsToArray($form);
+            return new View($errors, Response::HTTP_BAD_REQUEST);
         }
 
         $em = $this->getDoctrine()->getManager();
         $em->flush();
 
-        $routeOptions = [
-            'id' => $item->getId(),
-            '_format' => $request->get('_format'),
-        ];
-
-        return $this->routeRedirectView(
-            'get_items',
-            $routeOptions,
-            Response::HTTP_NO_CONTENT
-        );
+        return new View($item, Response::HTTP_OK);
     }
     
     /**
@@ -131,6 +123,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
      * 
      * @param Request $request
      * @param int $id
+     * 
      * @return View
      */
     public function patchAction(Request $request, int $id)
@@ -147,7 +140,8 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $form->submit($request->request->all(), false);
 
         if (!$form->isValid()) {
-            return $form;
+            $errors = $this->errorHandler->formErrorsToArray($form);
+            return new View($errors, Response::HTTP_BAD_REQUEST);
         }
         
         $item->setLastAction(new \DateTime());
@@ -155,22 +149,14 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $em = $this->getDoctrine()->getManager();
         $em->flush();
 
-        $routeOptions = [
-            'id' => $item->getId(),
-            '_format' => $request->get('_format'),
-        ];
-
-        return $this->routeRedirectView(
-            'get_items',
-            $routeOptions,
-            Response::HTTP_NO_CONTENT
-        );
+        return new View($item, Response::HTTP_OK);
     }
     
     /**
      * Deletes item entity.
      * 
      * @param int $id
+     * 
      * @return View
      */
     public function deleteAction(int $id)
@@ -189,6 +175,8 @@ class ItemController extends FOSRestController implements ClassResourceInterface
     }
 
     /**
+     * Get item repository.
+     * 
      * @return ItemRepository
      */
     private function getItemRepository() {

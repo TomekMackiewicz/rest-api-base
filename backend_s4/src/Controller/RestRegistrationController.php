@@ -22,10 +22,12 @@ use FOS\UserBundle\Form\Factory\FormFactory;
  */
 class RestRegistrationController extends FOSRestController implements ClassResourceInterface
 {
+
+    private $formFactory;
     
     public function __construct(FormFactory $formFactory)
     {
-        $this->factory = $formFactory;
+        $this->formFactory = $formFactory;
     }     
     
     /**
@@ -38,7 +40,6 @@ class RestRegistrationController extends FOSRestController implements ClassResou
      */
     public function registerAction(Request $request)
     {
-        $formFactory = $this->factory;
         $userManager = $this->get('fos_user.user_manager');
         $dispatcher = $this->get('event_dispatcher');
 
@@ -52,7 +53,7 @@ class RestRegistrationController extends FOSRestController implements ClassResou
             return $event->getResponse();
         }
 
-        $form = $formFactory->createForm([
+        $form = $this->formFactory->createForm([
             'csrf_protection' => false
         ]);
         $form->setData($user);         
@@ -61,7 +62,8 @@ class RestRegistrationController extends FOSRestController implements ClassResou
         if (!$form->isValid()) {
             $event = new FormEvent($form, $request);
             $dispatcher->dispatch(FOSUserEvents::REGISTRATION_FAILURE, $event);
-
+            
+            // @FIXME return errors
             return $form;
         }
 
@@ -75,8 +77,10 @@ class RestRegistrationController extends FOSRestController implements ClassResou
         $userManager->updateUser($user);
 
         $response = new JsonResponse([
-            'msg' => $this->get('translator')->trans('registration.flash.user_created', [], 'FOSUserBundle'),
-            'token' => $this->get('lexik_jwt_authentication.jwt_manager')->create($user),
+            'msg' => $this->get('translator')
+                ->trans('registration.flash.user_created', [], 'FOSUserBundle'),
+            'token' => $this->get('lexik_jwt_authentication.jwt_manager')
+                ->create($user),
         ], JsonResponse::HTTP_CREATED, [
                 'Location' => $this->generateUrl(
                     'get_profile',

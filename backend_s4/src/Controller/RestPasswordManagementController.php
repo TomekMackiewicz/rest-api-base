@@ -11,7 +11,6 @@ use FOS\UserBundle\Event\GetResponseNullableUserEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\FormEvent;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -27,10 +26,12 @@ use FOS\UserBundle\Form\Factory\FormFactory;
  */
 class RestPasswordManagementController extends FOSRestController implements ClassResourceInterface 
 {
+
+    private $formFactory;
     
     public function __construct(FormFactory $formFactory)
     {
-        $this->factory = $formFactory;
+        $this->formFactory = $formFactory;
     }      
 
     /**
@@ -55,7 +56,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
 
         if (null === $user) {
             return new JsonResponse(
-                    'User not recognised', JsonResponse::HTTP_FORBIDDEN
+                'User not recognised', JsonResponse::HTTP_FORBIDDEN
             );
         }
 
@@ -68,7 +69,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
 
         if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
             return new JsonResponse(
-                    $this->get('translator')->trans('resetting.password_already_requested', [], 'FOSUserBundle'), JsonResponse::HTTP_FORBIDDEN
+                $this->get('translator')->trans('resetting.password_already_requested', [], 'FOSUserBundle'), JsonResponse::HTTP_FORBIDDEN
             );
         }
 
@@ -159,7 +160,12 @@ class RestPasswordManagementController extends FOSRestController implements Clas
 
     /**
      * Change user password.
-     *
+     * 
+     * @param Request $request
+     * @param UserInterface $user
+     * @return JsonResponse
+     * @throws AccessDeniedHttpException
+     * 
      * @ParamConverter("user", class="App:User")
      *
      * @Annotations\Post("/{user}/change")
@@ -179,7 +185,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
             return $event->getResponse();
         }
 
-        $form = $this->factory->createForm([
+        $form = $this->formFactory->createForm([
             'csrf_protection' => false
         ]);
         $form->setData($user);
@@ -198,14 +204,26 @@ class RestPasswordManagementController extends FOSRestController implements Clas
 
         if (null === $response = $event->getResponse()) {
             return new JsonResponse(
-                $this->get('translator')->trans('change_password.flash.success', [], 'FOSUserBundle'), JsonResponse::HTTP_OK
+                $this->get('translator')
+                    ->trans(
+                        'change_password.flash.success', 
+                        [], 
+                        'FOSUserBundle'
+                    ), JsonResponse::HTTP_OK
             );
         }
 
-        $dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
+        $dispatcher->dispatch(
+            FOSUserEvents::CHANGE_PASSWORD_COMPLETED, 
+            new FilterUserResponseEvent($user, $request, $response));
 
         return new JsonResponse(
-            $this->get('translator')->trans('change_password.flash.success', [], 'FOSUserBundle'), JsonResponse::HTTP_OK
+            $this->get('translator')
+                ->trans(
+                    'change_password.flash.success', 
+                    [], 
+                    'FOSUserBundle'
+                ), JsonResponse::HTTP_OK
         );
     }
 

@@ -46,4 +46,11 @@ services:
         tags:
             - { name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: onJWTCreated }
             
-    FOS\UserBundle\Form\Factory\FormFactory: '@fos_user.registration.form.factory'
+    App\Controller\RestRegistrationController:
+        arguments:
+            $formFactory: '@fos_user.registration.form.factory'    
+
+    App\Controller\RestPasswordManagementController:
+        arguments:
+            $formFactory: '@fos_user.change_password.form.factory'    
+         

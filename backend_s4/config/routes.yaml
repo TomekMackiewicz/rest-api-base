@@ -16,7 +16,7 @@ api_login_check:
 api_password_management:
     type: rest
     resource: App\Controller\RestPasswordManagementController
-    
+
 api_profile:
     type: rest
     resource: App\Controller\RestProfileController
@@ -24,4 +24,4 @@ api_profile:
 api_registration:
     type: rest
     resource: App\Controller\RestRegistrationController
-        
+          

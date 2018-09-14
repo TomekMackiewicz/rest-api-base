@@ -45,6 +45,14 @@ class User extends BaseUser
     protected $email;
 
     /**
+     * @var string
+     * 
+     * @JMSSerializer\Expose
+     * @JMSSerializer\Type("string")
+     */
+    protected $password;    
+    
+    /**
      * User constructor.
      */
     public function __construct()

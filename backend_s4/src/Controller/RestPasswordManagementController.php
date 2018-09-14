@@ -17,12 +17,21 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
+use FOS\UserBundle\Form\Factory\FormFactory;
 
 /**
+ * Password management.
+ * 
  * @Annotations\Prefix("api/password")
  * @RouteResource("password", pluralize=false)
  */
-class RestPasswordManagementController extends FOSRestController implements ClassResourceInterface {
+class RestPasswordManagementController extends FOSRestController implements ClassResourceInterface 
+{
+    
+    public function __construct(FormFactory $formFactory)
+    {
+        $this->factory = $formFactory;
+    }      
 
     /**
      * @Annotations\Post("/reset/request")
@@ -149,13 +158,14 @@ class RestPasswordManagementController extends FOSRestController implements Clas
     }
 
     /**
-     * Change user password
+     * Change user password.
      *
      * @ParamConverter("user", class="App:User")
      *
      * @Annotations\Post("/{user}/change")
      */
-    public function changeAction(Request $request, UserInterface $user) {
+    public function changeAction(Request $request, UserInterface $user) 
+    {       
         if ($user !== $this->getUser()) {
             throw new AccessDeniedHttpException();
         }
@@ -169,9 +179,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
             return $event->getResponse();
         }
 
-        $formFactory = $this->get('fos_user.change_password.form.factory');
-
-        $form = $formFactory->createForm([
+        $form = $this->factory->createForm([
             'csrf_protection' => false
         ]);
         $form->setData($user);

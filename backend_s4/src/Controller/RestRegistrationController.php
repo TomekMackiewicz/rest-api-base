@@ -2,18 +2,21 @@
 
 namespace App\Controller;
 
+use App\Service\ErrorHandler;
 use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
+use FOS\UserBundle\Form\Factory\FormFactory;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\FormEvent;
+use FOS\UserBundle\Model\UserManagerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use FOS\UserBundle\Form\Factory\FormFactory;
 
 /**
  * User registration.
@@ -22,16 +25,25 @@ use FOS\UserBundle\Form\Factory\FormFactory;
  */
 class RestRegistrationController extends FOSRestController implements ClassResourceInterface
 {
-
     private $formFactory;
+    private $userManager;
+    private $dispatcher;
+    private $errorHandler;
     
-    public function __construct(FormFactory $formFactory)
+    public function __construct(
+        FormFactory $formFactory, 
+        UserManagerInterface $userManager, 
+        EventDispatcherInterface $dispatcher, 
+        ErrorHandler $errorHandler)
     {
         $this->formFactory = $formFactory;
+        $this->userManager = $userManager;
+        $this->dispatcher = $dispatcher;
+        $this->errorHandler = $errorHandler;
     }     
     
     /**
-     * Register.
+     * Register new user.
      * 
      * @param Request $request
      * @return JsonResponse
@@ -40,14 +52,11 @@ class RestRegistrationController extends FOSRestController implements ClassResou
      */
     public function registerAction(Request $request)
     {
-        $userManager = $this->get('fos_user.user_manager');
-        $dispatcher = $this->get('event_dispatcher');
-
-        $user = $userManager->createUser();
+        $user = $this->userManager->createUser();
         $user->setEnabled(true);
 
         $event = new GetResponseUserEvent($user, $request);
-        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
+        $this->dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
 
         if (null !== $event->getResponse()) {
             return $event->getResponse();
@@ -61,20 +70,20 @@ class RestRegistrationController extends FOSRestController implements ClassResou
         
         if (!$form->isValid()) {
             $event = new FormEvent($form, $request);
-            $dispatcher->dispatch(FOSUserEvents::REGISTRATION_FAILURE, $event);
+            $this->dispatcher->dispatch(FOSUserEvents::REGISTRATION_FAILURE, $event);
             
-            // @FIXME return errors
-            return $form;
+            $errors = $this->errorHandler->formErrorsToArray($form);
+            return new View($errors, Response::HTTP_BAD_REQUEST);
         }
 
         $event = new FormEvent($form, $request);
-        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
+        $this->dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
 
         if ($event->getResponse()) {
             return $event->getResponse();
         }
 
-        $userManager->updateUser($user);
+        $this->userManager->updateUser($user);
 
         $response = new JsonResponse([
             'msg' => $this->get('translator')
@@ -90,7 +99,7 @@ class RestRegistrationController extends FOSRestController implements ClassResou
             ]
         );
 
-        $dispatcher->dispatch(
+        $this->dispatcher->dispatch(
             FOSUserEvents::REGISTRATION_COMPLETED,
             new FilterUserResponseEvent($user, $request, $response)
         );

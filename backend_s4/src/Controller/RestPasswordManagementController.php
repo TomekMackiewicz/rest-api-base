@@ -2,21 +2,24 @@
 
 namespace App\Controller;
 
+use App\Service\ErrorHandler;
 use FOS\RestBundle\Controller\Annotations;
+use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
-use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
+use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseNullableUserEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
+use FOS\UserBundle\Form\Factory\FormFactory;
 use FOS\UserBundle\FOSUserEvents;
-use FOS\UserBundle\Event\FormEvent;
+use FOS\UserBundle\Model\UserManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
-use FOS\UserBundle\Form\Factory\FormFactory;
 
 /**
  * Password management.
@@ -28,10 +31,20 @@ class RestPasswordManagementController extends FOSRestController implements Clas
 {
 
     private $formFactory;
+    private $userManager;
+    private $dispatcher;
+    private $errorHandler;
     
-    public function __construct(FormFactory $formFactory)
+    public function __construct(
+        FormFactory $formFactory,
+        UserManagerInterface $userManager, 
+        EventDispatcherInterface $dispatcher, 
+        ErrorHandler $errorHandler)            
     {
         $this->formFactory = $formFactory;
+        $this->userManager = $userManager;
+        $this->dispatcher = $dispatcher;
+        $this->errorHandler = $errorHandler;        
     }      
 
     /**
@@ -176,10 +189,8 @@ class RestPasswordManagementController extends FOSRestController implements Clas
             throw new AccessDeniedHttpException();
         }
 
-        $dispatcher = $this->get('event_dispatcher');
-
         $event = new GetResponseUserEvent($user, $request);
-        $dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_INITIALIZE, $event);
+        $this->dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_INITIALIZE, $event);
 
         if (null !== $event->getResponse()) {
             return $event->getResponse();
@@ -192,15 +203,14 @@ class RestPasswordManagementController extends FOSRestController implements Clas
         $form->submit($request->request->all());
 
         if (!$form->isValid()) {
-            return $form;
+            $errors = $this->errorHandler->formErrorsToArray($form);
+            return new View($errors, Response::HTTP_BAD_REQUEST);
         }
 
-        $userManager = $this->get('fos_user.user_manager');
-
         $event = new FormEvent($form, $request);
-        $dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_SUCCESS, $event);
+        $this->dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_SUCCESS, $event);
 
-        $userManager->updateUser($user);
+        $this->userManager->updateUser($user);
 
         if (null === $response = $event->getResponse()) {
             return new JsonResponse(
@@ -213,7 +223,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
             );
         }
 
-        $dispatcher->dispatch(
+        $this->dispatcher->dispatch(
             FOSUserEvents::CHANGE_PASSWORD_COMPLETED, 
             new FilterUserResponseEvent($user, $request, $response));
 

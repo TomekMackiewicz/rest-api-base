@@ -54,7 +54,8 @@ services:
 
     App\Controller\RestPasswordManagementController:
         arguments:
-            $formFactory: '@fos_user.change_password.form.factory'    
+            $changeFormFactory: '@fos_user.change_password.form.factory'
+            $resettingFormFactory: '@fos_user.resetting.form.factory'
             $userManager: '@fos_user.user_manager'
             $dispatcher: '@event_dispatcher'
             

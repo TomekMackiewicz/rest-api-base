@@ -20,6 +20,7 @@ import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ResetPasswordComponent } from './password-reset/reset-password.component';
+import { ConfirmResetPasswordComponent } from './password-reset-confirm/reset-password-confirm.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AccessDeniedComponent } from './denied/denied.component';
@@ -30,6 +31,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { AuthenticationService } from './services/authentication.service';
 import { ChangePasswordService } from './change-password/change-password.service';
 import { ResetPasswordService } from './password-reset/reset-password.service';
+import { ConfirmResetPasswordService } from './password-reset-confirm/reset-password-confirm.service';
 import { UserService } from './services/user.service';
 
 import { EqualValidator } from './shared/validate-equal.directive';
@@ -50,6 +52,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         LogoutComponent,
         ChangePasswordComponent,
         ResetPasswordComponent,
+        ConfirmResetPasswordComponent,
         RegisterComponent,
         ProfileComponent,
         AccessDeniedComponent,
@@ -83,6 +86,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         UserService,
         ChangePasswordService,
         ResetPasswordService,
+        ConfirmResetPasswordService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: TokenInterceptor,

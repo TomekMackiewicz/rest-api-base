@@ -8,6 +8,7 @@ use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
+use FOS\RestBundle\View\View;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Event\GetResponseNullableUserEvent;
@@ -20,6 +21,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -32,7 +34,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class RestPasswordManagementController extends FOSRestController implements ClassResourceInterface 
 {
 
-    private $formFactory;
+    private $changeFormFactory;
+    private $resettingFormFactory;
     private $userManager;
     private $dispatcher;
     private $errorHandler;
@@ -40,14 +43,16 @@ class RestPasswordManagementController extends FOSRestController implements Clas
     private $mailer;
     
     public function __construct(
-        FormFactory $formFactory,
+        FormFactory $changeFormFactory,
+        FormFactory $resettingFormFactory,
         UserManagerInterface $userManager, 
         EventDispatcherInterface $dispatcher, 
         ErrorHandler $errorHandler,
         TokenGeneratorInterface $tokenGenerator,
         Mailer $mailer)         
     {
-        $this->formFactory = $formFactory;
+        $this->changeFormFactory = $changeFormFactory;
+        $this->resettingFormFactory = $resettingFormFactory;
         $this->userManager = $userManager;
         $this->dispatcher = $dispatcher;
         $this->errorHandler = $errorHandler;
@@ -91,12 +96,12 @@ class RestPasswordManagementController extends FOSRestController implements Clas
         if ($user->isPasswordRequestNonExpired(
             $this->container->getParameter('fos_user.resetting.token_ttl'))
         ) {
-//            return new JsonResponse(
-//                $this->get('translator')->trans(
-//                    'resetting.password_already_requested', 
-//                    [],
-//                    'FOSUserBundle'), JsonResponse::HTTP_FORBIDDEN
-//            );
+            return new JsonResponse(
+                $this->get('translator')->trans(
+                    'resetting.password_already_requested', 
+                    [],
+                    'FOSUserBundle'), JsonResponse::HTTP_FORBIDDEN
+            );
         }
 
         if (null === $user->getConfirmationToken()) {
@@ -171,7 +176,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
             return $event->getResponse();
         }
         
-        $form = $this->formFactory->createForm([
+        $form = $this->resettingFormFactory->createForm([
             'csrf_protection' => false,
             'allow_extra_fields' => true,
         ]);
@@ -237,7 +242,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
             return $event->getResponse();
         }
 
-        $form = $this->formFactory->createForm([
+        $form = $this->changeFormFactory->createForm([
             'csrf_protection' => false
         ]);
         $form->setData($user);

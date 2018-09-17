@@ -1,22 +1,21 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AlertService } from '../alert/alert.service';
-import { ChangePasswordService } from './change-password.service';
+import { ResetPasswordService } from './reset-password.service';
 import { LoaderService } from '../services/loader.service';
 
 @Component({
-    selector: 'change-password',
-    templateUrl: './change-password.component.html',       
+    selector: 'reset-password',
+    templateUrl: './reset-password.component.html',       
 })
 
-export class ChangePasswordComponent {
-    model: any = {};
-    user: any = localStorage.getItem('currentUsername');
+export class ResetPasswordComponent {
+    username: string;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private changePasswordService: ChangePasswordService,
+        private resetPasswordService: ResetPasswordService,
         private alertService: AlertService,
         private loaderService: LoaderService,
         private ref: ChangeDetectorRef) {}
@@ -25,19 +24,17 @@ export class ChangePasswordComponent {
         // 
     }
 
-    changePassword() {
+    resetPassword() {
         this.loaderService.displayLoader(true);
-        this.changePasswordService.changePassword(
-            this.model.currentPassword, 
-            this.model.newPassword, 
-            this.model.confirmPassword
+        this.resetPasswordService.resetPassword(
+            this.username
         ).subscribe(
             (data: any) => {
                 this.loaderService.displayLoader(false);
                 this.alertService.success('Success', true);// zamienić na json response
                 this.ref.markForCheck();
             },
-            error => {                
+            error => {               
                 this.loaderService.displayLoader(false);
                 this.alertService.error(error);
                 this.ref.markForCheck();

@@ -19,6 +19,7 @@ import { PageNotFoundComponent } from './404/page-not-found.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ResetPasswordComponent } from './password-reset/reset-password.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AccessDeniedComponent } from './denied/denied.component';
@@ -28,6 +29,7 @@ import { ErrorService } from './services/error.service';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthenticationService } from './services/authentication.service';
 import { ChangePasswordService } from './change-password/change-password.service';
+import { ResetPasswordService } from './password-reset/reset-password.service';
 import { UserService } from './services/user.service';
 
 import { EqualValidator } from './shared/validate-equal.directive';
@@ -47,6 +49,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         LoginComponent,
         LogoutComponent,
         ChangePasswordComponent,
+        ResetPasswordComponent,
         RegisterComponent,
         ProfileComponent,
         AccessDeniedComponent,
@@ -79,6 +82,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         ErrorService,
         UserService,
         ChangePasswordService,
+        ResetPasswordService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: TokenInterceptor,

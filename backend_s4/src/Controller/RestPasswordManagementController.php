@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Mailer\Mailer;
 use App\Service\ErrorHandler;
 use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
@@ -14,6 +15,7 @@ use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\Form\Factory\FormFactory;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Model\UserManagerInterface;
+use FOS\UserBundle\Util\TokenGeneratorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,34 +36,40 @@ class RestPasswordManagementController extends FOSRestController implements Clas
     private $userManager;
     private $dispatcher;
     private $errorHandler;
+    private $tokenGenerator;
+    private $mailer;
     
     public function __construct(
         FormFactory $formFactory,
         UserManagerInterface $userManager, 
         EventDispatcherInterface $dispatcher, 
-        ErrorHandler $errorHandler)            
+        ErrorHandler $errorHandler,
+        TokenGeneratorInterface $tokenGenerator,
+        Mailer $mailer)         
     {
         $this->formFactory = $formFactory;
         $this->userManager = $userManager;
         $this->dispatcher = $dispatcher;
-        $this->errorHandler = $errorHandler;        
+        $this->errorHandler = $errorHandler;
+        $this->tokenGenerator = $tokenGenerator;
+        $this->mailer = $mailer;        
     }      
 
     /**
+     * Request reset password.
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     * 
      * @Annotations\Post("/reset/request")
      */
-    public function requestResetAction(Request $request) {
+    public function requestResetAction(Request $request) 
+    {
         $username = $request->request->get('username');
-
-        /** @var $user UserInterface */
-        $user = $this->get('fos_user.user_manager')->findUserByUsernameOrEmail($username);
-
-        /** @var $dispatcher EventDispatcherInterface */
-        $dispatcher = $this->get('event_dispatcher');
-
-        /* Dispatch init event */
+        $user = $this->userManager->findUserByUsernameOrEmail($username);
         $event = new GetResponseNullableUserEvent($user, $request);
-        $dispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_INITIALIZE, $event);
+        $this->dispatcher
+            ->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_INITIALIZE, $event);
 
         if (null !== $event->getResponse()) {
             return $event->getResponse();
@@ -74,100 +82,133 @@ class RestPasswordManagementController extends FOSRestController implements Clas
         }
 
         $event = new GetResponseUserEvent($user, $request);
-        $dispatcher->dispatch(FOSUserEvents::RESETTING_RESET_REQUEST, $event);
+        $this->dispatcher->dispatch(FOSUserEvents::RESETTING_RESET_REQUEST, $event);
 
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
 
-        if ($user->isPasswordRequestNonExpired($this->container->getParameter('fos_user.resetting.token_ttl'))) {
-            return new JsonResponse(
-                $this->get('translator')->trans('resetting.password_already_requested', [], 'FOSUserBundle'), JsonResponse::HTTP_FORBIDDEN
-            );
+        if ($user->isPasswordRequestNonExpired(
+            $this->container->getParameter('fos_user.resetting.token_ttl'))
+        ) {
+//            return new JsonResponse(
+//                $this->get('translator')->trans(
+//                    'resetting.password_already_requested', 
+//                    [],
+//                    'FOSUserBundle'), JsonResponse::HTTP_FORBIDDEN
+//            );
         }
 
         if (null === $user->getConfirmationToken()) {
-            /** @var $tokenGenerator \FOS\UserBundle\Util\TokenGeneratorInterface */
-            $tokenGenerator = $this->get('fos_user.util.token_generator');
-            $user->setConfirmationToken($tokenGenerator->generateToken());
+            $user->setConfirmationToken($this->tokenGenerator->generateToken());
         }
 
         /* Dispatch confirm event */
         $event = new GetResponseUserEvent($user, $request);
-        $dispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_CONFIRM, $event);
+        $this->dispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_CONFIRM, $event);
 
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
 
-        //$this->get('fos_user.mailer')->sendResettingEmailMessage($user);
+        $this->mailer->sendResettingEmailMessage($user);
         $user->setPasswordRequestedAt(new \DateTime());
-        $this->get('fos_user.user_manager')->updateUser($user);
-
+        $this->userManager->updateUser($user);
 
         /* Dispatch completed event */
         $event = new GetResponseUserEvent($user, $request);
-        $dispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_COMPLETED, $event);
+        $this->dispatcher->dispatch(FOSUserEvents::RESETTING_SEND_EMAIL_COMPLETED, $event);
 
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
 
         return new JsonResponse(
-                $this->get('translator')->trans(
-                        'resetting.check_email', ['%tokenLifetime%' => floor($this->container->getParameter('fos_user.resetting.token_ttl') / 3600)], 'FOSUserBundle'
-                ), JsonResponse::HTTP_OK
+            $this->get('translator')->trans(
+                'resetting.check_email', 
+                ['%tokenLifetime%' => floor(
+                    $this->container->getParameter('fos_user.resetting.token_ttl') / 3600
+                )], 
+                'FOSUserBundle'
+            ), JsonResponse::HTTP_OK
         );
     }
 
     /**
-     * Reset user password
+     * Reset user password.
+     * 
+     * @param Request $request
+     * @return JsonResponse
+     * 
      * @Annotations\Post("/reset/confirm")
      */
-    public function confirmResetAction(Request $request) {
+    public function confirmResetAction(Request $request) 
+    {
         $token = $request->request->get('token', null);
+        
         if (null === $token) {
-            return new JsonResponse('You must submit a token.', JsonResponse::HTTP_BAD_REQUEST);
-        }
-        /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
-        $formFactory = $this->get('fos_user.resetting.form.factory');
-        /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
-        $userManager = $this->get('fos_user.user_manager');
-        /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-        $dispatcher = $this->get('event_dispatcher');
-        $user = $userManager->findUserByConfirmationToken($token);
-        if (null === $user) {
             return new JsonResponse(
-                // no translation provided for this in \FOS\UserBundle\Controller\ResettingController
-                sprintf('The user with "confirmation token" does not exist for value "%s"', $token), JsonResponse::HTTP_BAD_REQUEST
+                'You must submit a token.', 
+                JsonResponse::HTTP_BAD_REQUEST
             );
         }
+        
+        $user = $this->userManager->findUserByConfirmationToken($token);
+        
+        if (null === $user) {
+            return new JsonResponse(
+                sprintf(
+                    'The user with "confirmation token" does not exist for value "%s"', 
+                    $token
+                ), JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+        
         $event = new GetResponseUserEvent($user, $request);
-        $dispatcher->dispatch(FOSUserEvents::RESETTING_RESET_INITIALIZE, $event);
+        $this->dispatcher->dispatch(FOSUserEvents::RESETTING_RESET_INITIALIZE, $event);
+        
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
-        $form = $formFactory->createForm([
+        
+        $form = $this->formFactory->createForm([
             'csrf_protection' => false,
             'allow_extra_fields' => true,
         ]);
+        
         $form->setData($user);
         $form->submit($request->request->all());
+        
         if (!$form->isValid()) {
-            return $form;
+            $errors = $this->errorHandler->formErrorsToArray($form);
+            return new View($errors, Response::HTTP_BAD_REQUEST);
         }
+        
         $event = new FormEvent($form, $request);
-        $dispatcher->dispatch(FOSUserEvents::RESETTING_RESET_SUCCESS, $event);
-        $userManager->updateUser($user);
+        $this->dispatcher->dispatch(FOSUserEvents::RESETTING_RESET_SUCCESS, $event);
+        $this->userManager->updateUser($user);
+        
         if (null === $response = $event->getResponse()) {
             return new JsonResponse(
-                $this->get('translator')->trans('resetting.flash.success', [], 'FOSUserBundle'), JsonResponse::HTTP_OK
+                $this->get('translator')->trans(
+                    'resetting.flash.success', 
+                    [], 
+                    'FOSUserBundle'
+                ), JsonResponse::HTTP_OK
             );
         }
-        // unsure if this is now needed / will work the same
-        $dispatcher->dispatch(FOSUserEvents::RESETTING_RESET_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
+
+        $this->dispatcher->dispatch(
+            FOSUserEvents::RESETTING_RESET_COMPLETED, 
+            new FilterUserResponseEvent($user, $request, $response)
+        );
+        
         return new JsonResponse(
-            $this->get('translator')->trans('resetting.flash.success', [], 'FOSUserBundle'), JsonResponse::HTTP_OK
+            $this->get('translator')->trans(
+                'resetting.flash.success', 
+                [], 
+                'FOSUserBundle'
+            ), JsonResponse::HTTP_OK
         );
     }
 

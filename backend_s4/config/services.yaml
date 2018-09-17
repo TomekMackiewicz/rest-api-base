@@ -48,9 +48,19 @@ services:
             
     App\Controller\RestRegistrationController:
         arguments:
-            $formFactory: '@fos_user.registration.form.factory'    
+            $formFactory: '@fos_user.registration.form.factory'
+            $userManager: '@fos_user.user_manager'
+            $dispatcher: '@event_dispatcher'
 
     App\Controller\RestPasswordManagementController:
         arguments:
             $formFactory: '@fos_user.change_password.form.factory'    
-         
+            $userManager: '@fos_user.user_manager'
+            $dispatcher: '@event_dispatcher'
+            
+    App\Mailer\Mailer:
+        class: App\Mailer\Mailer
+        public: true
+        parent: fos_user.mailer.twig_swift
+        autowire: true
+        autoconfigure: false        

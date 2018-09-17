@@ -32,6 +32,10 @@ security:
             pattern: ^/api/register
             anonymous: true
 
+        api_password_reset:
+            pattern: ^/api/password/reset
+            anonymous: true
+
         api:
             pattern:   ^/api
             stateless: true
@@ -42,6 +46,7 @@ security:
     access_control:                
         - { path: ^/api/login, role: IS_AUTHENTICATED_ANONYMOUSLY }        
         - { path: ^/api/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/password/reset, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/admin/, role: ROLE_ADMIN }
         - { path: ^/api, role: IS_AUTHENTICATED_FULLY }
 

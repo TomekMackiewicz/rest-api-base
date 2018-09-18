@@ -64,19 +64,10 @@ class Mailer implements MailerInterface
     public function sendResettingEmailMessage(UserInterface $user)
     {
         $template = $this->parameters['template']['resetting'];
-
         $dotenv = new Dotenv();
         $dotenv->load(__DIR__.'/../../.env');
-
         $passwordResetUrl = getenv('PASSWORD_RESET_URL');
-        
-//        $url = $this->router->generate(
-//            'confirm_password_reset',
-//            ['token' => $user->getConfirmationToken()],
-//            UrlGeneratorInterface::ABSOLUTE_URL
-//        );
-        
-        $url = $passwordResetUrl.'?'.$user->getConfirmationToken();
+        $url = $passwordResetUrl.'/'.$user->getConfirmationToken();
 
         $context = [
             'user' => $user,
@@ -107,14 +98,7 @@ class Mailer implements MailerInterface
         $textBody = $template->renderBlock('body_text', $context);
         $htmlBody = $template->renderBlock('body_html', $context);
 
-//        $message = \Swift_Message::newInstance()
-//            ->setSubject($subject)
-//            ->setFrom($fromEmail)
-//            ->setTo($toEmail);
-        
-        $message = (new \Swift_Message(
-            $subject, $fromEmail, $toEmail
-        ));
+        $message = (new \Swift_Message($subject));
         $message->setFrom($fromEmail);
         $message->setTo($toEmail);        
         

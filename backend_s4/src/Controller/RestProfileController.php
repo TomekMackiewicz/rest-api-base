@@ -3,18 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use FOS\RestBundle\View\View;
+use App\Service\ErrorHandler;
 use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
+use FOS\RestBundle\View\View;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\FormEvent;
+use FOS\UserBundle\Form\Factory\FormFactory;
+use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -28,12 +32,30 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class RestProfileController extends FOSRestController implements ClassResourceInterface
 {
+    private $userManager;
+    private $dispatcher;    
+    private $formFactory;
+
+    public function __construct(
+        FormFactory $formFactory,
+        UserManagerInterface $userManager, 
+        EventDispatcherInterface $dispatcher,
+        ErrorHandler $errorHandler)         
+    {
+        $this->formFactory = $formFactory;
+        $this->userManager = $userManager;
+        $this->dispatcher = $dispatcher; 
+        $this->errorHandler = $errorHandler;
+    } 
+    
     /**
-     *
+     * Get user profile.
+     * 
+     * @param UserInterface $user
+     * @return UserInterface
+     * @throws AccessDeniedHttpException
+     * 
      * @ParamConverter("user", class="App:User")
-     *
-     * Note: Could be refactored to make use of the User Resolver in Symfony 3.2 onwards
-     * more at : http://symfony.com/blog/new-in-symfony-3-2-user-value-resolver-for-controllers
      */
     public function getAction(UserInterface $user)
     {
@@ -45,87 +67,78 @@ class RestProfileController extends FOSRestController implements ClassResourceIn
     }
 
     /**
-     * @param Request       $request
+     * Update user profile.
+     * 
+     * @param Request $request
      * @param UserInterface $user
      *
      * @ParamConverter("user", class="App:User")
      *
-     * @return View|\Symfony\Component\Form\FormInterface
+     * @return View
      */
     public function putAction(Request $request, UserInterface $user)
     {
-        return $this->updateProfile($request, true, $user);
+        return $this->updateProfile($request, $user, true);
     }
 
     /**
-     * @param Request       $request
+     * Update user profile.
+     * 
+     * @param Request $request
      * @param UserInterface $user
      *
      * @ParamConverter("user", class="App:User")
      *
-     * @return View|\Symfony\Component\Form\FormInterface
+     * @return View
      */
     public function patchAction(Request $request, UserInterface $user)
     {
-        return $this->updateProfile($request, false, $user);
+        return $this->updateProfile($request, $user, false);
     }
     
     /**
-     * @param Request       $request
-     * @param bool          $clearMissing
+     * Update user profile.
+     * 
+     * @param Request $request
      * @param UserInterface $user
+     * @param bool $clearMissing
+     * 
+     * @return View
      */
-    private function updateProfile(Request $request, $clearMissing = true, UserInterface $user)
+    private function updateProfile(Request $request, UserInterface $user, $clearMissing=true)
     {
         $user = $this->getAction($user);
-
-        /** @var $dispatcher \Symfony\Component\EventDispatcher\EventDispatcherInterface */
-        $dispatcher = $this->get('event_dispatcher');
-
         $event = new GetResponseUserEvent($user, $request);
-        $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_INITIALIZE, $event);
+        $this->dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_INITIALIZE, $event);
 
         if (null !== $event->getResponse()) {
             return $event->getResponse();
         }
 
-        /** @var $formFactory \FOS\UserBundle\Form\Factory\FactoryInterface */
-        $formFactory = $this->get('fos_user.profile.form.factory');
-
-        $form = $formFactory->createForm(['csrf_protection' => false]);
+        $form = $this->formFactory->createForm(['csrf_protection' => false]);
         $form->setData($user);
-
         $form->submit($request->request->all(), $clearMissing);
 
         if (!$form->isValid()) {
-            return $form;
+            $errors = $this->errorHandler->formErrorsToArray($form);
+            return new View($errors, Response::HTTP_BAD_REQUEST);
         }
-
-        /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
-        $userManager = $this->get('fos_user.user_manager');
 
         $event = new FormEvent($form, $request);
-        $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_SUCCESS, $event);
+        $this->dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_SUCCESS, $event);
 
-        $userManager->updateUser($user);
+        $this->userManager->updateUser($user);
 
-        // there was no override
         if (null === $response = $event->getResponse()) {
-            return $this->routeRedirectView(
-                'get_profile',
-                ['user' => $user->getId()],
-                Response::HTTP_NO_CONTENT
-            );
+            return new View(null, Response::HTTP_NO_CONTENT);
         }
 
-        // unsure if this is now needed / will work the same
-        $dispatcher->dispatch(FOSUserEvents::PROFILE_EDIT_COMPLETED, new FilterUserResponseEvent($user, $request, $response));
-
-        return $this->routeRedirectView(
-            'get_profile',
-            ['user' => $user->getId()],
-            Response::HTTP_NO_CONTENT
+        $this->dispatcher->dispatch(
+            FOSUserEvents::PROFILE_EDIT_COMPLETED, 
+            new FilterUserResponseEvent($user, $request, $response)
         );
+
+        return new View(null, Response::HTTP_OK);
     }    
     
 }

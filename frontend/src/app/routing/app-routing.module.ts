@@ -7,6 +7,7 @@ import { LoginComponent } from '../login/login.component';
 import { LogoutComponent } from '../logout/logout.component';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 import { ResetPasswordComponent } from '../password-reset/reset-password.component';
+import { ConfirmResetPasswordComponent } from '../password-reset-confirm/reset-password-confirm.component';
 import { RegisterComponent } from '../register/register.component';
 import { ProfileComponent } from '../profile/profile.component';
 import { AuthGuard } from '../guards/auth.guard';
@@ -36,6 +37,14 @@ const routes: Routes = [
                 value: 'reset-password',
             }
         }                
+    },
+    { path: 'confirm-reset-password/:token', 
+        component: ConfirmResetPasswordComponent,
+        data: {
+            animation: {
+                value: 'confirm-reset-password',
+            }
+        }  
     },     
     {path: 'user/profile', 
         component: ProfileComponent,

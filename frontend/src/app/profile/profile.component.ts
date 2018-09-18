@@ -4,8 +4,8 @@ import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Rx';
 import { AlertService } from '../alert/alert.service';
 import { LoaderService } from '../services/loader.service';
-import { UserService } from '../services/user.service';
-import { User } from './model/user';
+import { ProfileService } from './profile.service';
+import { User } from '../user/model/user';
 
 @Component({
     selector: 'profile',
@@ -17,7 +17,7 @@ export class ProfileComponent implements OnInit {
     public user: User;
     
     constructor(
-        private userService: UserService,
+        private profileService: ProfileService,
         private route: ActivatedRoute,
         private alertService: AlertService,
         private loaderService: LoaderService,
@@ -26,14 +26,16 @@ export class ProfileComponent implements OnInit {
 
     ngOnInit(): void {
         this.loaderService.displayLoader(true);
-        this.userService.getUser(parseInt(localStorage.getItem('userId')))
+        this.profileService.getUser(parseInt(localStorage.getItem('userId')))
             .subscribe(
                 (data: User) => { 
+                    console.log(data);
                     this.loaderService.displayLoader(false);
                     this.user = data; 
                     this.ref.detectChanges();
                 },
                 error => {
+                    console.log(error);
                     this.loaderService.displayLoader(false);
                     this.alertService.error("Error loading user profile! " + error);
                     this.ref.detectChanges();

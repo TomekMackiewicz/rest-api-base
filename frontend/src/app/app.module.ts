@@ -32,7 +32,8 @@ import { AuthenticationService } from './services/authentication.service';
 import { ChangePasswordService } from './change-password/change-password.service';
 import { ResetPasswordService } from './password-reset/reset-password.service';
 import { ConfirmResetPasswordService } from './password-reset-confirm/reset-password-confirm.service';
-import { UserService } from './services/user.service';
+import { UserService } from './services/user.service'; // a ta w folderze user???
+import { ProfileService } from './profile/profile.service';
 
 import { EqualValidator } from './shared/validate-equal.directive';
 import { PatternValidator } from './shared/pattern-validator.directive';
@@ -84,6 +85,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         LoaderService,
         ErrorService,
         UserService,
+        ProfileService,
         ChangePasswordService,
         ResetPasswordService,
         ConfirmResetPasswordService,

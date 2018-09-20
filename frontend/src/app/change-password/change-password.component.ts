@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AlertService } from '../alert/alert.service';
 import { ChangePasswordService } from './change-password.service';
 import { LoaderService } from '../services/loader.service';
+import { ErrorService } from '../services/error.service';
 
 @Component({
     selector: 'change-password',
@@ -11,7 +12,14 @@ import { LoaderService } from '../services/loader.service';
 
 export class ChangePasswordComponent {
     model: any = {};
-    user: any = localStorage.getItem('currentUsername');
+
+    validation = {
+        currentPassword: <boolean> true,
+        first: <boolean> true,
+        confirmPassword: <boolean> true,
+        currentPasswordMsg: <string> '',
+        firstMsg: <string> ''
+    };    
 
     constructor(
         private route: ActivatedRoute,
@@ -19,27 +27,31 @@ export class ChangePasswordComponent {
         private changePasswordService: ChangePasswordService,
         private alertService: AlertService,
         private loaderService: LoaderService,
+        private errorService: ErrorService,
         private ref: ChangeDetectorRef) {}
-
-    ngOnInit() {
-        // 
-    }
 
     changePassword() {
         this.loaderService.displayLoader(true);
         this.changePasswordService.changePassword(
             this.model.currentPassword, 
-            this.model.newPassword, 
-            this.model.confirmPassword
+            this.model.first, 
+            this.model.second
         ).subscribe(
             (data: any) => {
+                for (let err in this.validation) {
+                    this.validation[err] = true;
+                    this.validation[err+'Msg'] = '';
+                }                
                 this.loaderService.displayLoader(false);
-                this.alertService.success('Success', true);// zamienić na json response
+                this.alertService.success(data, true);
                 this.ref.markForCheck();
             },
-            error => {                
+            errors => {
+                for (let err in errors.error) {
+                    this.validation[err] = false;
+                    this.validation[err+'Msg'] = errors.error[err];
+                }
                 this.loaderService.displayLoader(false);
-                this.alertService.error(error);
                 this.ref.markForCheck();
             }
         );

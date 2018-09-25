@@ -11,14 +11,19 @@ import { ErrorService } from '../services/error.service';
 })
 
 export class ChangePasswordComponent {
-    model: any = {};
+    model: any = {
+        currentPassword: <string> '',
+        first: <string> '',
+        second: <string> ''
+    };
 
-    validation = {
+    validation: any = {
         currentPassword: <boolean> true,
         first: <boolean> true,
-        confirmPassword: <boolean> true,
+        second: <boolean> true,
         currentPasswordMsg: <string> '',
-        firstMsg: <string> ''
+        firstMsg: <string> '',
+        secondMsg: <string> ''
     };    
 
     constructor(
@@ -38,19 +43,13 @@ export class ChangePasswordComponent {
             this.model.second
         ).subscribe(
             (data: any) => {
-                for (let err in this.validation) {
-                    this.validation[err] = true;
-                    this.validation[err+'Msg'] = '';
-                }                
+                this.errorService.nullErrors(this.validation);               
                 this.loaderService.displayLoader(false);
                 this.alertService.success(data, true);
                 this.ref.markForCheck();
             },
             errors => {
-                for (let err in errors.error) {
-                    this.validation[err] = false;
-                    this.validation[err+'Msg'] = errors.error[err];
-                }
+                this.errorService.handleErrors(this.validation, errors.error);
                 this.loaderService.displayLoader(false);
                 this.ref.markForCheck();
             }

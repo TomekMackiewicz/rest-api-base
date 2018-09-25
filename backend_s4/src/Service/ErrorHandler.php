@@ -8,11 +8,13 @@ namespace App\Service;
 class ErrorHandler
 {
     /*
+     * Prepare form errors.
+     * 
      * @param Form $form
      * 
      * @return array
      */
-    public function formErrorsToArray($form)
+    public function handleFormErrors($form)
     {
         $errors = [];
         foreach ($form->getErrors(true) as $error) {

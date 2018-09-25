@@ -1,27 +1,20 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class ErrorService {
-
-    //error: any = {};
+export class ErrorService {    
+        
+    handleErrors(validation, errors) {
+        for (let err in errors) {
+            validation[err] = false;
+            validation[err+'Msg'] = errors[err];
+        }        
+    }
     
-    errorsToArray() {
-        
-    }
-        
-    convertError(errors: any) {
-        var test = '';
-        //var t = <any>{};
-        //var error: any = {};
-        //console.log(errors.error);
-        Object.entries(errors.forEach(
-          ([key, value]) => test = test+value[0]+'. '
-        ));
-        
-        return test;        
-    }
+    nullErrors(validation) {
+        for (let err in validation) {
+            validation[err] = true;
+            validation[err+'Msg'] = null;
+        }        
+    }    
 
-    displayError(value: boolean) {
-        //
-    }
 }

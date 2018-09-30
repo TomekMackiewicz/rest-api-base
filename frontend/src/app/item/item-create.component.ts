@@ -18,6 +18,14 @@ export class ItemCreateComponent implements OnInit {
 
     private item: Item;
     private signature: string = null;
+    private status: number;
+
+    validation: any = {
+        signature: <string> '',
+        status: <string> '',
+        signatureMsg: <string> '',
+        statusMsg: <string> ''
+    };
 
     constructor(
         private itemService: ItemService,
@@ -30,25 +38,28 @@ export class ItemCreateComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.item = new Item(this.signature);        
+        this.item = new Item(this.signature, this.status);        
     }
 
     goBack(): void {
         this.location.back();
     }
 
-    createItem(signature: any) { // ?
+    createItem(signature: string, status: number) {         
         this.loaderService.displayLoader(true);
-        this.itemService.createItem(this.item).subscribe(
+        this.errorService.nullErrors(this.validation);
+        this.itemService.createItem(signature, status).subscribe(
             data => {
+                this.errorService.nullErrors(this.validation);
                 this.loaderService.displayLoader(false);
-                this.alertService.success('Item created.');
+                this.alertService.success(data, true);
                 this.ref.markForCheck();
             },
             errors => {
+                this.errorService.handleErrors(this.validation, errors.error);
                 this.loaderService.displayLoader(false);
-                this.alertService.error("Error saving item! " + errors.error);
                 this.ref.markForCheck();
+                
                 return Observable.throw(errors);
             }
         );

@@ -15,7 +15,7 @@ export class AuthenticationService {
     public currentUsername: BehaviorSubject<string> = new BehaviorSubject<string>('');
     public admin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
+    
     getUsername(value: string) {
         this.currentUsername.next(value);
     }  
@@ -37,7 +37,7 @@ export class AuthenticationService {
     ) {};
        
     login(username: string, password: string) {
-        this.loaderService.displayLoader(true);        
+        this.loaderService.displayLoader(true); 
         return this.http.post<any>('http://localhost:8000/api/login_check', { 
             username: username, 
             password: password
@@ -63,7 +63,8 @@ export class AuthenticationService {
             error => {
                 this.alertService.error(error);
                 this.loaderService.displayLoader(false);
-            });        
+            }
+        );
     }
 
     logout() {

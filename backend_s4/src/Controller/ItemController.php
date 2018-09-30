@@ -74,7 +74,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $form->submit($request->request->all());
     
         if (!$form->isValid()) {
-            $errors = $this->errorHandler->formErrorsToArray($form);
+            $errors = $this->errorHandler->handleFormErrors($form);
             return new View($errors, Response::HTTP_BAD_REQUEST);
         }
         
@@ -83,7 +83,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $em->persist($item);
         $em->flush();
         
-        return new View($item, Response::HTTP_CREATED);
+        return new View('crud.create.success', Response::HTTP_CREATED);
     }
     
     /**

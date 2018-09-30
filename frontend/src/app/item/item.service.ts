@@ -15,8 +15,11 @@ export class ItemService {
         return this.http.get('http://localhost:8000/api/admin/items')
     }
 
-    createItem(item: any) {        
-        return this.http.post('http://localhost:8000/api/admin/items', item);
+    createItem(signature: string, status: number) {        
+        return this.http.post<any>('http://localhost:8000/api/admin/items', { 
+            signature: signature,
+            status: status
+        });
     }
 
     updateItem(item: any) {

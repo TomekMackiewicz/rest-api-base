@@ -4,11 +4,8 @@ export class Item {
     status: number;
     lastAction: Date
 
-    constructor(data: any) {
-        data = data || {};
-        this.id = data.id;
-        this.signature = data.signature;
-        this.status = data.status;
-        this.lastAction = data.lastAction;
+    constructor(signature: string, status: any) {
+        this.signature = signature;
+        this.status = status;
     }
 }

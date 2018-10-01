@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Rx';
 import { ItemService } from './item.service';
 import { AlertService } from '../alert/alert.service';
 import { LoaderService } from '../services/loader.service';
+import { ErrorService } from '../services/error.service';
 import { Item } from './model/item';
 
 @Component({
@@ -15,7 +16,14 @@ import { Item } from './model/item';
 
 export class ItemEditComponent implements OnInit {
 
-    public item: Item;
+    private item: Item;
+
+    validation: any = {
+        signature: <string> '',
+        status: <string> '',
+        signatureMsg: <string> '',
+        statusMsg: <string> ''
+    };
 
     constructor(
         private itemService: ItemService,
@@ -23,6 +31,7 @@ export class ItemEditComponent implements OnInit {
         private location: Location,
         private alertService: AlertService,
         private loaderService: LoaderService,
+        private errorService: ErrorService,
         private ref: ChangeDetectorRef
     ) {}
 
@@ -51,17 +60,20 @@ export class ItemEditComponent implements OnInit {
 
     updateItem() {
         this.loaderService.displayLoader(true);
+        this.errorService.nullErrors(this.validation);
         this.itemService.updateItem(this.item).subscribe(
-            data => {
+            (data: string) => {
+                this.errorService.nullErrors(this.validation);
                 this.loaderService.displayLoader(false);
-                this.alertService.success('Item updated.');
+                this.alertService.success(data, true);
                 this.ref.markForCheck();
             },
-            error => {
+            errors => {
+                this.errorService.handleErrors(this.validation, errors.error);
                 this.loaderService.displayLoader(false);
-                this.alertService.error("Error updating item! " + error);
                 this.ref.markForCheck();
-                return Observable.throw(error);
+                
+                return Observable.throw(errors);
             }
         );
     }

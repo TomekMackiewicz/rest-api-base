@@ -30,9 +30,6 @@ class ItemController extends FOSRestController implements ClassResourceInterface
      * @param int $id
      * 
      * @return mixed
-     * 
-     * @throws \Doctrine\ORM\NoResultException
-     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getAction(int $id)
     {
@@ -108,14 +105,14 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $form->submit($request->request->all());
 
         if (!$form->isValid()) {
-            $errors = $this->errorHandler->formErrorsToArray($form);
+            $errors = $this->errorHandler->handleFormErrors($form);
             return new View($errors, Response::HTTP_BAD_REQUEST);
         }
 
         $em = $this->getDoctrine()->getManager();
         $em->flush();
 
-        return new View($item, Response::HTTP_OK);
+        return new View('crud.update.success', Response::HTTP_OK);
     }
     
     /**
@@ -140,7 +137,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $form->submit($request->request->all(), false);
 
         if (!$form->isValid()) {
-            $errors = $this->errorHandler->formErrorsToArray($form);
+            $errors = $this->errorHandler->handleFormErrors($form);
             return new View($errors, Response::HTTP_BAD_REQUEST);
         }
         
@@ -149,7 +146,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $em = $this->getDoctrine()->getManager();
         $em->flush();
 
-        return new View($item, Response::HTTP_OK);
+        return new View('crud.update.success', Response::HTTP_OK);
     }
     
     /**

@@ -181,7 +181,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
         $form->submit($request->request->all());
         
         if (!$form->isValid()) {
-            $errors = $this->errorHandler->formErrorsToArray($form);
+            $errors = $this->errorHandler->handleFormErrors($form);
             return new View($errors, Response::HTTP_BAD_REQUEST);
         }
         

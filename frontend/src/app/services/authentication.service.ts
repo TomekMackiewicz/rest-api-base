@@ -85,37 +85,9 @@ export class AuthenticationService {
                 first: password,
                 second: confirmPassword
             } 
-        }).catch((response) => {
-            let error = this.handleError(response);
+        }).catch((error) => {
             return Observable.throw(error)
         });               
-    }
-
-    private handleError(error: any) {
-        let errorResponse = JSON.parse(error._body);
-        if (errorResponse.hasOwnProperty('errors')) {     
-            var errors = new String(this.getErrors(errorResponse.errors));
-        } else {        
-            var errors = new String();
-        }     
-        let errMsg = Object.keys(errors).length !== 0 && errors.constructor !== Object ? 
-            errors : errorResponse.message ? errorResponse.message : 'Something went wrong.';
-
-        return errMsg;
-    }
-    
-    getErrors(formErrors: any): String {       
-        let errors = Object.values(formErrors.children);
-        let msg = new String();
-        for (let err of errors) {
-            if (err.errors) { 
-                msg = msg.concat(err.errors[0]);
-                msg = msg.concat("\n");
-            }           
-        }        
-               
-        return msg;              
-    }    
-        
+    }       
 }
 

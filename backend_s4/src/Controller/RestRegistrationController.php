@@ -7,6 +7,7 @@ use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
+use FOS\RestBundle\View\View;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
 use FOS\UserBundle\Form\Factory\FormFactory;
@@ -16,6 +17,7 @@ use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
@@ -72,7 +74,7 @@ class RestRegistrationController extends FOSRestController implements ClassResou
             $event = new FormEvent($form, $request);
             $this->dispatcher->dispatch(FOSUserEvents::REGISTRATION_FAILURE, $event);
             
-            $errors = $this->errorHandler->formErrorsToArray($form);
+            $errors = $this->errorHandler->handleFormErrors($form);
             return new View($errors, Response::HTTP_BAD_REQUEST);
         }
 

@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Mailer\Mailer;
 use App\Service\ErrorHandler;
-use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
@@ -28,8 +27,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Password management.
  * 
- * @Annotations\Prefix("api/password")
- * @RouteResource("password", pluralize=false)
+ * @RouteResource("api/password", pluralize=false)
  */
 class RestPasswordManagementController extends FOSRestController implements ClassResourceInterface 
 {
@@ -66,7 +64,6 @@ class RestPasswordManagementController extends FOSRestController implements Clas
      * @param Request $request
      * @return JsonResponse
      * 
-     * @Annotations\Post("/reset/request")
      */
     public function requestResetAction(Request $request) 
     {
@@ -145,7 +142,6 @@ class RestPasswordManagementController extends FOSRestController implements Clas
      * @param Request $request
      * @return JsonResponse
      * 
-     * @Annotations\Post("/reset/confirm")
      */
     public function confirmResetAction(Request $request) 
     {
@@ -226,8 +222,6 @@ class RestPasswordManagementController extends FOSRestController implements Clas
      * @throws AccessDeniedHttpException
      * 
      * @ParamConverter("user", class="App:User")
-     *
-     * @Annotations\Post("/{user}/change")
      */
     public function changeAction(Request $request, UserInterface $user) 
     {       

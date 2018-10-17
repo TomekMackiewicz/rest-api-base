@@ -1,23 +1,46 @@
 import { Component, OnInit } from '@angular/core';
+import { Alert, AlertType } from './model/alert';
 import { AlertService } from './alert.service';
-
+ 
 @Component({
+    moduleId: module.id,
     selector: 'alert',
-    templateUrl: './alert.component.html'
+    templateUrl: 'alert.component.html'
 })
-
+ 
 export class AlertComponent {
-    message: any;
-
-    constructor(private alertService: AlertService) {}
-
+    alerts: Alert[] = [];
+ 
+    constructor(private alertService: AlertService) { }
+ 
     ngOnInit() {
-        this.alertService.getMessage()
-            .subscribe(message => { this.message = message });            
+        this.alertService.getAlert().subscribe((alert: Alert) => {
+            if (!alert) {
+                this.alerts = [];
+                return;
+            }
+            this.alerts.push(alert);
+        });
     }
-    
-    removeAlert(message) {
-        this.message = null;
-    }    
-    
+ 
+    removeAlert(alert: Alert) {
+        this.alerts = this.alerts.filter(x => x !== alert);
+    }
+ 
+    cssClass(alert: Alert) {
+        if (!alert) {
+            return;
+        }
+ 
+        switch (alert.type) {
+            case AlertType.Success:
+                return 'alert alert-success';
+            case AlertType.Error:
+                return 'alert alert-danger';
+            case AlertType.Info:
+                return 'alert alert-info';
+            case AlertType.Warning:
+                return 'alert alert-warning';
+        }
+    }
 }

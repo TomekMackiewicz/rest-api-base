@@ -23,7 +23,7 @@
                     <label for="username">Username</label>
                     <input type="text" class="form-control" name="username" 
                            [(ngModel)]="model.username" #username="ngModel" 
-                           required minlength="5" patternValidator 
+                           required minlength="5" 
                     />
                     <div *ngIf="username.invalid && (username.dirty || username.touched)">
                         <div class="help-block" *ngIf="username.errors.required">

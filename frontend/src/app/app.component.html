@@ -101,14 +101,23 @@
                 </li>
             </ul>
         </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+    </div><!-- /.container -->
 </nav>
 <router-outlet name="header"></router-outlet>
 <div *ngIf="objLoaderStatus" id="loaderWrap">
     <img src="/assets/Eclipse.gif" id="loader"> 
 </div>
-<div [@routerAnimations]="prepareRouteTransition(outlet)">    
+<!--tu container-->
+<div [@routerAnimations]="prepareRouteTransition(outlet)">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <alert></alert>
+            </div>
+        </div>
+    </div>    
     <router-outlet #outlet="outlet"></router-outlet>    
 </div>
+<!--tu container-->
 <router-outlet name="footer"></router-outlet>
 

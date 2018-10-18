@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs/Rx';
@@ -19,6 +19,7 @@ export class ItemCreateComponent implements OnInit {
     private item: Item;
     private signature: string = null;
     private status: number;
+    private returnUrl: string;
 
     validation: any = {
         signature: <string> '',
@@ -33,12 +34,14 @@ export class ItemCreateComponent implements OnInit {
         private loaderService: LoaderService,
         private errorService: ErrorService,
         private route: ActivatedRoute,
+        private router: Router,
         private location: Location,
         private ref: ChangeDetectorRef
     ) {}
 
     ngOnInit(): void {
-        this.item = new Item(this.signature, this.status);        
+        this.item = new Item(this.signature, this.status);
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/admin/items';        
     }
 
     goBack(): void {
@@ -53,6 +56,7 @@ export class ItemCreateComponent implements OnInit {
                 this.errorService.nullErrors(this.validation);
                 this.loaderService.displayLoader(false);
                 this.alertService.success(data, true);
+                this.router.navigate([this.returnUrl]);
                 this.ref.markForCheck();
             },
             errors => {

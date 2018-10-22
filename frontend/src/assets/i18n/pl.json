@@ -1,7 +1,19 @@
 {
-  "HOME": {
-    "TITLE": "Witaj!",
-    "SELECT": "Wybierz język"
-  },
-  "DOCUMENTS": "Dokumenty"
+    "ui": {
+        "hello": "Witaj",
+        "login": "Zaloguj",
+        "register": "Zarejestruj się",
+        "select_language": "Wybierz język",
+        "title": "Tytuł"
+    },
+    "form": {
+        "password": "Hasło",
+        "password.forgot": "Zapomniałeś hasła?",        
+        "username": "Nazwa użytkownika",
+        "validation": {
+            "password.required": "Hasło jest wymagane.",
+            "username.required": "Nazwa użytkownika jest wymagana."
+        }        
+    }
+
 }

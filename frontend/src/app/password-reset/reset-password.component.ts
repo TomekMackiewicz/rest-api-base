@@ -10,8 +10,10 @@ import { LoaderService } from '../services/loader.service';
 })
 
 export class ResetPasswordComponent {
-    username: string;
-
+    model: any = {
+        username: <string> ''
+    };
+    
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -27,16 +29,16 @@ export class ResetPasswordComponent {
     resetPassword() {
         this.loaderService.displayLoader(true);
         this.resetPasswordService.resetPassword(
-            this.username
+            this.model.username
         ).subscribe(
             (data: any) => {
                 this.loaderService.displayLoader(false);
-                this.alertService.success('Success', true);// zamienić na json response
+                this.alertService.success(data, true);
                 this.ref.markForCheck();
             },
-            error => {               
+            errors => {               
                 this.loaderService.displayLoader(false);
-                this.alertService.error(error);
+                this.alertService.error(errors.error);
                 this.ref.markForCheck();
             }
         );

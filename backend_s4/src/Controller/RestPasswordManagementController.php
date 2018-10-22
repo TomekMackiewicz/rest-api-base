@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Mailer\Mailer;
 use App\Service\ErrorHandler;
-use FOS\RestBundle\Controller\Annotations\RouteResource;
+use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\View\View;
@@ -27,7 +27,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * Password management.
  * 
- * @RouteResource("api/password", pluralize=false)
+ * @Annotations\Prefix("api/password")
+ * 
  */
 class RestPasswordManagementController extends FOSRestController implements ClassResourceInterface 
 {
@@ -64,6 +65,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
      * @param Request $request
      * @return JsonResponse
      * 
+     * @Annotations\Post("/reset/request") 
      */
     public function requestResetAction(Request $request) 
     {
@@ -142,6 +144,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
      * @param Request $request
      * @return JsonResponse
      * 
+     * @Annotations\Post("/reset/confirm") 
      */
     public function confirmResetAction(Request $request) 
     {
@@ -159,7 +162,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
         if (null === $user) {
             return new JsonResponse(
                 sprintf(
-                    'The user with "confirmation token" does not exist for value "%s"', 
+                    'resetting.wrong_token', 
                     $token
                 ), JsonResponse::HTTP_BAD_REQUEST
             );
@@ -222,6 +225,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
      * @throws AccessDeniedHttpException
      * 
      * @ParamConverter("user", class="App:User")
+     * @Annotations\Post("/{user}/change")
      */
     public function changeAction(Request $request, UserInterface $user) 
     {       

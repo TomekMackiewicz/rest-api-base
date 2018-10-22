@@ -37,12 +37,12 @@ export class ConfirmResetPasswordComponent {
         ).subscribe(
             (data: any) => {
                 this.loaderService.displayLoader(false);
-                this.alertService.success('Success', true);// zamienić na json response
+                this.alertService.success(data, true);
                 this.ref.markForCheck();
             },
-            error => {               
+            errors => { 
                 this.loaderService.displayLoader(false);
-                this.alertService.error(error);
+                this.alertService.error(errors.error);
                 this.ref.markForCheck();
             }
         );

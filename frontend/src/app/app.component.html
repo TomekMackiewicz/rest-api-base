@@ -14,23 +14,33 @@
                 <span class="icon-bar"></span>
             </button>
             <a routerLink="/" routerLinkActive="active" class="navbar-brand">
-                Front
+                {{ 'ui.front' | translate }}
             </a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul *ngIf="isAdmin" class="nav navbar-nav">
                 <li>
                     <a routerLink="/admin/items" routerLinkActive="active">
-                        Items
+                        {{ 'item.items' | translate }}
                     </a>
                 </li>
                 <li>
                     <a routerLink="/admin/users" routerLinkActive="active">
-                        Users
+                        {{ 'user.users' | translate }}
                     </a>
                 </li>                
             </ul>
             <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <select class="navbar-select" 
+                            #langSelect 
+                            (change)="translate.use(langSelect.value)">
+                        <option *ngFor="let lang of translate.getLangs()" 
+                            [value]="lang" 
+                            [selected]="lang === translate.currentLang">{{ lang }}
+                        </option>
+                    </select>
+                </li>                
                 <li class="dropdown">
                     <a href="#"
                        class="dropdown-toggle"
@@ -39,23 +49,23 @@
                        aria-haspopup="true"
                        aria-expanded="false"
                        >
-                        Welcome, {{ username }}
+                        {{ 'ui.hello' | translate }}, {{ username }}
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
                         <li>
                             <a routerLink="/user/profile" routerLinkActive="active">
-                                Profile
+                                {{ 'ui.profile' | translate }}
                             </a>
                         </li>                        
                         <li>
                             <a routerLink="/user/change-password" routerLinkActive="active">
-                                Change password
+                                {{ 'ui.password_change' | translate }}
                             </a>
                         </li>
                         <li>
                             <a routerLink="/logout" routerLinkActive="active">
-                                Logout
+                                {{ 'ui.logout' | translate }}
                             </a>
                         </li>                       
                     </ul>
@@ -80,15 +90,15 @@
                 <span class="icon-bar"></span>
             </button>
             <a routerLink="/" routerLinkActive="active" class="navbar-brand">
-                {{ 'HOME.TITLE' | translate }}
+                {{ 'ui.title' | translate }}
             </a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
-                <li><a routerLink="/register" routerLinkActive="active">Register</a></li>
+                <li><a routerLink="/login" routerLinkActive="active">{{ 'ui.login' | translate }}</a></li>
+                <li><a routerLink="/register" routerLinkActive="active">{{ 'ui.register' | translate }}</a></li>
                 <li>
-                    <a>{{ 'HOME.SELECT' | translate }}</a></li>
+                    <a>{{ 'ui.select_language' | translate }}</a></li>
                 <li>
                     <select class="navbar-select" 
                             #langSelect 

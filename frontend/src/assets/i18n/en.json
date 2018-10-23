@@ -1,7 +1,11 @@
 {
     "ui": {
+        "front": "Front page",
         "hello": "Hello",
         "login": "Login",
+        "logout": "Logout",
+        "password_change": "Change password",
+        "profile": "Profile",
         "register": "Register",
         "select_language": "Select language",
         "title": "Title"
@@ -14,6 +18,12 @@
             "password.required": "Password is required.",
             "username.required": "Username is required."
         }        
+    },
+    "item": {
+        "items": "Items"
+    },
+    "user": {
+        "users": "Users"
     }
 
 }

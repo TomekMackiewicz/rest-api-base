@@ -1,7 +1,11 @@
 {
     "ui": {
+        "front": "Powrót do strony",
         "hello": "Witaj",
         "login": "Zaloguj",
+        "logout": "Wyloguj",
+        "password_change": "Zmień hasło",
+        "profile": "Profil",
         "register": "Zarejestruj się",
         "select_language": "Wybierz język",
         "title": "Tytuł"
@@ -14,6 +18,12 @@
             "password.required": "Hasło jest wymagane.",
             "username.required": "Nazwa użytkownika jest wymagana."
         }        
+    },
+    "item": {
+        "items": "Przedmioty"
+    },
+    "user": {
+        "users": "Użytkownicy"
     }
 
 }

@@ -1,4 +1,12 @@
 {
+    "crud": {
+        "actions": "Działania",
+        "add": "Dodaj",
+        "delete": "Usuń",
+        "delete_confirm": "Czy na pewno chcesz usunąć",
+        "delete_success": "Usunięto.",
+        "edit": "Edytuj"
+    },    
     "ui": {
         "front": "Powrót do strony",
         "hello": "Witaj",
@@ -20,7 +28,12 @@
         }        
     },
     "item": {
-        "items": "Przedmioty"
+        "errors": {
+            "delete": "Błąd usuwania.",
+            "load": "Błąd podczas ładowania."
+        },        
+        "items": "Przedmioty",
+        "signature": "Sygnatura"
     },
     "user": {
         "users": "Użytkownicy"

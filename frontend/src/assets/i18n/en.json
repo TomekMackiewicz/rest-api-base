@@ -1,4 +1,12 @@
 {
+    "crud": {
+        "actions": "Actions",
+        "add": "Add",
+        "delete": "Delete",
+        "delete_confirm": "Are you sure you want to delete",
+        "delete_success": "Deleted.",
+        "edit": "Edit"
+    },
     "ui": {
         "front": "Front page",
         "hello": "Hello",
@@ -20,7 +28,12 @@
         }        
     },
     "item": {
-        "items": "Items"
+        "errors": {
+            "delete": "Error deleteing item.",
+            "load": "Error loading items."
+        },
+        "items": "Items",
+        "signature": "Signature"
     },
     "user": {
         "users": "Users"

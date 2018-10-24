@@ -62,10 +62,10 @@ export class AppComponent implements OnInit, OnDestroy {
         private authenticationService: AuthenticationService,
         private router: Router
     ) {
-        translate.addLangs(["pl", "en", "uk"]);
-        translate.setDefaultLang('pl');
+        translate.addLangs(["pl", "en"]);
+        translate.setDefaultLang('en');
         let browserLang = translate.getBrowserLang();
-        translate.use(browserLang.match(/pl|en/) ? browserLang : 'pl');        
+        translate.use(browserLang.match(/pl|en/) ? browserLang : 'en');        
         this.objLoaderStatus = false;
         this.isLoggedIn = false;
         this.isAdmin = false;        

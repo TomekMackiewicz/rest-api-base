@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+import { TranslateService } from '@ngx-translate/core';
 import { ItemService } from './item.service';
 import { LoaderService } from '../services/loader.service';
 import { AlertService } from '../alert/alert.service';
@@ -10,15 +11,33 @@ import { AlertService } from '../alert/alert.service';
 })
 
 export class ItemListComponent implements OnInit {
-
+    
+    private confirmDelete: <string>;
+    private errorLoading: <string>;
+    private errorDeleting: <string>;
+    private deleted: <string>;
     public items: Array<Object>;
-
+    
     constructor(
         private itemService: ItemService,
         private loaderService: LoaderService,
         private alertService: AlertService,
-        private ref: ChangeDetectorRef
-    ) {}
+        private ref: ChangeDetectorRef,
+        private translate: TranslateService
+    ) {
+        translate.stream('crud.delete_confirm').subscribe(
+            (text: string) => { this.confirmDelete = text }
+        );
+        translate.stream('item.errors.load').subscribe(
+            (text: string) => { this.errorLoading = text }
+        ); 
+        translate.stream('item.errors.delete').subscribe(
+            (text: string) => { this.errorDeleting = text }
+        );         
+        translate.stream('crud.delete_success').subscribe(
+            (text: string) => { this.deleted = text }
+        );               
+    }
 
     ngOnInit() {
         this.getItems();
@@ -33,7 +52,7 @@ export class ItemListComponent implements OnInit {
                 this.ref.detectChanges();
             },
             error => {
-                this.alertService.error("Error loading items! " + error);
+                this.alertService.error(this.errorLoading);
                 this.loaderService.displayLoader(false);
                 this.ref.detectChanges();
                 return Observable.throw(error);
@@ -41,20 +60,20 @@ export class ItemListComponent implements OnInit {
         );
     }
 
-    deleteItem(item: any) {
-        if (confirm("Are you sure you want to delete " + item.signature + "?")) {
+    deleteItem(item: any) {  
+        if (confirm(this.confirmDelete + ' ' + item.signature + "?")) {    
             this.loaderService.displayLoader(true);
             this.itemService.deleteItem(item).subscribe(
                 data => {
                     this.getItems();
-                    this.loaderService.displayLoader(false); // potrzebne tu?
-                    this.ref.markForCheck(); // potrzebne tu?
-                    this.alertService.success("Item deleted.");
+                    this.loaderService.displayLoader(false);
+                    this.ref.markForCheck();
+                    this.alertService.success(this.deleted);
                 },
                 error => {
                     this.loaderService.displayLoader(false);
                     this.ref.markForCheck();                    
-                    this.alertService.error("Error deleting item! " + error);
+                    this.alertService.error(this.errorDeleting);
                     return Observable.throw(error);
                 }
             );

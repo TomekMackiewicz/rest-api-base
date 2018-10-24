@@ -1,20 +1,20 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h3>Items</h3>
+            <h3>{{ 'item.items' | translate }}</h3>
             <alert></alert>
-            <button class="btn btn-default" [routerLink]="['/admin/items/create']">Add new</button>
+            <button class="btn btn-default" [routerLink]="['/admin/items/create']">{{ 'crud.add' | translate }}</button>
             <hr>
             <table class="table">
                 <tr>
-                    <th>Signature</th>
-                    <th>Actions</th>
+                    <th>{{ 'item.signature' | translate }}</th>
+                    <th>{{ 'crud.actions' | translate }}</th>
                 </tr>
                 <tr *ngFor="let item of items">
-                    <td>{{item.signature}}</td>
+                    <td>{{ item.signature }}</td>
                     <td>
-                        <button class="btn btn-primary" [routerLink]="['/admin/items', item.id]">Edit</button>
-                        <button class="btn btn-danger" (click)="deleteItem(item)">Delete</button>
+                        <button class="btn btn-primary" [routerLink]="['/admin/items', item.id]">{{ 'crud.edit' | translate }}</button>
+                        <button class="btn btn-danger" (click)="deleteItem(item)">{{ 'crud.delete' | translate }}</button>
                     </td>
                 </tr>
             </table>

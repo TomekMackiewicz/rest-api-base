@@ -33,7 +33,7 @@ export class UserListComponent implements OnInit {
                 this.ref.detectChanges();
             },
             error => {
-                this.alertService.error("Error loading users! " + error);
+                this.alertService.error("Error loading users."); // trans
                 this.loaderService.displayLoader(false);
                 this.ref.detectChanges();
                 return Observable.throw(error);
@@ -47,14 +47,14 @@ export class UserListComponent implements OnInit {
             this.userService.deleteUser(user).subscribe(
                 data => {
                     this.getUsers();
-                    this.loaderService.displayLoader(false); // potrzebne tu?
-                    this.ref.markForCheck(); // potrzebne tu?
-                    this.alertService.success("User deleted.");
+                    this.loaderService.displayLoader(false);
+                    this.ref.markForCheck();
+                    this.alertService.success("User deleted."); // trans
                 },
                 error => {
                     this.loaderService.displayLoader(false);
                     this.ref.markForCheck();                    
-                    this.alertService.error("Error deleting user: " + error);
+                    this.alertService.error("Error deleting user."); // trans
                     return Observable.throw(error);
                 }
             );
@@ -67,14 +67,14 @@ export class UserListComponent implements OnInit {
         this.userService.toogleUserStatus(user).subscribe(
             data => {
                 this.getUsers();
-                this.loaderService.displayLoader(false); // potrzebne tu?
-                this.ref.markForCheck(); // potrzebne tu?
-                this.alertService.success("User status changed.");
+                this.loaderService.displayLoader(false);
+                this.ref.markForCheck();
+                this.alertService.success("User status changed."); // trans
             },
             error => {
                 this.loaderService.displayLoader(false);
                 this.ref.markForCheck();                    
-                this.alertService.error("Error changing user status: " + error);
+                this.alertService.error("Error changing user status."); // trans
                 return Observable.throw(error);
             }
         );

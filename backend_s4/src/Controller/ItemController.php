@@ -80,7 +80,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $em->persist($item);
         $em->flush();
         
-        return new View('crud.create.success', Response::HTTP_CREATED);
+        return new View('crud.create_success', Response::HTTP_CREATED);
     }
     
     /**

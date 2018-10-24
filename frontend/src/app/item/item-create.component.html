@@ -1,34 +1,34 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h2>Create item</h2>
+            <h2>{{ 'crud.add' | translate }}</h2>
             <alert></alert>
             <form *ngIf="item" name="form" (ngSubmit)="f.form.valid && createItem(item.signature, item.status)" #f="ngForm" novalidate>
                 <div class="form-group" [ngClass]="{ 'has-error': (f.submitted && !signature.valid) || (f.submitted && !validation.signature) }">
-                    <label for="item-signature">Signature</label>
+                    <label for="item-signature">{{ 'item.signature' | translate }}</label>
                     <input type="text"
                            class="form-control"
                            id="item-signature"
                            name="item-signature"
                            [(ngModel)]="item.signature"
                            #signature="ngModel">
-                    <div *ngIf="!validation.signature" class="help-block">{{ validation.signatureMsg }}</div>
+                    <div *ngIf="!validation.signature" class="help-block">{{ validation.signatureMsg | translate }}</div>
                 </div>
                 <div class="form-group" [ngClass]="{ 'has-error': (f.submitted && !status.valid) || (f.submitted && !validation.status) }">
-                    <label for="item-status">Status</label>
+                    <label for="item-status">{{ 'item.status' | translate }}</label>
                     <input type="text"
                            class="form-control"
                            id="item-status"
                            name="item-status"
                            [(ngModel)]="item.status"
                            #status="ngModel">
-                    <div *ngIf="!validation.status" class="help-block">{{ validation.statusMsg }}</div>
+                    <div *ngIf="!validation.status" class="help-block">{{ validation.statusMsg | translate }}</div>
                 </div>                
                 <div class="form-group">
-                    <button class="btn btn-primary">Save</button>
+                    <button class="btn btn-primary">{{ 'crud.save' | translate }}</button>
                 </div>                
             </form>
-            <button class="btn btn-default" (click)="goBack()">Back</button>
+            <button class="btn btn-default" (click)="goBack()">{{ 'ui.back' | translate }}</button>
         </div>
     </div>
 </div>

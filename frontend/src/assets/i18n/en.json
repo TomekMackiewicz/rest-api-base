@@ -2,25 +2,18 @@
     "crud": {
         "actions": "Actions",
         "add": "Add",
+        "create_success": "Created successfully",
         "delete": "Delete",
         "delete_confirm": "Are you sure you want to delete",
         "delete_success": "Deleted.",
-        "edit": "Edit"
-    },
-    "ui": {
-        "front": "Front page",
-        "hello": "Hello",
-        "login": "Login",
-        "logout": "Logout",
-        "password_change": "Change password",
-        "profile": "Profile",
-        "register": "Register",
-        "select_language": "Select language",
-        "title": "Title"
+        "duplicated": "This value is already in use.",
+        "edit": "Edit",
+        "save": "Save"
     },
     "form": {
         "password": "Password",
-        "password.forgot": "Forgot password?",        
+        "password.forgot": "Forgot password?",
+        "required": "This field is reguired.",
         "username": "Username",
         "validation": {
             "password.required": "Password is required.",
@@ -33,7 +26,20 @@
             "load": "Error loading items."
         },
         "items": "Items",
-        "signature": "Signature"
+        "signature": "Signature",
+        "status": "Status"
+    },    
+    "ui": {
+        "back": "Go back",
+        "front": "Front page",
+        "hello": "Hello",
+        "login": "Login",
+        "logout": "Logout",
+        "password_change": "Change password",
+        "profile": "Profile",
+        "register": "Register",
+        "select_language": "Select language",
+        "title": "Title"
     },
     "user": {
         "users": "Users"

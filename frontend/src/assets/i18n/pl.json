@@ -2,25 +2,18 @@
     "crud": {
         "actions": "Działania",
         "add": "Dodaj",
+        "create_success": "Utworzono.",
         "delete": "Usuń",
         "delete_confirm": "Czy na pewno chcesz usunąć",
         "delete_success": "Usunięto.",
-        "edit": "Edytuj"
-    },    
-    "ui": {
-        "front": "Powrót do strony",
-        "hello": "Witaj",
-        "login": "Zaloguj",
-        "logout": "Wyloguj",
-        "password_change": "Zmień hasło",
-        "profile": "Profil",
-        "register": "Zarejestruj się",
-        "select_language": "Wybierz język",
-        "title": "Tytuł"
+        "duplicated": "Ta nazwa jest już zajęta.",
+        "edit": "Edytuj",
+        "save": "Zapisz"
     },
     "form": {
         "password": "Hasło",
-        "password.forgot": "Zapomniałeś hasła?",        
+        "password.forgot": "Zapomniałeś hasła?",
+        "required": "To pole jest wymagane.",
         "username": "Nazwa użytkownika",
         "validation": {
             "password.required": "Hasło jest wymagane.",
@@ -33,7 +26,20 @@
             "load": "Błąd podczas ładowania."
         },        
         "items": "Przedmioty",
-        "signature": "Sygnatura"
+        "signature": "Sygnatura",
+        "status": "Status"
+    },    
+    "ui": {
+        "back": "Wróć",
+        "front": "Powrót do strony",
+        "hello": "Witaj",
+        "login": "Zaloguj",
+        "logout": "Wyloguj",
+        "password_change": "Zmień hasło",
+        "profile": "Profil",
+        "register": "Zarejestruj się",
+        "select_language": "Wybierz język",
+        "title": "Tytuł"
     },
     "user": {
         "users": "Użytkownicy"

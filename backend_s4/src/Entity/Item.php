@@ -5,12 +5,17 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMSSerializer;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Item
  *
  * @ORM\Table(name="items")
  * @ORM\Entity(repositoryClass="App\Repository\ItemRepository")
+ * @UniqueEntity(
+ *     fields={"signature"},
+ *     message="crud.duplicated"
+ * )
  * @JMSSerializer\ExclusionPolicy("all")
  */
 class Item implements \JsonSerializable
@@ -29,7 +34,7 @@ class Item implements \JsonSerializable
      * @var string
      *
      * @ORM\Column(name="signature", type="string", length=32, unique=true)
-     * @Assert\NotBlank(message="Please enter a signature")
+     * @Assert\NotBlank(message="form.required")
      * @JMSSerializer\Expose
      */
     private $signature;
@@ -38,7 +43,7 @@ class Item implements \JsonSerializable
      * @var int
      *
      * @ORM\Column(name="status", type="integer")
-     * @Assert\NotBlank(message="Please enter a status")
+     * @Assert\NotBlank(message="form.required")
      * @JMSSerializer\Expose
      */
     private $status;

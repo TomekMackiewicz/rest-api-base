@@ -47,7 +47,7 @@ export class ItemEditComponent implements OnInit {
                 },
                 error => {
                     this.loaderService.displayLoader(false);
-                    this.alertService.error("Error loading item! " + error);
+                    this.alertService.error(error.error.message);
                     this.ref.detectChanges();
                     return Observable.throw(error);
                 }                

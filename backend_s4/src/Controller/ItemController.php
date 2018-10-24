@@ -112,7 +112,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $em = $this->getDoctrine()->getManager();
         $em->flush();
 
-        return new View('crud.update.success', Response::HTTP_OK);
+        return new View('crud.update_success', Response::HTTP_OK);
     }
     
     /**
@@ -146,7 +146,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $em = $this->getDoctrine()->getManager();
         $em->flush();
 
-        return new View('crud.update.success', Response::HTTP_OK);
+        return new View('crud.update_success', Response::HTTP_OK);
     }
     
     /**

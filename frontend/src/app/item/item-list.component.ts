@@ -13,9 +13,6 @@ import { AlertService } from '../alert/alert.service';
 export class ItemListComponent implements OnInit {
     
     private confirmDelete: <string>;
-    private errorLoading: <string>;
-    private errorDeleting: <string>;
-    private deleted: <string>;
     public items: Array<Object>;
     
     constructor(
@@ -27,15 +24,6 @@ export class ItemListComponent implements OnInit {
     ) {
         translate.stream('crud.delete_confirm').subscribe(
             (text: string) => { this.confirmDelete = text }
-        );
-        translate.stream('item.errors.load').subscribe(
-            (text: string) => { this.errorLoading = text }
-        ); 
-        translate.stream('item.errors.delete').subscribe(
-            (text: string) => { this.errorDeleting = text }
-        );         
-        translate.stream('crud.delete_success').subscribe(
-            (text: string) => { this.deleted = text }
         );               
     }
 
@@ -52,7 +40,7 @@ export class ItemListComponent implements OnInit {
                 this.ref.detectChanges();
             },
             error => {
-                this.alertService.error(this.errorLoading);
+                this.alertService.error(error.error.message);
                 this.loaderService.displayLoader(false);
                 this.ref.detectChanges();
                 return Observable.throw(error);
@@ -68,12 +56,13 @@ export class ItemListComponent implements OnInit {
                     this.getItems();
                     this.loaderService.displayLoader(false);
                     this.ref.markForCheck();
-                    this.alertService.success(this.deleted);
+                    this.alertService.success(data);
                 },
                 error => {
+                    console.log(error);
                     this.loaderService.displayLoader(false);
                     this.ref.markForCheck();                    
-                    this.alertService.error(this.errorDeleting);
+                    this.alertService.error(error.error.message);
                     return Observable.throw(error);
                 }
             );

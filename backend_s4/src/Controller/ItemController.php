@@ -150,7 +150,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
     }
     
     /**
-     * Deletes item entity.
+     * Delete item entity.
      * 
      * @param int $id
      * 
@@ -168,7 +168,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         $em->remove($item);
         $em->flush();
 
-        return new View(null, Response::HTTP_NO_CONTENT);
+        return new View('crud.delete_success', Response::HTTP_OK);
     }
 
     /**

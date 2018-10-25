@@ -42,6 +42,14 @@
         "title": "Title"
     },
     "user": {
+        "disabled": "Disabled",
+        "email": "E-mail",
+        "enabled": "Enabled",
+        "last_login": "Last login",
+        "roles": "Roles",
+        "status": "Status",
+        "status_change": "User status changed.",
+        "username": "Username",
         "users": "Users"
     }
 

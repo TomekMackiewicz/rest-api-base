@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+import { TranslateService } from '@ngx-translate/core';
 import { UserService } from './user.service';
 import { LoaderService } from '../services/loader.service';
 import { AlertService } from '../alert/alert.service';
@@ -11,14 +12,20 @@ import { AlertService } from '../alert/alert.service';
 
 export class UserListComponent implements OnInit {
 
+    private confirmDelete: string;
     public users: Array<Object>;
 
     constructor(
         private userService: UserService,
         private loaderService: LoaderService,
         private alertService: AlertService,
-        private ref: ChangeDetectorRef
-    ) {}
+        private ref: ChangeDetectorRef,
+        private translate: TranslateService
+    ) {
+        translate.stream('crud.delete_confirm').subscribe(
+            (text: string) => { this.confirmDelete = text }
+        );
+    }
 
     ngOnInit() {
         this.getUsers();
@@ -33,7 +40,7 @@ export class UserListComponent implements OnInit {
                 this.ref.detectChanges();
             },
             error => {
-                this.alertService.error("Error loading users."); // trans
+                this.alertService.error(error.error.message);
                 this.loaderService.displayLoader(false);
                 this.ref.detectChanges();
                 return Observable.throw(error);
@@ -42,19 +49,19 @@ export class UserListComponent implements OnInit {
     }
 
     deleteUser(user: any) {
-        if (confirm("Are you sure you want to delete user " + user.username + "?")) {
+        if (confirm(this.confirmDelete + ' ' +  user.username + "?")) {
             this.loaderService.displayLoader(true);
             this.userService.deleteUser(user).subscribe(
                 data => {
                     this.getUsers();
                     this.loaderService.displayLoader(false);
                     this.ref.markForCheck();
-                    this.alertService.success("User deleted."); // trans
+                    this.alertService.success(data);
                 },
                 error => {
                     this.loaderService.displayLoader(false);
                     this.ref.markForCheck();                    
-                    this.alertService.error("Error deleting user."); // trans
+                    this.alertService.error(error.error.message); // @fixme (translate)
                     return Observable.throw(error);
                 }
             );
@@ -69,12 +76,12 @@ export class UserListComponent implements OnInit {
                 this.getUsers();
                 this.loaderService.displayLoader(false);
                 this.ref.markForCheck();
-                this.alertService.success("User status changed."); // trans
+                this.alertService.success(data);
             },
             error => {
                 this.loaderService.displayLoader(false);
                 this.ref.markForCheck();                    
-                this.alertService.error("Error changing user status."); // trans
+                this.alertService.error(error.error.message); // @fixme (translate)
                 return Observable.throw(error);
             }
         );

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+// @Fixme - remove unused
 use App\Entity\User;
 use FOS\RestBundle\View\View;
 use FOS\RestBundle\Controller\Annotations;
@@ -68,7 +68,7 @@ class UserController extends FOSRestController implements ClassResourceInterface
         $em->remove($user);
         $em->flush();
 
-        return new View(null, Response::HTTP_NO_CONTENT);
+        return new View('crud.delete_success', Response::HTTP_OK);
     }
 
     /**
@@ -104,11 +104,7 @@ class UserController extends FOSRestController implements ClassResourceInterface
             '_format' => $request->get('_format'),
         ];
 
-        return $this->routeRedirectView(
-            'get_users', 
-            $routeOptions, 
-            Response::HTTP_NO_CONTENT
-        );
+        return new View('user.status_change', Response::HTTP_OK);
     }    
     
     /**

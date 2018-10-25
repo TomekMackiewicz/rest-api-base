@@ -1,16 +1,16 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h3>Users</h3>
+            <h3>{{ 'user.users' | translate }}</h3>
             <alert></alert>
             <table class="table">
                 <tr>
-                    <th>Username</th>
-                    <th>Email</th>                   
-                    <th>Roles</th>
-                    <th>Last login</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th>{{ 'user.username' | translate }}</th>
+                    <th>{{ 'user.email' | translate }}</th>                   
+                    <th>{{ 'user.roles' | translate }}</th>
+                    <th>{{ 'user.last_login' | translate }}</th>
+                    <th>{{ 'user.status' | translate }}</th>
+                    <th>{{ 'crud.actions' | translate }}</th>
                 </tr>
                 <tr *ngFor="let user of users">
                     <td>{{ user.username }}</td>
@@ -23,13 +23,13 @@
                     </ng-template>                
                     <td>{{ user.lastLogin | date:'dd.MM.y HH:mm' }}</td>                    
                     <td *ngIf="user.enabled; else userDisabled">
-                        <button class="btn btn-success btn-sm" (click)="toogleUserStatus(user)">Enabled</button>
+                        <button class="btn btn-success btn-sm" (click)="toogleUserStatus(user)">{{ 'user.enabled' | translate }}</button>
                     </td>
                     <ng-template #userDisabled>
-                        <td><button class="btn btn-danger btn-sm" (click)="toogleUserStatus(user)">Disabled</button></td>
+                        <td><button class="btn btn-danger btn-sm" (click)="toogleUserStatus(user)">{{ 'user.disabled' | translate }}</button></td>
                     </ng-template>
                     <td>
-                        <button class="btn btn-danger btn-sm" (click)="deleteUser(user)">Delete</button>
+                        <button class="btn btn-danger btn-sm" (click)="deleteUser(user)">{{ 'crud.delete' | translate }}</button>
                     </td>
                 </tr>
             </table>

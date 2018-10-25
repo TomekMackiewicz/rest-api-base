@@ -42,6 +42,14 @@
         "title": "Tytuł"
     },
     "user": {
+        "disabled": "Zablokowany",
+        "email": "E-mail",
+        "enabled": "Aktywny",
+        "last_login": "Ostatnie logowanie",
+        "roles": "Role",
+        "status": "Status",
+        "status_change": "Status został zmieniony.",
+        "username": "Nazwa",        
         "users": "Użytkownicy"
     }
 

@@ -12,7 +12,7 @@ import { AlertService } from '../alert/alert.service';
 
 export class ItemListComponent implements OnInit {
     
-    private confirmDelete: <string>;
+    private confirmDelete: string;
     public items: Array<Object>;
     
     constructor(
@@ -40,7 +40,7 @@ export class ItemListComponent implements OnInit {
                 this.ref.detectChanges();
             },
             error => {
-                this.alertService.error(error.error.message);
+                this.alertService.error(error.error.message); // @fixme (translate)
                 this.loaderService.displayLoader(false);
                 this.ref.detectChanges();
                 return Observable.throw(error);
@@ -59,10 +59,9 @@ export class ItemListComponent implements OnInit {
                     this.alertService.success(data);
                 },
                 error => {
-                    console.log(error);
                     this.loaderService.displayLoader(false);
                     this.ref.markForCheck();                    
-                    this.alertService.error(error.error.message);
+                    this.alertService.error(error.error.message); // @fixme (translate)
                     return Observable.throw(error);
                 }
             );

@@ -12,11 +12,19 @@
     },
     "form": {
         "password": "Hasło",
+        "password_change": "Zmień hasło",
+        "password_confirm": "Potwierdź hasło",
+        "password_current": "Aktualne hasło",        
         "password.forgot": "Zapomniałeś hasła?",
+        "password_mismatch": "Niezgodność haseł.",
+        "password_new": "Nowe hasło",
         "required": "To pole jest wymagane.",
         "username": "Nazwa użytkownika",
         "validation": {
+            "password.invalid": "Niepoprawne hasło.",
+            "password.regex": "Hasło musi zawierać co najmniej jedną dużą literę i cyfrę.",
             "password.required": "Hasło jest wymagane.",
+            "password.too_short": "Hasło musi się składać z co najmniej 6. znaków.",
             "username.required": "Nazwa użytkownika jest wymagana."
         }        
     },

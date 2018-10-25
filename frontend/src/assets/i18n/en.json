@@ -12,11 +12,19 @@
     },
     "form": {
         "password": "Password",
+        "password_change": "Change password",
+        "password_confirm": "Confirm password",
+        "password_current": "Current password",
         "password.forgot": "Forgot password?",
+        "password_mismatch": "Password mismatch.",
+        "password_new": "New password",
         "required": "This field is reguired.",
         "username": "Username",
         "validation": {
+            "password.invalid": "Invalid password.",
+            "password.regex": "Password must contain at least one uppercase and one digit.",
             "password.required": "Password is required.",
+            "password.too_short": "Password must be at least 6 characters long.",
             "username.required": "Username is required."
         }        
     },

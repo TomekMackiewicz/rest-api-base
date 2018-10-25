@@ -52,11 +52,11 @@ export class ItemListComponent implements OnInit {
         if (confirm(this.confirmDelete + ' ' + item.signature + "?")) {    
             this.loaderService.displayLoader(true);
             this.itemService.deleteItem(item).subscribe(
-                data => {
+                (data: string) => {
                     this.getItems();
                     this.loaderService.displayLoader(false);
                     this.ref.markForCheck();
-                    this.alertService.success(data);
+                    this.alertService.success(data, true);
                 },
                 error => {
                     this.loaderService.displayLoader(false);

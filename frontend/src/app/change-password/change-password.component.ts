@@ -20,10 +20,8 @@ export class ChangePasswordComponent {
     validation: any = {
         currentPassword: <boolean> true,
         first: <boolean> true,
-        second: <boolean> true,
         currentPasswordMsg: <string> '',
-        firstMsg: <string> '',
-        secondMsg: <string> ''
+        firstMsg: <string> ''
     };    
 
     constructor(

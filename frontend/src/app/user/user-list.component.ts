@@ -52,7 +52,7 @@ export class UserListComponent implements OnInit {
         if (confirm(this.confirmDelete + ' ' +  user.username + "?")) {
             this.loaderService.displayLoader(true);
             this.userService.deleteUser(user).subscribe(
-                data => {
+                (data: string) => {
                     this.getUsers();
                     this.loaderService.displayLoader(false);
                     this.ref.markForCheck();
@@ -72,7 +72,7 @@ export class UserListComponent implements OnInit {
         user.enabled = user.enabled ? false : true;
         this.loaderService.displayLoader(true);
         this.userService.toogleUserStatus(user).subscribe(
-            data => {
+            (data: string) => {
                 this.getUsers();
                 this.loaderService.displayLoader(false);
                 this.ref.markForCheck();

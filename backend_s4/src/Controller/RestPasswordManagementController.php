@@ -225,7 +225,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
      * @throws AccessDeniedHttpException
      * 
      * @ParamConverter("user", class="App:User")
-     * @Annotations\Post("/{user}/change")
+     * @Annotations\Patch("/{user}/change")
      */
     public function changeAction(Request $request, UserInterface $user) 
     {       

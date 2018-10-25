@@ -46,6 +46,7 @@
         "email": "E-mail",
         "enabled": "Aktywny",
         "last_login": "Ostatnie logowanie",
+        "profile": "Profil użytkownika",
         "roles": "Role",
         "status": "Status",
         "status_change": "Status został zmieniony.",

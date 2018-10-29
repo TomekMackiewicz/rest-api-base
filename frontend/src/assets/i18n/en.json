@@ -21,11 +21,15 @@
         "required": "This field is reguired.",
         "username": "Username",
         "validation": {
+            "email.invalid": "Email is not valid.",
+            "email.required": "Email is required.",
             "password.invalid": "Invalid password.",
             "password.regex": "Password must contain at least one uppercase and one digit.",
             "password.required": "Password is required.",
             "password.too_short": "Password must be at least 6 characters long.",
-            "username.required": "Username is required."
+            "username.regex": "Username must contain at least one uppercase.",
+            "username.required": "Username is required.",
+            "username.too_short": "Username must be at least 5 characters long."
         }        
     },
     "item": {
@@ -52,13 +56,16 @@
     "user": {
         "disabled": "Disabled",
         "email": "E-mail",
+        "email.duplicated": "This email is already in use.",
         "enabled": "Enabled",
         "last_login": "Last login",
         "profile": "User profile",
+        "register.success": "The user has been created successfully.",
         "roles": "Roles",
         "status": "Status",
         "status_change": "User status changed.",
         "username": "Username",
+        "username.duplicated": "This username is already in use.",
         "users": "Users"
     }
 

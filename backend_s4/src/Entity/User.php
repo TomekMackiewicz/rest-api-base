@@ -13,8 +13,15 @@ use JMS\Serializer\Annotation as JMSSerializer;
  * @ORM\Entity
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity("email")
+ * @UniqueEntity(
+ *     fields={"email"},
+ *     message="user.email.duplicated"
+ * )
  * @UniqueEntity("username")
+ * @UniqueEntity(
+ *     fields={"username"},
+ *     message="user.username.duplicated"
+ * )
  * @JMSSerializer\ExclusionPolicy("all")
  */
 class User extends BaseUser

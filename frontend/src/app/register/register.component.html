@@ -1,75 +1,75 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-md-offset-4">
-            <h2>Register</h2>
+            <h2>{{ 'ui.register' | translate }}</h2>
             <alert></alert>
             <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
                 <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !validation.email }">
-                    <label for="email">E-mail</label>
+                    <label for="email">{{ 'user.email' | translate }}</label>
                     <input type="email" class="form-control" name="email" 
                            [(ngModel)]="model.email" #email="ngModel" email required 
                     />
                     <div *ngIf="email.invalid && (email.dirty || email.touched)">
                         <div class="help-block" *ngIf="email.errors.required">
-                            Email is required.
+                            {{ 'form.validation.email.required' | translate }}
                         </div>
                         <div class="help-block" *ngIf="email.errors?.email"> 
-                            Email is not valid.
+                            {{ 'form.validation.email.invalid' | translate }}
                         </div>                        
                     </div>
-                    <div *ngIf="!validation.email" class="help-block">{{ validation.emailMsg }}</div>
+                    <div *ngIf="!validation.email" class="help-block">{{ validation.emailMsg | translate }}</div>
                 </div>                  
                 <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !validation.username }">
-                    <label for="username">Username</label>
+                    <label for="username">{{ 'user.username' | translate }}</label>
                     <input type="text" class="form-control" name="username" 
                            [(ngModel)]="model.username" #username="ngModel" 
                            required minlength="5" 
                     />
                     <div *ngIf="username.invalid && (username.dirty || username.touched)">
                         <div class="help-block" *ngIf="username.errors.required">
-                            Name is required.
+                            {{ 'form.validation.username.required' | translate }}
                         </div>
                         <div class="help-block" *ngIf="username.errors.minlength">
-                            Name must be at least 5 characters long.
+                            {{ 'form.validation.username.too_short' | translate }}
                         </div>
                         <div class="help-block" *ngIf="username.errors.patternValidator">
-                            Name must contain at least one uppercase and one digit.
+                            {{ 'form.validation.username.regex' | translate }}
                         </div>
                     </div>
-                    <div *ngIf="!validation.username" class="help-block">{{ validation.usernameMsg }}</div>
+                    <div *ngIf="!validation.username" class="help-block">{{ validation.usernameMsg | translate }}</div>
                 </div>         
                 <div class="form-group">
-                    <label for="password">Password</label>
+                    <label for="password">{{ 'form.password' | translate }}</label>
                     <input type="password" class="form-control" name="password" 
                            [(ngModel)]="model.password" #password="ngModel" required minlength="6" 
                            patternValidator validateEqual="confirmPassword" reverse="true" 
                     />
                     <div *ngIf="password.invalid && (password.dirty || password.touched)">
                         <div class="help-block" *ngIf="password.errors.required">
-                            Password is required.
+                            {{ 'form.validation.password.required' | translate }}
                         </div>
                         <div class="help-block" *ngIf="password.errors.minlength">
-                            Password must be at least 6 characters long.
+                            {{ 'form.validation.password.too_short' | translate }}
                         </div>
                         <div class="help-block" *ngIf="password.errors.patternValidator">
-                            Password must contain at least one uppercase and one digit.
+                            {{ 'form.validation.password.regex' | translate }}
                         </div>                        
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="confirmPassword">Confirm Password</label>
+                    <label for="confirmPassword">{{ 'form.password_confirm' | translate }}</label>
                     <input type="password" class="form-control" name="confirmPassword" 
                            [(ngModel)]="model.confirmPassword" #confirmPassword="ngModel" 
                            required validateEqual="password" 
                     />
                     <div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">
                         <div class="help-block">
-                            Password mismatch.
+                            {{ 'form.password_mismatch' | translate }}
                         </div>
                     </div>                  
                 </div>                  
                 <div class="form-group">
-                    <button class="btn btn-primary">Register</button>
+                    <button class="btn btn-primary">{{ 'ui.register' | translate }}</button>
                 </div>
             </form>
         </div>

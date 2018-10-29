@@ -21,11 +21,15 @@
         "required": "To pole jest wymagane.",
         "username": "Nazwa użytkownika",
         "validation": {
+            "email.invalid": "Niepoprawny adres e-mail.",
+            "email.required": "E-mail jest wymagany.",            
             "password.invalid": "Niepoprawne hasło.",
             "password.regex": "Hasło musi zawierać co najmniej jedną dużą literę i cyfrę.",
             "password.required": "Hasło jest wymagane.",
-            "password.too_short": "Hasło musi się składać z co najmniej 6. znaków.",
-            "username.required": "Nazwa użytkownika jest wymagana."
+            "password.too_short": "Hasło musi się składać z co najmniej 5 znaków.",
+            "username.regex": "Nazwa użytkownika musi zawierać co najmniej jedną wielką literę.",
+            "username.required": "Nazwa użytkownika jest wymagana.",
+            "username.too_short": "Nazwa użytkownika musi się składać z co najmniej 6 znaków."
         }        
     },
     "item": {
@@ -52,13 +56,16 @@
     "user": {
         "disabled": "Zablokowany",
         "email": "E-mail",
+        "email.duplicated": "Ten email jest już zarejestrowany.",
         "enabled": "Aktywny",
         "last_login": "Ostatnie logowanie",
         "profile": "Profil użytkownika",
+        "register.success": "Użytkownik został zarejestrowany.",
         "roles": "Role",
         "status": "Status",
         "status_change": "Status został zmieniony.",
-        "username": "Nazwa",        
+        "username": "Nazwa", 
+        "username.duplicated": "Ta nazwa użytkownika jest już zajęta.",
         "users": "Użytkownicy"
     }
 

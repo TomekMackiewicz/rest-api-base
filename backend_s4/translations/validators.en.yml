@@ -19,4 +19,4 @@ fos_user:
         short: 'The new password is too short.'
     current_password:
         invalid: 'form.validation.password.invalid'
-# @ fixme - translate the rest of strings
+# @fixme - translate the rest of strings

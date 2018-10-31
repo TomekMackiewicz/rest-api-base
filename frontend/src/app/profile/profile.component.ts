@@ -28,14 +28,12 @@ export class ProfileComponent implements OnInit {
         this.loaderService.displayLoader(true);
         this.profileService.getUser(parseInt(localStorage.getItem('userId')))
             .subscribe(
-                (data: User) => { 
-                    console.log(data);
+                (data: User) => {
                     this.loaderService.displayLoader(false);
                     this.user = data; 
                     this.ref.detectChanges();
                 },
                 error => {
-                    console.log(error);
                     this.loaderService.displayLoader(false);
                     this.alertService.error("Error loading user profile! " + error);
                     this.ref.detectChanges();

@@ -93,7 +93,7 @@ class RestApiContext implements Context
     {        
         try {
 
-            $this->iSendARequest('POST', 'login', [
+            $this->iSendARequest('POST', 'api/login_check', [
                 'json' => [
                     'username' => $username,
                     'password' => $password,

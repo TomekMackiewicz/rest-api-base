@@ -13,7 +13,7 @@ fos_user:
     password:
         blank: 'Please enter a password.'
         short: 'The password is too short.'
-        mismatch: 'The entered passwords don''t match.'
+        mismatch: 'form.password_mismatch'
     new_password:
         blank: 'Please enter a new password.'
         short: 'The new password is too short.'

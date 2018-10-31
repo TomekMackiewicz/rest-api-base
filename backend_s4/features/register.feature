@@ -78,4 +78,4 @@ Feature: Handle user registration via the RESTful API
       }
       """
     Then the response code should be 400
-And the response should contain "The entered passwords don't match"
+And the response should contain "form.password_mismatch"

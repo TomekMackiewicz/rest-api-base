@@ -258,12 +258,8 @@ class RestPasswordManagementController extends FOSRestController implements Clas
 
         if (null === $response = $event->getResponse()) {
             return new JsonResponse(
-                $this->get('translator')
-                    ->trans(
-                        'change_password.flash.success', 
-                        [], 
-                        'FOSUserBundle'
-                    ), JsonResponse::HTTP_OK
+                'change_password.flash.success', 
+                JsonResponse::HTTP_OK
             );
         }
 
@@ -272,12 +268,8 @@ class RestPasswordManagementController extends FOSRestController implements Clas
             new FilterUserResponseEvent($user, $request, $response));
 
         return new JsonResponse(
-            $this->get('translator')
-                ->trans(
-                    'change_password.flash.success', 
-                    [], 
-                    'FOSUserBundle'
-                ), JsonResponse::HTTP_OK
+            'change_password.flash.success', 
+             JsonResponse::HTTP_OK
         );
     }
 

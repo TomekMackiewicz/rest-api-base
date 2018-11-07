@@ -8,8 +8,8 @@ security:
 
     providers:
         fos_userbundle:
-            #fos_user.user_provider.username_email - to log in also with email
-            id: fos_user.user_provider.username 
+            id: fos_user.user_provider.username_email
+            #id: fos_user.user_provider.username 
             
     firewalls:
         dev:

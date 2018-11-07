@@ -20,6 +20,7 @@
         "password_new": "Nowe hasło",
         "required": "To pole jest wymagane.",
         "username": "Nazwa użytkownika",
+        "username_or_email": "Nazwa użytkownika lub email",
         "validation": {
             "email.invalid": "Niepoprawny adres e-mail.",
             "email.required": "E-mail jest wymagany.",            
@@ -29,6 +30,7 @@
             "password.too_short": "Hasło musi się składać z co najmniej 5 znaków.",
             "username.regex": "Nazwa użytkownika musi zawierać co najmniej jedną wielką literę.",
             "username.required": "Nazwa użytkownika jest wymagana.",
+            "username_or_email.required": "Nazwa użytkownika lub email są wymagane.",
             "username.too_short": "Nazwa użytkownika musi się składać z co najmniej 6 znaków."
         }        
     },
@@ -59,8 +61,10 @@
         "email.duplicated": "Ten email jest już zarejestrowany.",
         "enabled": "Aktywny",
         "last_login": "Ostatnie logowanie",
+        "not_recognised": "Nie ma takiego użytkownika.",
         "profile": "Profil użytkownika",
         "register.success": "Użytkownik został zarejestrowany.",
+        "resetting.check_email": "Email został wysłany. Zawiera link do zmiany hasła. Jeśli nie otrzymasz wiadomości, sprawdź folder spam.",
         "roles": "Role",
         "status": "Status",
         "status_change": "Status został zmieniony.",

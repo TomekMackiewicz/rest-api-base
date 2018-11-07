@@ -20,6 +20,7 @@
         "password_new": "New password",
         "required": "This field is reguired.",
         "username": "Username",
+        "username_or_email": "Username or email",
         "validation": {
             "email.invalid": "Email is not valid.",
             "email.required": "Email is required.",
@@ -29,6 +30,7 @@
             "password.too_short": "Password must be at least 6 characters long.",
             "username.regex": "Username must contain at least one uppercase.",
             "username.required": "Username is required.",
+            "username_or_email.required": "Username / email is required.",
             "username.too_short": "Username must be at least 5 characters long."
         }        
     },
@@ -59,8 +61,10 @@
         "email.duplicated": "This email is already in use.",
         "enabled": "Enabled",
         "last_login": "Last login",
+        "not_recognised": "User not recognised",
         "profile": "User profile",
         "register.success": "The user has been created successfully.",
+        "resetting.check_email": "An email has been sent. It contains a link you must click to reset your password. If you don't get an email check your spam folder or try again.",
         "roles": "Roles",
         "status": "Status",
         "status_change": "User status changed.",

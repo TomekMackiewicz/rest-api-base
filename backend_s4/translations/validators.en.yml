@@ -19,4 +19,10 @@ fos_user:
         short: 'The new password is too short.'
     current_password:
         invalid: 'form.validation.password.invalid'
+    # @fixme
+    # From /var/www/html/rest-api-base/backend_s4/vendor/friendsofsymfony/user-bundle/Resources/translations/FOSUserBundle.en.yml
+    # Why not working with translations/FOSUserBundle.en.yml ?
+    resetting:
+        check_email:
+            user.resetting.check_email        
 # @fixme - translate the rest of strings

@@ -81,7 +81,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
 
         if (null === $user) {
             return new JsonResponse(
-                'User not recognised', JsonResponse::HTTP_FORBIDDEN
+                'user.not_recognised', JsonResponse::HTTP_FORBIDDEN
             );
         }
 
@@ -194,11 +194,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
         
         if (null === $response = $event->getResponse()) {
             return new JsonResponse(
-                $this->get('translator')->trans(
-                    'resetting.flash.success', 
-                    [], 
-                    'FOSUserBundle'
-                ), JsonResponse::HTTP_OK
+                'resetting.flash.success', JsonResponse::HTTP_OK
             );
         }
 
@@ -208,11 +204,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
         );
         
         return new JsonResponse(
-            $this->get('translator')->trans(
-                'resetting.flash.success', 
-                [], 
-                'FOSUserBundle'
-            ), JsonResponse::HTTP_OK
+            'resetting.flash.success', JsonResponse::HTTP_OK
         );
     }
 

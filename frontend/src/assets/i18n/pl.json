@@ -65,6 +65,8 @@
         "profile": "Profil użytkownika",
         "register.success": "Użytkownik został zarejestrowany.",
         "resetting.check_email": "Email został wysłany. Zawiera link do zmiany hasła. Jeśli nie otrzymasz wiadomości, sprawdź folder spam.",
+        "resetting.password_already_requested": "Prośba o zmianę hasła została już wysłana w ciągu 24 godzin.",
+        "resetting.password_mismatch": "Podane hasła nie pasują do siebie.",
         "roles": "Role",
         "status": "Status",
         "status_change": "Status został zmieniony.",

@@ -65,6 +65,8 @@
         "profile": "User profile",
         "register.success": "The user has been created successfully.",
         "resetting.check_email": "An email has been sent. It contains a link you must click to reset your password. If you don't get an email check your spam folder or try again.",
+        "resetting.password_already_requested": "The password for this user has already been requested within the last 24 hours.",
+        "resetting.password_mismatch": "Passwords don't match.",
         "roles": "Roles",
         "status": "Status",
         "status_change": "User status changed.",

@@ -8,7 +8,8 @@
         "delete_success": "Usunięto.",
         "duplicated": "Ta nazwa jest już zajęta.",
         "edit": "Edytuj",
-        "save": "Zapisz"
+        "save": "Zapisz",
+        "update_success": "Uaktualniono."
     },
     "form": {
         "password": "Hasło",
@@ -56,6 +57,7 @@
         "title": "Tytuł"
     },
     "user": {
+        "current_password": "Aktualne hasło",
         "disabled": "Zablokowany",
         "email": "E-mail",
         "email.duplicated": "Ten email jest już zarejestrowany.",

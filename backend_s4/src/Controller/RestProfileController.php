@@ -120,7 +120,7 @@ class RestProfileController extends FOSRestController implements ClassResourceIn
         $form->submit($request->request->all(), $clearMissing);
 
         if (!$form->isValid()) {
-            $errors = $this->errorHandler->formErrorsToArray($form);
+            $errors = $this->errorHandler->handleFormErrors($form);
             return new View($errors, Response::HTTP_BAD_REQUEST);
         }
 
@@ -129,16 +129,16 @@ class RestProfileController extends FOSRestController implements ClassResourceIn
 
         $this->userManager->updateUser($user);
 
-        if (null === $response = $event->getResponse()) {
-            return new View(null, Response::HTTP_NO_CONTENT);
+        if (null === $response = $event->getResponse()) {           
+            return new View('crud.update_success', Response::HTTP_OK);
         }
 
         $this->dispatcher->dispatch(
             FOSUserEvents::PROFILE_EDIT_COMPLETED, 
             new FilterUserResponseEvent($user, $request, $response)
         );
-
-        return new View(null, Response::HTTP_OK);
+        
+        return new View('crud.update_success', Response::HTTP_OK);
     }    
     
 }

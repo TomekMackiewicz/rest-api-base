@@ -10,6 +10,7 @@ import { ResetPasswordComponent } from '../password-reset/reset-password.compone
 import { ConfirmResetPasswordComponent } from '../password-reset-confirm/reset-password-confirm.component';
 import { RegisterComponent } from '../register/register.component';
 import { ProfileComponent } from '../profile/profile.component';
+import { ProfileEditComponent } from '../profile/profile-edit.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { AccessDeniedComponent } from '../denied/denied.component';
 
@@ -53,7 +54,15 @@ const routes: Routes = [
                 value: 'profile',
             }
         }                
-    },    
+    },
+    {path: 'user/profile/edit/:id', 
+        component: ProfileEditComponent,
+        data: {
+            animation: {
+                value: 'profile',
+            }
+        }                
+    },         
     {path: 'user/change-password', 
         component: ChangePasswordComponent,
         data: {

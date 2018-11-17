@@ -8,7 +8,10 @@
                 <p>{{ user.email }}</p>
                 <ul *ngFor="let role of user.roles">
                     <li>{{ role }}</li>
-                </ul>                
+                </ul> 
+                <div>
+                    <button class="btn btn-primary" [routerLink]="['/user/profile/edit', user.id]">{{ 'crud.edit' | translate }}</button>
+                </div>                
             </div>
         </div>
     </div>

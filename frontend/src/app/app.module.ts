@@ -23,6 +23,7 @@ import { ResetPasswordComponent } from './password-reset/reset-password.componen
 import { ConfirmResetPasswordComponent } from './password-reset-confirm/reset-password-confirm.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ProfileEditComponent } from './profile/profile-edit.component';
 import { AccessDeniedComponent } from './denied/denied.component';
 
 import { LoaderService } from './services/loader.service';
@@ -56,6 +57,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         ConfirmResetPasswordComponent,
         RegisterComponent,
         ProfileComponent,
+        ProfileEditComponent,
         AccessDeniedComponent,
         EqualValidator,
         PatternValidator     

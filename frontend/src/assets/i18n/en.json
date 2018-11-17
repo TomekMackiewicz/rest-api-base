@@ -2,13 +2,14 @@
     "crud": {
         "actions": "Actions",
         "add": "Add",
-        "create_success": "Created successfully",
+        "create_success": "Created successfully.",
         "delete": "Delete",
         "delete_confirm": "Are you sure you want to delete",
         "delete_success": "Deleted.",
         "duplicated": "This value is already in use.",
         "edit": "Edit",
-        "save": "Save"
+        "save": "Save",
+        "update_success": "Updated successfully."
     },
     "form": {
         "password": "Password",
@@ -56,6 +57,7 @@
         "title": "Title"
     },
     "user": {
+        "current_password": "Current password",
         "disabled": "Disabled",
         "email": "E-mail",
         "email.duplicated": "This email is already in use.",

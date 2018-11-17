@@ -10,11 +10,10 @@ export class ProfileService {
         return this.http.get('http://localhost:8000/api/profile/' + id);
     }
 
-//    putUser(id: number) {
-//        return this.http.put('http://localhost:8000/api/profile/' + id);
-//    }
-//    
-//    patchUser(id: number) {
-//        return this.http.patch('http://localhost:8000/api/profile/' + id);
-//    }
+    patchUser(user: any) {
+        return this.http.patch('http://localhost:8000/api/profile/' + user.id, { 
+            email: user.email,
+            current_password: user.currentPassword
+        });
+    }
 }

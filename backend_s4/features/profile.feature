@@ -82,7 +82,7 @@ Feature: Manage User profile data via the RESTful API
         "current_password": "testpass"
       }
       """
-    Then the response code should be 204
+    Then the response code should be 200
      And I send a "GET" request to "/api/profile/1"
      And the response should contain json:
       """

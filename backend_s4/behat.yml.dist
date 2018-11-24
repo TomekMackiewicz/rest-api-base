@@ -4,17 +4,13 @@ default:
       contexts:
         - FeatureContext:
             doctrine: "@doctrine"
-            #kernel: '@kernel'
         - RestApiContext:
             client: "@csa_guzzle.client.local_test_api"
-        #- FeatureContext:
-        #    doctrine: "@doctrine"
         - UserSetupContext:
             userManager: "@fos_user.user_manager"
-            em: "@doctrine.orm.entity_manager"
-        #- Behat\MinkExtension\Context\MinkContext
-        #- behatch:context:json
-        #- behatch:context:rest            
+            em: "@doctrine.orm.entity_manager" 
+        - ItemSetupContext:
+            em: "@doctrine.orm.entity_manager"            
   extensions:
     Behat\Symfony2Extension:
       kernel:

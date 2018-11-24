@@ -48,8 +48,12 @@ class UserSetupContext implements Context, SnippetAcceptingContext
             $user->setEmail($val['email']);
             $user->setPlainPassword($val['password']);
             $user->setConfirmationToken($confirmationToken);
+            if (isset($val['roles'])) {
+                $roles = unserialize($val['roles']);                
+              $user->setRoles($roles);
+            }
 
-            if ( ! empty($confirmationToken)) {
+            if (!empty($confirmationToken)) {
                 $user->setPasswordRequestedAt(new \DateTime('now'));
             }
 

@@ -295,14 +295,9 @@ class RestApiContext implements Context
      */
     public function theResponseCodeShouldBe($code)
     {
-        try {
-            $expected = (int)$code;
-            $actual = (int)$this->response->getStatusCode();
-            Assertions::assertSame($expected, $actual);            
-        } catch (Exception $ex) {
-
-        }        
-
+        $expected = (int)$code;
+        $actual = (int)$this->response->getStatusCode();
+        Assertions::assertSame($expected, $actual);
     }
 
     /**

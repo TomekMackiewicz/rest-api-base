@@ -8,14 +8,9 @@ Feature: Handle user login via the RESTful API
   Background:
     Given I set header "Content-Type" with value "application/json"
     And there are Users with the following details:
-      | id | username     | email             | password |
+      | id | username     | email             | password  |
       | 1  | Monica       | monica@test.com   | Testpass1 |
       | 2  | Chandler     | chandler@test.org | Chandler1 |
-
-
-  Scenario: Cannot GET Login
-    When I send a "GET" request to "/api/login_check"
-    Then the response code should be 405
 
   Scenario: User cannot Login with bad credentials
     When I send a "POST" request to "/api/login_check" with body:
@@ -36,7 +31,7 @@ Feature: Handle user login via the RESTful API
       }
       """
     Then the response code should be 200
-     And the response should contain "token"
+    And the response should contain "token"
 
   Scenario: User can Login with good credentials (email)
     When I send a "POST" request to "/api/login_check" with body:
@@ -47,4 +42,4 @@ Feature: Handle user login via the RESTful API
       }
       """
     Then the response code should be 200
-And the response should contain "token"
+    And the response should contain "token"

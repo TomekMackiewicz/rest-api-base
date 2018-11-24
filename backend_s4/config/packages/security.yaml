@@ -21,6 +21,7 @@ security:
             stateless: true
             anonymous: true
             form_login:
+                #login_path:               /api/login
                 check_path:               /api/login_check
                 require_previous_session: false
                 username_parameter:       username

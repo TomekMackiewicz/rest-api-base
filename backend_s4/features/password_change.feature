@@ -27,10 +27,10 @@ Feature: Handle password changing via the RESTful API
 
   Scenario: Cannot change the password for a different user
     When I am successfully logged in with username: "RossGeller", and password: "Rosspass1"
-     And I send a "PATCH" request to "/api/password/2/change" with body:
+    And I send a "POST" request to "/api/password/1/change" with body:
       """
       {
-        "current_password": "Phoebepass1",
+        "current_password": "Rosspass1",
         "plainPassword": {
           "first": "Newpassword1",
           "second": "Newpassword1"
@@ -41,7 +41,7 @@ Feature: Handle password changing via the RESTful API
 
   Scenario: Can change password with valid credentials
     When I am successfully logged in with username: "Phoebe", and password: "Phoebepass1"
-     And I send a "PATCH" request to "/api/password/1/change" with body:
+    And I send a "POST" request to "/api/password/1/change" with body:
       """
       {
         "current_password": "Phoebepass1",
@@ -52,11 +52,11 @@ Feature: Handle password changing via the RESTful API
       }
       """
     Then the response code should be 200
-     And the response should contain "change_password.flash.success"
+    And the response should contain "change_password.flash.success"
 
-Scenario: Cannot change password with bad current password
+  Scenario: Cannot change password with bad current password
     When I am successfully logged in with username: "Phoebe", and password: "Phoebepass1"
-     And I send a "PATCH" request to "/api/password/1/change" with body:
+    And I send a "POST" request to "/api/password/1/change" with body:
       """
       {
         "current_password": "wrong",
@@ -67,11 +67,11 @@ Scenario: Cannot change password with bad current password
       }
       """
     Then the response code should be 400
-     And the response should contain "form.validation.password.invalid"
+    And the response should contain "form.validation.password.invalid"
 
   Scenario: Cannot change password with mismatched new password
     When I am successfully logged in with username: "Phoebe", and password: "Phoebepass1"
-     And I send a "PATCH" request to "/api/password/1/change" with body:
+    And I send a "POST" request to "/api/password/1/change" with body:
       """
       {
         "current_password": "Phoebepass1",
@@ -82,11 +82,11 @@ Scenario: Cannot change password with bad current password
       }
       """
     Then the response code should be 400
-     And the response should contain "form.password_mismatch"
+    And the response should contain "form.password_mismatch"
 
   Scenario: Cannot change password with missing new password field
     When I am successfully logged in with username: "Phoebe", and password: "Phoebepass1"
-     And I send a "PATCH" request to "/api/password/1/change" with body:
+    And I send a "POST" request to "/api/password/1/change" with body:
       """
       {
         "current_password": "Phoebepass1",
@@ -96,4 +96,4 @@ Scenario: Cannot change password with bad current password
       }
       """
     Then the response code should be 400
-And the response should contain "form.password_mismatch"
+    And the response should contain "form.password_mismatch"

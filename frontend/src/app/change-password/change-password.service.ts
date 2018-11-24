@@ -9,7 +9,7 @@ export class ChangePasswordService {
 
     changePassword(currentPassword: string, newPassword: string, confirmPassword: string) {
         let userId = localStorage.getItem('userId');
-        return this.http.patch(
+        return this.http.post(
             'http://localhost:8000/api/password/'+userId+'/change', { 
                 current_password: currentPassword,
                 plainPassword: {

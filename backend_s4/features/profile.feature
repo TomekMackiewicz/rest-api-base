@@ -14,14 +14,14 @@ Feature: Manage User profile data via the RESTful API
 
   Scenario: Cannot view a profile with a bad JWT
     When I set header "Authorization" with value "Bearer bad-token-string"
-     And I send a "GET" request to "/api/profile/1"
+    And I send a "GET" request to "/api/profile/1"
     Then the response code should be 401
-     And the response should contain "Invalid JWT Token"
+    And the response should contain "Invalid JWT Token"
 
   Scenario: Can view own profile
     When I send a "GET" request to "/api/profile/1"
     Then the response code should be 200
-     And the response should contain json:
+    And the response should contain json:
       """
       {
         "id": "1",
@@ -43,9 +43,9 @@ Feature: Manage User profile data via the RESTful API
         "current_password": "testpass"
       }
       """
-    Then the response code should be 204
-     And I send a "GET" request to "/api/profile/1"
-     And the response should contain json:
+    Then the response code should be 200
+    And I send a "GET" request to "/api/profile/1"
+    And the response should contain json:
       """
       {
         "id": "1",
@@ -83,8 +83,8 @@ Feature: Manage User profile data via the RESTful API
       }
       """
     Then the response code should be 200
-     And I send a "GET" request to "/api/profile/1"
-     And the response should contain json:
+    And I send a "GET" request to "/api/profile/1"
+    And the response should contain json:
       """
       {
         "id": "1",

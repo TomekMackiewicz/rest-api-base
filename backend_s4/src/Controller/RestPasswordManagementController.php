@@ -217,18 +217,18 @@ class RestPasswordManagementController extends FOSRestController implements Clas
      * @throws AccessDeniedHttpException
      * 
      * @ParamConverter("user", class="App:User")
-     * @Annotations\Patch("/{user}/change")
+     * @Annotations\Post("/{user}/change")
      */
     public function changeAction(Request $request, UserInterface $user) 
-    {       
-        if ($user !== $this->getUser()) {
+    { 
+        if ($user !== $this->getUser()) {           
             throw new AccessDeniedHttpException();
         }
 
         $event = new GetResponseUserEvent($user, $request);
         $this->dispatcher->dispatch(FOSUserEvents::CHANGE_PASSWORD_INITIALIZE, $event);
 
-        if (null !== $event->getResponse()) {
+        if (null !== $event->getResponse()) {            
             return $event->getResponse();
         }
 

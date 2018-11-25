@@ -2,7 +2,6 @@
     <div class="row">
         <div class="col-md-12">
             <h2>{{ 'crud.edit' | translate }}</h2>
-            <alert></alert>
             <form *ngIf="item" name="form" (ngSubmit)="f.form.valid && updateItem()" #f="ngForm" novalidate>
                 <div class="form-group" [ngClass]="{ 'has-error': (f.submitted && !signature.valid) || (f.submitted && !validation.signature) }">
                     <label for="item-signature">{{ 'item.signature' | translate }}</label>

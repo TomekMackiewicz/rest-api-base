@@ -8,8 +8,10 @@
         "delete_success": "Usunięto.",
         "duplicated": "Ta nazwa jest już zajęta.",
         "edit": "Edytuj",
+        "missing_token": "Brak tokena.",
         "save": "Zapisz",
-        "update_success": "Uaktualniono."
+        "update_success": "Uaktualniono.",
+        "wrong_token": "Nieprawidłowy token."
     },
     "form": {
         "password": "Hasło",

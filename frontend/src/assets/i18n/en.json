@@ -8,8 +8,10 @@
         "delete_success": "Deleted.",
         "duplicated": "This value is already in use.",
         "edit": "Edit",
+        "missing_token": "You must submit a token.",
         "save": "Save",
-        "update_success": "Updated successfully."
+        "update_success": "Updated successfully.",
+        "wrong_token": "Wrong token."
     },
     "form": {
         "password": "Password",

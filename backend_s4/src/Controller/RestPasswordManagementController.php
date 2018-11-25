@@ -152,7 +152,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
         
         if (null === $token) {
             return new JsonResponse(
-                'You must submit a token.', 
+                'crud.missing_token', 
                 JsonResponse::HTTP_BAD_REQUEST
             );
         }
@@ -162,7 +162,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
         if (null === $user) {
             return new JsonResponse(
                 sprintf(
-                    'resetting.wrong_token', 
+                    'crud.wrong_token', 
                     $token
                 ), JsonResponse::HTTP_BAD_REQUEST
             );
@@ -194,7 +194,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
         
         if (null === $response = $event->getResponse()) {
             return new JsonResponse(
-                'resetting.flash.success', JsonResponse::HTTP_OK
+                'crud.update_success', JsonResponse::HTTP_OK
             );
         }
 
@@ -204,7 +204,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
         );
         
         return new JsonResponse(
-            'resetting.flash.success', JsonResponse::HTTP_OK
+            'crud.update_success', JsonResponse::HTTP_OK
         );
     }
 
@@ -250,7 +250,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
 
         if (null === $response = $event->getResponse()) {
             return new JsonResponse(
-                'change_password.flash.success', 
+                'crud.update_success', 
                 JsonResponse::HTTP_OK
             );
         }
@@ -260,7 +260,7 @@ class RestPasswordManagementController extends FOSRestController implements Clas
             new FilterUserResponseEvent($user, $request, $response));
 
         return new JsonResponse(
-            'change_password.flash.success', 
+            'crud.update_success', 
              JsonResponse::HTTP_OK
         );
     }

@@ -8,6 +8,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TokenInterceptor } from './services/token-interceptor';
 import { ItemModule } from './item/item.module';
+import { PostModule } from './post/post.module';
 import { UserModule } from './user/user.module';
 import { AppRoutingModule } from './routing/app-routing.module';
 import { AlertModule } from './alert/alert.module';
@@ -70,6 +71,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         HttpClientModule,
         BrowserAnimationsModule,
         ItemModule,
+        PostModule,
         UserModule,
         AppRoutingModule,
         TranslateModule.forRoot({

@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{ 'crud.add' | translate }}</h2>
+            <form *ngIf="post" name="form" (ngSubmit)="f.form.valid && createPost(post.title, post.body)" #f="ngForm" novalidate>
+                <div class="form-group" [ngClass]="{ 'has-error': (f.submitted && !title.valid) || (f.submitted && !validation.title) }">
+                    <label for="post-title">{{ 'post.title' | translate }}</label>
+                    <input type="text"
+                           class="form-control"
+                           id="post-title"
+                           name="post-title"
+                           [(ngModel)]="post.title"
+                           #title="ngModel">
+                    <div *ngIf="!validation.title" class="help-block">{{ validation.titleMsg | translate }}</div>
+                </div>
+                <div class="form-group" [ngClass]="{ 'has-error': (f.submitted && !body.valid) || (f.submitted && !validation.body) }">
+                    <label for="post-body">{{ 'post.body' | translate }}</label>
+                    <textarea
+                           class="form-control"
+                           id="post-body"
+                           name="post-body"
+                           [(ngModel)]="post.body"
+                           #body="ngModel"></textarea>
+                    <div *ngIf="!validation.body" class="help-block">{{ validation.bodyMsg | translate }}</div>
+                </div>                
+                <div class="form-group">
+                    <button class="btn btn-primary">{{ 'crud.save' | translate }}</button>
+                </div>                
+            </form>
+            <button class="btn btn-default" (click)="goBack()">{{ 'ui.back' | translate }}</button>
+        </div>
+    </div>
+</div>

@@ -34,7 +34,7 @@ class PostController extends FOSRestController implements ClassResourceInterface
     public function getAction(int $id)
     {
         $post = $this->getPostRepository()->findOneById($id)->getSingleResult(); 
-        if (post === null) {
+        if ($post === null) {
             return new View(null, Response::HTTP_NOT_FOUND);
         }  
         

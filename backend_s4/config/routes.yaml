@@ -2,6 +2,10 @@ api_items:
     type: rest
     resource: App\Controller\ItemController
 
+api_posts:
+    type: rest
+    resource: App\Controller\PostController
+
 api_users:
     type: rest
     resource: App\Controller\UserController

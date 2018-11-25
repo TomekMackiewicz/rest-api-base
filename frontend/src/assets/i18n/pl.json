@@ -45,6 +45,11 @@
         "items": "Przedmioty",
         "signature": "Sygnatura",
         "status": "Status"
+    },
+    "post": {
+        "body": "Treść",
+        "posts": "Posty",
+        "title": "Tytuł"
     },    
     "ui": {
         "back": "Wróć",

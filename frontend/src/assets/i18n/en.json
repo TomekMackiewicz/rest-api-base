@@ -45,7 +45,12 @@
         "items": "Items",
         "signature": "Signature",
         "status": "Status"
-    },    
+    },
+    "post": {
+        "body": "Body",
+        "posts": "Posts",
+        "title": "Title"
+    },
     "ui": {
         "back": "Go back",
         "front": "Front page",

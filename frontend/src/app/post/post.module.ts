@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common'; // ?
 import { FormsModule } from '@angular/forms'; // ?
 import { AlertModule } from '../alert/alert.module';
@@ -21,6 +22,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         CommonModule,
         FormsModule,
         PostRoutingModule,
+        ReactiveFormsModule,
         AlertModule,
         TranslateModule.forRoot({
             loader: {

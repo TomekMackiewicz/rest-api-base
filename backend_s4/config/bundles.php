@@ -20,4 +20,5 @@ return [
     JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
     Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
     Csa\Bundle\GuzzleBundle\CsaGuzzleBundle::class => ['dev' => true, 'test' => true],
+    FOS\ElasticaBundle\FOSElasticaBundle::class => ['all' => true]
 ];

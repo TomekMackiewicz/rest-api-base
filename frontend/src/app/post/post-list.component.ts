@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+import { FormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { PostService } from './post.service';
 import { LoaderService } from '../services/loader.service';
@@ -13,7 +14,8 @@ import { AlertService } from '../alert/alert.service';
 export class PostListComponent implements OnInit {
     
     private confirmDelete: string;
-    public posts: Array<Object>;
+    private posts: Array<Object>;
+    private query: FormControl = new FormControl();
     
     constructor(
         private postService: PostService,
@@ -29,6 +31,14 @@ export class PostListComponent implements OnInit {
 
     ngOnInit() {
         this.getPosts();
+        this.query.valueChanges.debounceTime(200).distinctUntilChanged().subscribe(
+            query => this.postService.searchPosts(query).subscribe(
+                (data: Object[]) => {
+                    this.posts = data;
+                    this.ref.markForCheck();
+                }
+            )
+        );     
     }
 
     getPosts() {
@@ -67,5 +77,4 @@ export class PostListComponent implements OnInit {
             );
         }
     }
-
 }

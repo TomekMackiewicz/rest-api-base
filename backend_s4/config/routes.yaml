@@ -29,3 +29,6 @@ api_registration:
     type: rest
     resource: App\Controller\RestRegistrationController
           
+api_search:
+    type: rest
+    resource: App\Controller\SearchController

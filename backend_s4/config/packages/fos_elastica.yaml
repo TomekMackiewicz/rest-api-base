@@ -1,0 +1,15 @@
+fos_elastica:
+    clients:
+        default: { host: localhost, port: 9200 }
+    indexes:
+        app:
+            types:
+                post:
+                    properties:
+                        title: ~
+                        body: ~
+                    persistence:
+                        driver: orm
+                        model: App\Entity\Post
+                        provider: ~
+                        finder: ~

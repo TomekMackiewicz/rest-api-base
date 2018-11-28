@@ -29,5 +29,8 @@ export class PostService {
     deletePost(post: any) {
         return this.http.delete('http://localhost:8000/api/admin/posts/' + post.id);
     }
-
+    
+    searchPosts(text: string) {
+        return this.http.get('http://localhost:8000/api/search/' + text);
+    }
 }

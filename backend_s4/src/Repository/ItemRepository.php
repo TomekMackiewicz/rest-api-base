@@ -23,4 +23,16 @@ class ItemRepository extends EntityRepository
         return $this->_em->createQuery("SELECT i FROM App:Item i");
     }
     
+    public function findPaginated($limit, $offset)
+    {
+        return $this->_em
+            ->createQuery("SELECT i FROM App:Item i")
+            ->setMaxResults($limit)
+            ->setFirstResult($offset);
+    }
+
+    public function countItems()
+    {
+        return $this->_em->createQuery("SELECT COUNT(i) FROM App:Item i");
+    }    
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
 
 @Injectable()
@@ -11,8 +11,8 @@ export class ItemService {
         return this.http.get('http://localhost:8000/api/admin/items/' + id);
     }
 
-    getItems() {
-        return this.http.get('http://localhost:8000/api/admin/items')
+    getItems(page: any) {
+        return this.http.get('http://localhost:8000/api/admin/items?page=' + page);
     }
 
     createItem(signature: string, status: number) {        

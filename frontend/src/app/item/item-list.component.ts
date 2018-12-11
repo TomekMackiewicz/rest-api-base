@@ -13,6 +13,8 @@ import { AlertService } from '../alert/alert.service';
 export class ItemListComponent implements OnInit {
     
     private confirmDelete: string;
+    private page: number = 1;
+    private total: number;
     public items: Array<Object>;
     
     constructor(
@@ -31,11 +33,17 @@ export class ItemListComponent implements OnInit {
         this.getItems();
     }
 
+    pageChanged(event) {
+        this.page = event;
+        this.getItems();
+    }
+
     getItems() {
         this.loaderService.displayLoader(true);
-        this.itemService.getItems().subscribe(
-            (data: Object[]) => {
-                this.items = data;
+        this.itemService.getItems(this.page).subscribe(
+            (data: any) => {
+                this.items = data.items;
+                this.total = data.total;
                 this.loaderService.displayLoader(false);
                 this.ref.detectChanges();
             },

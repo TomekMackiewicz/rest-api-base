@@ -9,7 +9,7 @@
                     <th>{{ 'item.signature' | translate }}</th>
                     <th>{{ 'crud.actions' | translate }}</th>
                 </tr>
-                <tr *ngFor="let item of items">
+                <tr *ngFor="let item of items  | paginate: { itemsPerPage: 10, currentPage: page, totalItems: total}">
                     <td>{{ item.signature }}</td>
                     <td>
                         <button class="btn btn-primary" [routerLink]="['/admin/items', item.id]">{{ 'crud.edit' | translate }}</button>
@@ -17,6 +17,7 @@
                     </td>
                 </tr>
             </table>
+            <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
         </div>
     </div>
 </div>

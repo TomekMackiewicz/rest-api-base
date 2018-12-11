@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common'; // ?
 import { FormsModule } from '@angular/forms'; // ?
 import { AlertModule } from '../alert/alert.module';
+import { NgxPaginationModule } from 'ngx-pagination';
 import { ItemListComponent } from './item-list.component';
 import { ItemEditComponent } from './item-edit.component';
 import { ItemCreateComponent } from './item-create.component';
@@ -22,6 +23,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         FormsModule,
         ItemRoutingModule,
         AlertModule,
+        NgxPaginationModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

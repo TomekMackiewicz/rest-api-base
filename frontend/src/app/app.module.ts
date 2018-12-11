@@ -11,7 +11,7 @@ import { ItemModule } from './item/item.module';
 import { PostModule } from './post/post.module';
 import { UserModule } from './user/user.module';
 import { AppRoutingModule } from './routing/app-routing.module';
-import { AlertModule } from './alert/alert.module';
+import { AlertModule } from './alert/alert.module'; 
 
 import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';

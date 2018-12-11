@@ -46,14 +46,19 @@ class ItemController extends FOSRestController implements ClassResourceInterface
      * 
      * @return Item
      */
-    public function cgetAction()
+    public function cgetAction(Request $request)
     {
-        $items = $this->getItemRepository()->findAll()->getResult();
+        $total = $this->getItemRepository()->countItems()->getSingleScalarResult();
+        $limit = 10;
+        $page = $request->query->get('page');
+        $offset = ($page - 1)  * $limit;
+        $items = $this->getItemRepository()->findPaginated($limit, $offset)->getResult();
+        
         if ($items === null) {
             return new View(null, Response::HTTP_NOT_FOUND);
         }
         
-        return $items;
+        return ['items'=>$items, 'total'=>$total];
     }
     
     /**

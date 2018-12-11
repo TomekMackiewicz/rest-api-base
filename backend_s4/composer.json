@@ -37,6 +37,7 @@
         "behat/symfony2-extension": "^2.1",
         "behatch/contexts": "^3.0@dev",
         "csa/guzzle-bundle": "^3.1",
+        "doctrine/doctrine-fixtures-bundle": "^3.0",
         "guzzlehttp/guzzle": "^6.3",
         "phpunit/phpunit": "^6.5",
         "symfony/debug-pack": "*",

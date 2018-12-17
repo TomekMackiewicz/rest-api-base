@@ -6,6 +6,7 @@ import { trigger, animate, style, group, animateChild, query, stagger, transitio
 import { LoaderService } from './services/loader.service';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from "rxjs";
+import * as jwt_decode from 'jwt-decode';
 
 const slide = [
     query(':enter, :leave', style({ position: 'fixed', width:'100%' }), { optional: true }),
@@ -74,21 +75,57 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.authenticationService.currentUsername.subscribe((val: string) => {
-            this.username = localStorage.getItem('currentUsername') ? localStorage.getItem('currentUsername') : val;
+            this.username = localStorage.getItem('currentUsername') ? 
+                localStorage.getItem('currentUsername') : val;
         });
         this.authenticationService.loggedIn.subscribe((val: boolean) => {
-            this.isLoggedIn = localStorage.getItem('currentUsername') ? true : val;
+            this.isLoggedIn = 
+                !this.isTokenExpired(localStorage.getItem('token')) 
+                && localStorage.getItem('currentUsername') ? true : val;
         });
         this.authenticationService.admin.subscribe((val: boolean) => {
-            this.isAdmin = localStorage.getItem('userRole') == 'ROLE_ADMIN' || localStorage.getItem('userRole') == 'ROLE_SUPER_ADMIN' ? true : val;
-        });                
+            this.isAdmin = 
+                localStorage.getItem('userRole') == 'ROLE_ADMIN' 
+                || localStorage.getItem('userRole') == 'ROLE_SUPER_ADMIN' ? true : val;
+        });
         this.loaderService.loaderStatus.subscribe((val: boolean) => {
             this.objLoaderStatus = val ? val : false;
-        });       
+        });
     }
 
     getState(outlet: any) {
         return outlet.activatedRouteData.state;
+    }
+
+    getTokenExpirationDate(token: string): Date {
+        const decoded = jwt_decode(token);
+        
+        if (decoded.exp === undefined) {
+            return null;
+        }
+        
+        const date = new Date(0); 
+        date.setUTCSeconds(decoded.exp);
+        
+        return date;
+    }
+
+    isTokenExpired(token?: string): boolean {
+        if(!token) {
+            token = localStorage.getItem('token');
+        }
+        
+        if(!token) {
+            return true;
+        }
+        
+        const date = this.getTokenExpirationDate(token);
+        
+        if(date === undefined) {
+            return false;
+        }
+        
+        return !(date.valueOf() > new Date().valueOf());
     }
 
     prepareRouteTransition(outlet: any) {

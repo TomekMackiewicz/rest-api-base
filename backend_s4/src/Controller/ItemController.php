@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Item controller.
  *
- * @RouteResource("api/admin/item")
+ * @RouteResource("Item")
  */
 class ItemController extends FOSRestController implements ClassResourceInterface
 {

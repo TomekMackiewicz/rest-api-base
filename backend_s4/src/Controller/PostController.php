@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Post controller.
  *
- * @RouteResource("api/admin/post")
+ * @RouteResource("Post")
  */
 class PostController extends FOSRestController implements ClassResourceInterface
 {

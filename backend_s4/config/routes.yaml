@@ -1,16 +1,20 @@
 api_items:
+    prefix: /api/admin
     type: rest
     resource: App\Controller\ItemController
 
 api_posts:
+    prefix: /api/admin
     type: rest
     resource: App\Controller\PostController
 
 api_users:
+    prefix: /api/admin
     type: rest
     resource: App\Controller\UserController
 
 api_login:
+    prefix: /api
     type: rest
     resource: App\Controller\RestLoginController
 
@@ -18,17 +22,21 @@ api_login_check:
     path: /api/login_check    
     
 api_password_management:
+    prefix: /api/password
     type: rest
     resource: App\Controller\RestPasswordManagementController
 
 api_profile:
+    prefix: /api/profile
     type: rest
     resource: App\Controller\RestProfileController
 
 api_registration:
+    prefix: /api
     type: rest
     resource: App\Controller\RestRegistrationController
           
 api_search:
+    prefix: /api
     type: rest
     resource: App\Controller\SearchController

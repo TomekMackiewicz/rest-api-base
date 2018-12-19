@@ -3,16 +3,14 @@
 namespace App\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Controller\Annotations\RouteResource;
+use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Routing\ClassResourceInterface;
 
-/**
- * Login controller.
- * 
- * @RouteResource("api/login", pluralize=false)
- */
 class RestLoginController extends FOSRestController implements ClassResourceInterface
 {
+    /** 
+     * @Route("/login", methods={"POST"})
+     */
     public function postAction()
     {
         // route handled by Lexik JWT Authentication Bundle

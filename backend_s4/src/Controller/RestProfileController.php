@@ -2,13 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Service\ErrorHandler;
-use FOS\RestBundle\Controller\Annotations;
-use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
-use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\View\View;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
@@ -16,20 +12,14 @@ use FOS\UserBundle\FOSUserEvents;
 use FOS\UserBundle\Event\FormEvent;
 use FOS\UserBundle\Form\Factory\FormFactory;
 use FOS\UserBundle\Model\UserManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Security\Core\User\UserInterface;
+use FOS\RestBundle\Controller\Annotations\Route;
 
-/**
- * @RouteResource("api/profile", pluralize=false)
- */
 class RestProfileController extends FOSRestController implements ClassResourceInterface
 {
     private $userManager;
@@ -56,6 +46,7 @@ class RestProfileController extends FOSRestController implements ClassResourceIn
      * @throws AccessDeniedHttpException
      * 
      * @ParamConverter("user", class="App:User")
+     * @Route("{user}", methods={"GET"})
      */
     public function getAction(UserInterface $user)
     {
@@ -73,6 +64,7 @@ class RestProfileController extends FOSRestController implements ClassResourceIn
      * @param UserInterface $user
      *
      * @ParamConverter("user", class="App:User")
+     * @Route("{user}", methods={"PUT"})
      *
      * @return View
      */
@@ -88,6 +80,7 @@ class RestProfileController extends FOSRestController implements ClassResourceIn
      * @param UserInterface $user
      *
      * @ParamConverter("user", class="App:User")
+     * @Route("{user}", methods={"PATCH"})
      *
      * @return View
      */

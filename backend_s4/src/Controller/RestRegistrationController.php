@@ -3,10 +3,9 @@
 namespace App\Controller;
 
 use App\Service\ErrorHandler;
-use FOS\RestBundle\Controller\Annotations;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
-use FOS\RestBundle\Controller\Annotations\RouteResource;
+use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\View\View;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\GetResponseUserEvent;
@@ -22,8 +21,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * User registration.
- * 
- * @RouteResource("registration", pluralize=false)
  */
 class RestRegistrationController extends FOSRestController implements ClassResourceInterface
 {
@@ -50,7 +47,7 @@ class RestRegistrationController extends FOSRestController implements ClassResou
      * @param Request $request
      * @return JsonResponse
      * 
-     * @Annotations\Post("/api/register")
+     * @Route("/register", methods={"POST"})
      */
     public function registerAction(Request $request)
     {

@@ -22,7 +22,7 @@ Feature: Manage item crud via the RESTful API
 
   Scenario: Can view the list of items if logged in as admin
     When I am successfully logged in with username: "john", and password: "johnpass"
-    And I send a "GET" request to "/api/admin/items"
+    And I send a "GET" request to "/api/admin/items?page=1"
     Then the response code should be 200
 
   Scenario: Can add an item if logged in as admin

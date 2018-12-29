@@ -98,7 +98,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     getTokenExpirationDate(token: string): Date {
-        const decoded = jwt_decode(token);
+        var decoded: any = jwt_decode(token);
         
         if (decoded.exp === undefined) {
             return null;

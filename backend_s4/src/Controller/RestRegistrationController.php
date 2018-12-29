@@ -50,14 +50,14 @@ class RestRegistrationController extends FOSRestController implements ClassResou
      * @Route("/register", methods={"POST"})
      */
     public function registerAction(Request $request)
-    {
+    {         
         $user = $this->userManager->createUser();
         $user->setEnabled(true);
 
         $event = new GetResponseUserEvent($user, $request);
         $this->dispatcher->dispatch(FOSUserEvents::REGISTRATION_INITIALIZE, $event);
 
-        if (null !== $event->getResponse()) {
+        if (null !== $event->getResponse()) {            
             return $event->getResponse();
         }
 
@@ -71,14 +71,14 @@ class RestRegistrationController extends FOSRestController implements ClassResou
             $event = new FormEvent($form, $request);
             $this->dispatcher->dispatch(FOSUserEvents::REGISTRATION_FAILURE, $event);
             
-            $errors = $this->errorHandler->handleFormErrors($form);
+            $errors = $this->errorHandler->handleFormErrors($form);            
             return new View($errors, Response::HTTP_BAD_REQUEST);
         }
 
         $event = new FormEvent($form, $request);
         $this->dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
 
-        if ($event->getResponse()) {
+        if ($event->getResponse()) {             
             return $event->getResponse();
         }
 
@@ -90,7 +90,7 @@ class RestRegistrationController extends FOSRestController implements ClassResou
                 ->create($user),
         ], JsonResponse::HTTP_CREATED, [
                 'Location' => $this->generateUrl(
-                    'get_profile',
+                    'get_rest_profile',
                     [ 'user' => $user->getId() ],
                     UrlGeneratorInterface::ABSOLUTE_URL
                 )

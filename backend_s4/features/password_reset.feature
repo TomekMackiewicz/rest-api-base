@@ -47,7 +47,7 @@ Feature: Handle password reset via the RESTful API
       { "bad": "data" }
       """
     Then the response code should be 400
-    And the response should contain "You must submit a token"
+    And the response should contain "crud.missing_token"
 
   Scenario: Cannot confirm with an invalid token
     When I send a "POST" request to "/api/password/reset/confirm" with body:
@@ -95,7 +95,7 @@ Feature: Handle password reset via the RESTful API
       }
       """
     Then the response code should be 200
-    And the response should contain "resetting.flash.success"
+    And the response should contain "crud.update_success"
     And I send a "POST" request to "/api/login_check" with body:
       """
       {

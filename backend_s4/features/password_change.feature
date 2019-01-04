@@ -52,7 +52,7 @@ Feature: Handle password changing via the RESTful API
       }
       """
     Then the response code should be 200
-    And the response should contain "change_password.flash.success"
+    And the response should contain "crud.update_success"
 
   Scenario: Cannot change password with bad current password
     When I am successfully logged in with username: "Phoebe", and password: "Phoebepass1"

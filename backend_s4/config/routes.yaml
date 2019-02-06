@@ -40,3 +40,13 @@ api_search:
     prefix: /api
     type: rest
     resource: App\Controller\SearchController
+    
+api_setup:
+    prefix: /api/admin
+    type: rest
+    resource: App\Controller\SetupController
+    
+api_file:
+    prefix: /api
+    type: rest
+    resource: App\Controller\FileController    

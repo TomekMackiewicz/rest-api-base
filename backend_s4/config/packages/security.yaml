@@ -41,6 +41,10 @@ security:
             pattern: ^/api/search
             anonymous: true
 
+        api_files:
+            pattern: ^/api/files
+            anonymous: true
+
         api:
             pattern:   ^/api
             stateless: true
@@ -54,4 +58,5 @@ security:
         - { path: ^/api/password/reset, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/admin/, role: ROLE_ADMIN }
         - { path: ^/api/search, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/files, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, role: IS_AUTHENTICATED_FULLY }

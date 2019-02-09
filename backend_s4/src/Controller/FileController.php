@@ -5,8 +5,12 @@ namespace App\Controller;
 use FOS\RestBundle\Controller\Annotations\RouteResource;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Routing\ClassResourceInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Finder\Finder;
- 
+use Symfony\Component\Filesystem\Filesystem;
+use FOS\RestBundle\View\View;
+
 /**
  * File controller.
  *
@@ -42,6 +46,25 @@ class FileController extends FOSRestController implements ClassResourceInterface
         }
                
         return $files;        
+    }
+
+    public function postAction(Request $request)
+    {
+        $fileSystem = new Filesystem();
+        $root = $this->get('kernel')->getProjectDir().'/public/files/';
+        $file = $request->request->get('fileElement');
+        $path = $root.$file['path'].$file['name'];
+
+        if ($fileSystem->exists($path)) {
+            return new View('file.already_exists', Response::HTTP_BAD_REQUEST);
+        }        
+        
+        if ($file['isFolder'] === true) {
+            $fileSystem->mkdir($path, 0777);                        
+        } else {
+            $fileSystem->touch($path);         
+        }
+
     }
     
     private function addParentId($parent, $files)

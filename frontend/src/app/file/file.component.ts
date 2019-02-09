@@ -11,18 +11,18 @@ import { AlertService } from '../alert/alert.service';
     styleUrls: ['./file.component.css']
 })
 export class FileComponent implements OnInit {
+    
     public fileElements: Observable<FileElement[]>;
-
+    currentRoot: FileElement;
+    currentPath: string;
+    canNavigateUp = false;
+    
     constructor(
         public fileService: FileService,
         private loaderService: LoaderService,
         private alertService: AlertService,
         private ref: ChangeDetectorRef
     ) {}
-
-    currentRoot: FileElement;
-    currentPath: string;
-    canNavigateUp = false;
 
     ngOnInit() {
         this.nullData();
@@ -53,16 +53,40 @@ export class FileComponent implements OnInit {
             }
         );        
     }
-
+    
+    // TOTO get rid of this function? 
     addFolder(folder: { name: string }) {
-        this.fileService.add({ isFolder: true, name: folder.name, parent: this.currentRoot ? this.currentRoot.id : 'root' });
-        this.updateFileElementQuery();
+        this.createFolder({ 
+            isFolder: true, 
+            name: folder.name, 
+            parent: this.currentRoot ? this.currentRoot.id : 'root', 
+            path: this.currentPath 
+        });
     }
   
     addFile(file: { name: string }) {
-        this.fileService.add({ isFolder: false, name: file.name, parent: this.currentRoot ? this.currentRoot.id : 'root' });
-        this.updateFileElementQuery();
+        this.fileService.add({ isFolder: false, name: file.name, parent: this.currentRoot ? this.currentRoot.id : 'root', path: this.currentPath });
+        this.updateFileElementQuery(); 
     }  
+
+    createFolder(folder) {         
+        this.loaderService.displayLoader(true);
+        this.fileService.createFolder(folder).subscribe(
+            data => {
+                this.fileService.add(folder);
+                this.updateFileElementQuery();
+                this.loaderService.displayLoader(false);
+                this.ref.markForCheck();
+            },
+            errors => {
+                this.alertService.error(errors.error, true);
+                this.loaderService.displayLoader(false);
+                this.ref.markForCheck();
+                
+                return Observable.throw(errors);
+            }
+        );
+    }
 
     removeElement(element: FileElement) {
         this.fileService.delete(element.id);

@@ -51,7 +51,9 @@
         "posts": "Posty",
         "title": "Tytuł"
     }, 
-    "files": {
+    "file": {
+        "already_exists": "Element o tej nazwie już isnieje",
+        "create_error": "Wystąpił błąd podczas zapisu",
         "files": "pliki"
     },    
     "ui": {

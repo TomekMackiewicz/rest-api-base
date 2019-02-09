@@ -51,8 +51,10 @@
         "posts": "Posts",
         "title": "Title"
     },
-    "files": {
-        "files": "files"
+    "file": {
+        "already_exists": "Element with this name already exists",
+        "create_error": "An error occurred while creating",
+        "files": "files"        
     },
     "ui": {
         "back": "Go back",

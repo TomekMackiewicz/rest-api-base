@@ -36,9 +36,14 @@ import { ResetPasswordService } from './password-reset/reset-password.service';
 import { ConfirmResetPasswordService } from './password-reset-confirm/reset-password-confirm.service';
 import { UserService } from './services/user.service'; // a ta w folderze user???
 import { ProfileService } from './profile/profile.service';
-
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { EqualValidator } from './shared/validate-equal.directive';
 import { PatternValidator } from './shared/pattern-validator.directive';
+
+import { MatCardModule } from '@angular/material/card';
+import { FileService } from './file-explorer/file.service';
+import { FileExplorerModule } from './file-explorer/file-explorer.module';
+import { FileComponent } from './file/file.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -60,6 +65,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         ProfileComponent,
         ProfileEditComponent,
         AccessDeniedComponent,
+        FileComponent,
         EqualValidator,
         PatternValidator     
   ],
@@ -70,9 +76,12 @@ export function HttpLoaderFactory(http: HttpClient) {
         BrowserModule,
         HttpClientModule,
         BrowserAnimationsModule,
+        MatCardModule,
+        FlexLayoutModule,
         ItemModule,
         PostModule,
         UserModule,
+        FileExplorerModule,
         AppRoutingModule,
         TranslateModule.forRoot({
             loader: {
@@ -93,6 +102,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         ChangePasswordService,
         ResetPasswordService,
         ConfirmResetPasswordService,
+        FileService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: TokenInterceptor,

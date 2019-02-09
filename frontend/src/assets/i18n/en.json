@@ -51,6 +51,9 @@
         "posts": "Posts",
         "title": "Title"
     },
+    "files": {
+        "files": "files"
+    },
     "ui": {
         "back": "Go back",
         "front": "Front page",

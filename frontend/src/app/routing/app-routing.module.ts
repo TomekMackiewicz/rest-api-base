@@ -13,6 +13,7 @@ import { ProfileComponent } from '../profile/profile.component';
 import { ProfileEditComponent } from '../profile/profile-edit.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { AccessDeniedComponent } from '../denied/denied.component';
+import { FileComponent } from '../file/file.component';
 
 const routes: Routes = [
     {path: 'login', 
@@ -81,7 +82,9 @@ const routes: Routes = [
         }                
     },         
     {path: 'admin',
-        redirectTo: '/admin/items',          
+        children:[
+            {path: 'files', component: FileComponent}                
+        ],                  
         canActivate: [AuthGuard]        
     },
     {path: '', 

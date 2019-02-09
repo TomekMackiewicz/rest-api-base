@@ -50,6 +50,9 @@
         "body": "Treść",
         "posts": "Posty",
         "title": "Tytuł"
+    }, 
+    "files": {
+        "files": "pliki"
     },    
     "ui": {
         "back": "Wróć",

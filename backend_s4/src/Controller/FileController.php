@@ -35,6 +35,7 @@ class FileController extends FOSRestController implements ClassResourceInterface
             $files[$i]['name'] = $name;
             $files[$i]['parent'] = $parent;
             $files[$i]['isFolder'] = strpos($file, '.') !== false ? false : true;
+            $files[$i]['path'] = $path.$file->getRelativePathname();
             
             $i++;
         }
@@ -48,6 +49,13 @@ class FileController extends FOSRestController implements ClassResourceInterface
         return $files;        
     }
 
+    /**
+     * Add file / folder.
+     * 
+     * @param Request $request
+     * 
+     * @return View
+     */    
     public function postAction(Request $request)
     {
         $fileSystem = new Filesystem();
@@ -60,11 +68,31 @@ class FileController extends FOSRestController implements ClassResourceInterface
         }        
         
         if ($file['isFolder'] === true) {
-            $fileSystem->mkdir($path, 0777);                        
+            $fileSystem->mkdir($path, 0777); // TODO set proper                        
         } else {
             $fileSystem->touch($path);         
         }
 
+    }
+
+    /**
+     * Delete file / folder.
+     * 
+     * @param Request $request
+     * 
+     * @return View
+     */
+    public function deleteAction(Request $request)
+    {        
+        $fileSystem = new Filesystem();
+        $file = json_decode($request->getContent(), true);
+                 
+        $fileSystem->remove($file['path']);
+        
+        if ($fileSystem->exists($file['path'])) {
+            return new View('file.delete_error', Response::HTTP_BAD_REQUEST);
+        }
+        
     }
     
     private function addParentId($parent, $files)

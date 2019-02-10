@@ -13,6 +13,12 @@
         "update_success": "Uaktualniono.",
         "wrong_token": "Nieprawidłowy token."
     },
+    "file": {
+        "already_exists": "Element o tej nazwie już isnieje",
+        "create_error": "Wystąpił błąd podczas zapisu",
+        "delete_error": "Wystąpił błąd podczas usuwania",
+        "files": "pliki"
+    },    
     "form": {
         "password": "Hasło",
         "password_change": "Zmień hasło",
@@ -50,11 +56,6 @@
         "body": "Treść",
         "posts": "Posty",
         "title": "Tytuł"
-    }, 
-    "file": {
-        "already_exists": "Element o tej nazwie już isnieje",
-        "create_error": "Wystąpił błąd podczas zapisu",
-        "files": "pliki"
     },    
     "ui": {
         "back": "Wróć",

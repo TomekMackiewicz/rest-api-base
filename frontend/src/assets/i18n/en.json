@@ -13,6 +13,12 @@
         "update_success": "Updated successfully.",
         "wrong_token": "Wrong token."
     },
+    "file": {
+        "already_exists": "Element with this name already exists",
+        "create_error": "An error occurred while creating",
+        "delete_error": "An error occurred while deleting",
+        "files": "files"        
+    },    
     "form": {
         "password": "Password",
         "password_change": "Change password",
@@ -50,11 +56,6 @@
         "body": "Body",
         "posts": "Posts",
         "title": "Title"
-    },
-    "file": {
-        "already_exists": "Element with this name already exists",
-        "create_error": "An error occurred while creating",
-        "files": "files"        
     },
     "ui": {
         "back": "Go back",

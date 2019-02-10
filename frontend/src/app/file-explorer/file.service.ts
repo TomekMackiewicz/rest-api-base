@@ -3,7 +3,7 @@ import { v4 } from 'uuid'; // TODO wtf?
 import { FileElement } from '../file-explorer/model/element';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class FileService {
@@ -33,8 +33,16 @@ export class FileService {
         });
     }
 
-    delete(id: string) {
-        this.map.delete(id);
+    deleteElement(fileElement: FileElement) {
+        let options = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            body: fileElement
+        };                               
+        this.map.delete(fileElement.id);
+        
+        return this.http.delete('http://localhost:8000/api/file', options);
     }
 
     update(id: string, update: Partial<FileElement>) {

@@ -69,7 +69,7 @@ export class FileComponent implements OnInit {
         this.updateFileElementQuery(); 
     }  
 
-    createFolder(folder) {         
+    createFolder(folder: FileElement) {         
         this.loaderService.displayLoader(true);
         this.fileService.createFolder(folder).subscribe(
             data => {
@@ -87,10 +87,23 @@ export class FileComponent implements OnInit {
             }
         );
     }
-
+    
     removeElement(element: FileElement) {
-        this.fileService.delete(element.id);
-        this.updateFileElementQuery();
+        this.loaderService.displayLoader(true);
+        this.fileService.deleteElement(element).subscribe(
+            data => {
+                this.updateFileElementQuery();
+                this.loaderService.displayLoader(false);
+                this.ref.markForCheck();
+            },
+            errors => {
+                this.alertService.error(errors.error, true);
+                this.loaderService.displayLoader(false);
+                this.ref.markForCheck();
+                
+                return Observable.throw(errors);
+            }
+        ); 
     }
 
     navigateToFolder(element: FileElement) {

@@ -45,17 +45,17 @@ export class FileService {
         return this.http.delete('http://localhost:8000/api/file', options);
     }
 
-    update(id: string, update: Partial<FileElement>) {
+    update(id: string, update: Partial<FileElement>, moveTo: FileElement = null) {
         let element = this.map.get(id);
         let oldName = element.name;
         element = Object.assign(element, update);
         this.map.set(element.id, element);
-        
+       
         let options = {
             headers: new HttpHeaders({
                 'Content-Type': 'application/json',
             }),
-            body: { file: element, oldName: oldName }
+            body: { file: element, oldName: oldName, moveTo: moveTo }
         };
         
         return this.http.patch('http://localhost:8000/api/file', options);

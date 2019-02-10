@@ -30,12 +30,13 @@ class FileController extends FOSRestController implements ClassResourceInterface
             $parts = explode('/', $file->getRelativePathname());
             $name = array_values(array_slice($parts, -1))[0];
             $parent = sizeof($parts) > 1 ? array_values(array_slice($parts, -2))[0] : 'root';
+            $subpath = $file->getRelativePath() ? $file->getRelativePath().'/' : '';
 
             $files[$i]['id'] = $this->generateUuid();
             $files[$i]['name'] = $name;
             $files[$i]['parent'] = $parent;
             $files[$i]['isFolder'] = strpos($file, '.') !== false ? false : true;
-            $files[$i]['path'] = $path.$file->getRelativePath();
+            $files[$i]['path'] = $path.$subpath;
             
             $i++;
         }
@@ -45,7 +46,7 @@ class FileController extends FOSRestController implements ClassResourceInterface
                 $file['parent'] = $this->addParentId($file['parent'], $files);
             }
         }
-               
+             
         return $files;        
     }
 
@@ -87,9 +88,11 @@ class FileController extends FOSRestController implements ClassResourceInterface
         $data = json_decode($request->getContent(), true);
         $file = $data['body']['file'];
         $oldName = $data['body']['oldName'];
+        $moveTo = $data['body']['moveTo'];
+        $newPath = $moveTo ? $moveTo['path'].$moveTo['name'].'/' : $file['path'];
         
         $fileSystem = new Filesystem();    
-        $fileSystem->rename($file['path'].$oldName, $file['path'].$file['name'], true);        
+        $fileSystem->rename($file['path'].$oldName, $newPath.$file['name'], true);        
     }    
     
     /**
@@ -103,10 +106,10 @@ class FileController extends FOSRestController implements ClassResourceInterface
     {        
         $fileSystem = new Filesystem();
         $file = json_decode($request->getContent(), true);
-                 
-        $fileSystem->remove($file['path']);
+                
+        $fileSystem->remove($file['path'].$file['name']);
         
-        if ($fileSystem->exists($file['path'])) {
+        if ($fileSystem->exists($file['path'].$file['name'])) {
             return new View('file.delete_error', Response::HTTP_BAD_REQUEST);
         }
         

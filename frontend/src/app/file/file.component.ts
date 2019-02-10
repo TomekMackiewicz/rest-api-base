@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { FileService } from '../file-explorer/file.service';
 import { LoaderService } from '../services/loader.service';
 import { AlertService } from '../alert/alert.service';
+import { UploadService } from './upload.service';
 
 @Component({
     selector: 'file',
@@ -21,6 +22,7 @@ export class FileComponent implements OnInit {
         public fileService: FileService,
         private loaderService: LoaderService,
         private alertService: AlertService,
+        private uploadService: UploadService,
         private ref: ChangeDetectorRef
     ) {}
 
@@ -63,7 +65,7 @@ export class FileComponent implements OnInit {
             path: this.currentPath 
         });
     }
-  
+     
     addFile(file: { name: string }) {
         this.fileService.add({ isFolder: false, name: file.name, parent: this.currentRoot ? this.currentRoot.id : 'root', path: this.currentPath });
         this.updateFileElementQuery(); 
@@ -111,6 +113,7 @@ export class FileComponent implements OnInit {
         this.updateFileElementQuery();
         this.currentPath = this.pushToPath(this.currentPath, element.name);
         this.canNavigateUp = true;
+        this.uploadService.changePath(this.currentPath);
     }
 
     navigateUp() {
@@ -123,6 +126,7 @@ export class FileComponent implements OnInit {
             this.updateFileElementQuery();
         }
         this.currentPath = this.popFromPath(this.currentPath);
+        this.uploadService.changePath(this.currentPath);
     }
 
     moveElement(event: { element: FileElement; moveTo: FileElement }) {

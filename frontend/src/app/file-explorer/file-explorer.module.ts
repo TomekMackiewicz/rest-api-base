@@ -1,19 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatIconModule } from '@angular/material/icon';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatInputModule } from '@angular/material/input';
+import { 
+    MatToolbarModule, 
+    MatInputModule, 
+    MatMenuModule, 
+    MatIconModule, 
+    MatGridListModule, 
+    MatCardModule, 
+    MatButtonModule, 
+    MatDialogModule, 
+    MatListModule, 
+    MatProgressBarModule 
+} from '@angular/material';
 import { NewFolderDialogComponent } from './modals/newFolderDialog/newFolderDialog.component';
 import { NewFileDialogComponent } from './modals/newFileDialog/newFileDialog.component';
-import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { RenameDialogComponent } from './modals/renameDialog/renameDialog.component';
 import { FileExplorerComponent } from './file-explorer.component';
+import { UploadComponent } from '../file/upload.component';
+import { DialogComponent } from '../file/dialog.component';
+import { UploadService } from '../file/upload.service';
 
 @NgModule({
     imports: [
@@ -27,19 +35,26 @@ import { FileExplorerComponent } from './file-explorer.component';
         MatDialogModule,
         MatInputModule,
         FormsModule,
-        MatButtonModule
+        MatButtonModule,
+        MatCardModule, 
+        MatListModule, 
+        MatProgressBarModule       
     ],
     declarations: [
         FileExplorerComponent, 
         NewFolderDialogComponent, 
         NewFileDialogComponent, 
-        RenameDialogComponent
+        RenameDialogComponent,
+        UploadComponent,
+        DialogComponent
     ],
     exports: [FileExplorerComponent],
+    providers: [UploadService],
     entryComponents: [
         NewFolderDialogComponent, 
         NewFileDialogComponent, 
-        RenameDialogComponent
+        RenameDialogComponent,
+        DialogComponent
     ]
 })
 export class FileExplorerModule {}

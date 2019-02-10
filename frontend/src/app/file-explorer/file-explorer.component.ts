@@ -4,7 +4,6 @@ import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { Observable } from 'rxjs/Observable';
 import { MatDialog } from '@angular/material/dialog';
 import { NewFolderDialogComponent } from './modals/newFolderDialog/newFolderDialog.component';
-import { NewFileDialogComponent } from './modals/newFileDialog/newFileDialog.component';
 import { RenameDialogComponent } from './modals/renameDialog/renameDialog.component';
 
 @Component({
@@ -20,7 +19,6 @@ export class FileExplorerComponent {
     @Input() path: string;
 
     @Output() folderAdded = new EventEmitter<{ name: string }>();
-    @Output() fileAdded = new EventEmitter<{ name: string }>();
     @Output() elementRemoved = new EventEmitter<FileElement>();
     @Output() elementRenamed = new EventEmitter<FileElement>();
     @Output() elementMoved = new EventEmitter<{ element: FileElement; moveTo: FileElement }>();
@@ -50,15 +48,6 @@ export class FileExplorerComponent {
         dialogRef.afterClosed().subscribe(res => {
             if (res) {
                 this.folderAdded.emit({ name: res });
-            }
-        });
-    }
-
-    openNewFileDialog() {
-        let dialogRef = this.dialog.open(NewFileDialogComponent);
-        dialogRef.afterClosed().subscribe(res => {
-            if (res) {
-                this.fileAdded.emit({ name: res });
             }
         });
     }

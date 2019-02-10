@@ -35,7 +35,7 @@ class FileController extends FOSRestController implements ClassResourceInterface
             $files[$i]['name'] = $name;
             $files[$i]['parent'] = $parent;
             $files[$i]['isFolder'] = strpos($file, '.') !== false ? false : true;
-            $files[$i]['path'] = $path.$file->getRelativePathname();
+            $files[$i]['path'] = $path.$file->getRelativePath();
             
             $i++;
         }
@@ -75,6 +75,23 @@ class FileController extends FOSRestController implements ClassResourceInterface
 
     }
 
+    /**
+     * Rename file / folder.
+     * 
+     * @param Request $request
+     * 
+     * @return View
+     */
+    public function patchAction(Request $request)
+    { 
+        $data = json_decode($request->getContent(), true);
+        $file = $data['body']['file'];
+        $oldName = $data['body']['oldName'];
+        
+        $fileSystem = new Filesystem();    
+        $fileSystem->rename($file['path'].$oldName, $file['path'].$file['name'], true);        
+    }    
+    
     /**
      * Delete file / folder.
      * 

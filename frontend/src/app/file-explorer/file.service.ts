@@ -47,8 +47,19 @@ export class FileService {
 
     update(id: string, update: Partial<FileElement>) {
         let element = this.map.get(id);
+        let oldName = element.name;
         element = Object.assign(element, update);
         this.map.set(element.id, element);
+        
+        let options = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+            }),
+            body: { file: element, oldName: oldName }
+        };
+        
+        return this.http.patch('http://localhost:8000/api/file', options);
+               
     }
 
     private querySubject: BehaviorSubject<FileElement[]>;

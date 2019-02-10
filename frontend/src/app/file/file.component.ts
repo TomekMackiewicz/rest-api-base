@@ -131,8 +131,21 @@ export class FileComponent implements OnInit {
     }
 
     renameElement(element: FileElement) {
-        this.fileService.update(element.id, { name: element.name });
-        this.updateFileElementQuery();
+        this.fileService.update(element.id, { name: element.name }).subscribe(
+            data => {
+                this.updateFileElementQuery();
+                this.loaderService.displayLoader(false);
+                this.ref.markForCheck();
+            },
+            errors => {
+                this.alertService.error(errors.error, true);
+                this.loaderService.displayLoader(false);
+                this.ref.markForCheck();
+                
+                return Observable.throw(errors);
+            }
+        );
+        
     }
 
     updateFileElementQuery() {

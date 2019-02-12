@@ -125,7 +125,7 @@
 </nav>
 <router-outlet name="header"></router-outlet>
 <div *ngIf="objLoaderStatus" id="loaderWrap">
-    <img src="/assets/Eclipse.gif" id="loader"> 
+    <mat-spinner *ngIf="objLoaderStatus" id="loader"></mat-spinner> 
 </div>
 <!--tu container-->
 <div [@routerAnimations]="prepareRouteTransition(outlet)">

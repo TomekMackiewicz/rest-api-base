@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MatCardModule, MatProgressSpinnerModule } from '@angular/material';
 import { TokenInterceptor } from './services/token-interceptor';
 import { ItemModule } from './item/item.module';
 import { PostModule } from './post/post.module';
@@ -40,7 +41,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { EqualValidator } from './shared/validate-equal.directive';
 import { PatternValidator } from './shared/pattern-validator.directive';
 
-import { MatCardModule } from '@angular/material/card';
 import { FileService } from './file-explorer/file.service';
 import { FileExplorerModule } from './file-explorer/file-explorer.module';
 import { FileComponent } from './file/file.component';
@@ -77,6 +77,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         HttpClientModule,
         BrowserAnimationsModule,
         MatCardModule,
+        MatProgressSpinnerModule,
         FlexLayoutModule,
         ItemModule,
         PostModule,

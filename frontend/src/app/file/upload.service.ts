@@ -9,7 +9,7 @@ import { Subject } from "rxjs/Subject";
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from 'rxjs';
 
-const url = "http://localhost:8000/api/search";
+const url = "http://localhost:8000/api/files";
 
 @Injectable()
 export class UploadService {
@@ -17,6 +17,7 @@ export class UploadService {
 
     private pathSource = new BehaviorSubject('root');
     currentPath = this.pathSource.asObservable();
+    uploadDestination: string;
 
     changePath(path: string) {
         this.pathSource.next(path);
@@ -25,19 +26,20 @@ export class UploadService {
     public upload(
         files: Set<File>
     ): { [key: string]: { progress: Observable<number> } } {
-        // this will be the our resulting map
+        this.pathSource.subscribe(currentPath => this.uploadDestination = currentPath);
         const status: { [key: string]: { progress: Observable<number> } } = {};
 
         files.forEach(file => {
-            // create a new multipart-form for every file
             const formData: FormData = new FormData();
             formData.append("file", file, file.name);
+            formData.append('data', this.uploadDestination);
 
-            // create a http-post request and pass the form
-            // tell it to report the upload progress
-            const req = new HttpRequest("POST", url, formData, {
-                reportProgress: true
-            });
+            const req = new HttpRequest(
+                "POST", url, formData, {
+                    reportProgress: true,
+                    responseType: 'blob'
+                }
+            );
 
             // create a new progress-subject for every file
             const progress = new Subject<number>();

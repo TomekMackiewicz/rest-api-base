@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { v4 } from 'uuid'; // TODO wtf?
+import { v4 } from 'uuid';
 import { FileElement } from '../file-explorer/model/element';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
@@ -27,7 +27,7 @@ export class FileService {
         return fileElement;
     }
 
-    createFolder(fileElement: FileElement) {        
+    createFolder(fileElement: FileElement) {
         return this.http.post('http://localhost:8000/api/files', { 
             fileElement: fileElement
         });

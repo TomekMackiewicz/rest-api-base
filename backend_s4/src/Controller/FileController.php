@@ -51,29 +51,34 @@ class FileController extends FOSRestController implements ClassResourceInterface
     }
 
     /**
-     * Add file / folder.
+     * Add file / dir.
      * 
      * @param Request $request
      * 
      * @return View
      */    
     public function postAction(Request $request)
-    {
-        $fileSystem = new Filesystem();
-        $root = $this->get('kernel')->getProjectDir().'/public/files/';
-        $file = $request->request->get('fileElement');
-        $path = $root.$file['path'].$file['name'];
-
-        if ($fileSystem->exists($path)) {
-            return new View('file.already_exists', Response::HTTP_BAD_REQUEST);
-        }        
-        
-        if ($file['isFolder'] === true) {
-            $fileSystem->mkdir($path, 0777); // TODO set proper                        
+    {      
+        // File
+        if ($request->files->count() > 0) {
+            $root = $this->get('kernel')->getProjectDir().'/public/files/';
+            $dir = $request->request->get('data');
+            foreach ($request->files as $file) {
+                $file->move($root.$dir, $file->getClientOriginalName());            
+            }
+        // Directory    
         } else {
-            $fileSystem->touch($path);         
-        }
+            $fileSystem = new Filesystem();
+            $root = $this->get('kernel')->getProjectDir().'/public/files/';
+            $file = $request->request->get('fileElement');
+            $path = $root.$file['path'].$file['name'];
 
+            if ($fileSystem->exists($path)) {
+                return new View('file.already_exists', Response::HTTP_BAD_REQUEST);
+            }
+
+            $fileSystem->mkdir($path, 0777); // TODO set proper                                   
+        }
     }
 
     /**

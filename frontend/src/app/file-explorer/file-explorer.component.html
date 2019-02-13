@@ -13,7 +13,7 @@
                 <span [matMenuTriggerFor]="rootMenu" [matMenuTriggerData]="{element: element}" #menuTrigger="matMenuTrigger"></span>
                 <div fxLayout="column" fxLayoutAlign="space-between center" (click)="navigate(element)" (contextmenu)="openMenu($event, menuTrigger)">
                     <mat-icon color="primary" class="file-or-folder-icon pointer" *ngIf="element.isFolder">folder</mat-icon>
-                    <mat-icon color="primary" class="file-or-folder-icon pointer" *ngIf="!element.isFolder">insert_drive_file</mat-icon>
+                    <img *ngIf="!element.isFolder" class="prev-img" src="{{ element.path + '' + element.name }}">
                     <span>{{element.name}}</span>
                 </div>
             </mat-grid-tile>

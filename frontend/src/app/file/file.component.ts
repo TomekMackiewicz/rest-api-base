@@ -29,6 +29,7 @@ export class FileComponent implements OnInit {
     ngOnInit() {
         this.nullData();
         this.getFiles();
+        //console.log(this.currentPath);
     }
 
     nullData() {
@@ -40,8 +41,7 @@ export class FileComponent implements OnInit {
         this.fileService.getFiles().subscribe(
             (data: any) => {
                 for (let file of data) {
-                    this.fileService.load(file);
-                    
+                    this.fileService.load(file);                   
                 }
                 this.updateFileElementQuery();
                 this.loaderService.displayLoader(false);
@@ -65,7 +65,8 @@ export class FileComponent implements OnInit {
             path: this.currentPath 
         });
     }
-     
+    
+    // remove 
     addFile(file: { name: string }) {
         this.fileService.add({ isFolder: false, name: file.name, parent: this.currentRoot ? this.currentRoot.id : 'root', path: this.currentPath });
         this.updateFileElementQuery(); 

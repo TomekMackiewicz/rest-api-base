@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Filesystem\Filesystem;
 use FOS\RestBundle\View\View;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * File controller.
@@ -17,12 +18,24 @@ use FOS\RestBundle\View\View;
  * @RouteResource("File")
  */
 class FileController extends FOSRestController implements ClassResourceInterface
-{   
+{
+    
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->baseUrl = $requestStack->getCurrentRequest()->getSchemeAndHttpHost();
+    }
+
+    private function getBaseUrl()
+    {
+        return $this->baseUrl;
+    }
+    
     public function cgetAction()
     {
-        $path = $this->get('kernel')->getProjectDir() . '/public/files/';
+        $dir = $this->get('kernel')->getProjectDir().'/public/files/';
+        $baseUrl = $this->getBaseUrl().'/files/';
         $finder = new Finder();
-        $finder->in($path);
+        $finder->in($dir);
         $files = [];        
                
         $i=0;
@@ -30,13 +43,13 @@ class FileController extends FOSRestController implements ClassResourceInterface
             $parts = explode('/', $file->getRelativePathname());
             $name = array_values(array_slice($parts, -1))[0];
             $parent = sizeof($parts) > 1 ? array_values(array_slice($parts, -2))[0] : 'root';
-            $subpath = $file->getRelativePath() ? $file->getRelativePath().'/' : '';
+            $path = $file->getRelativePath() ? $baseUrl.$file->getRelativePath().'/' : $this->baseUrl;
 
             $files[$i]['id'] = $this->generateUuid();
             $files[$i]['name'] = $name;
             $files[$i]['parent'] = $parent;
             $files[$i]['isFolder'] = strpos($file, '.') !== false ? false : true;
-            $files[$i]['path'] = $path.$subpath;
+            $files[$i]['path'] = $path;
             
             $i++;
         }
@@ -51,17 +64,17 @@ class FileController extends FOSRestController implements ClassResourceInterface
     }
 
     /**
-     * Add file / dir.
+     * Add file / directory.
      * 
      * @param Request $request
      * 
      * @return View
      */    
     public function postAction(Request $request)
-    {      
+    {
+        $root = $this->get('kernel')->getProjectDir().'/public/files/';
         // File
-        if ($request->files->count() > 0) {
-            $root = $this->get('kernel')->getProjectDir().'/public/files/';
+        if ($request->files->count() > 0) {           
             $dir = $request->request->get('data');
             foreach ($request->files as $file) {
                 $file->move($root.$dir, $file->getClientOriginalName());            
@@ -69,7 +82,6 @@ class FileController extends FOSRestController implements ClassResourceInterface
         // Directory    
         } else {
             $fileSystem = new Filesystem();
-            $root = $this->get('kernel')->getProjectDir().'/public/files/';
             $file = $request->request->get('fileElement');
             $path = $root.$file['path'].$file['name'];
 
@@ -79,6 +91,8 @@ class FileController extends FOSRestController implements ClassResourceInterface
 
             $fileSystem->mkdir($path, 0777); // TODO set proper                                   
         }
+        
+        //return ?
     }
 
     /**

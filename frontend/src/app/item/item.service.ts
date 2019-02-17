@@ -11,8 +11,13 @@ export class ItemService {
         return this.http.get('http://localhost:8000/api/admin/items/' + id);
     }
 
-    getItems(sort, order, page: any, perPage: number) {
-        return this.http.get('http://localhost:8000/api/admin/items?page=' + page + '&perPage=' + perPage);
+    getItems(sort: string, order: string, page: any, perPage: number) {
+        sort = sort ? sort : 'signature';
+        order = order ? order : 'asc';
+        return this.http.get(
+            'http://localhost:8000/api/admin/items?page=' 
+            + page + '&perPage=' + perPage + '&sort=' + sort + '&order=' + order
+        );
     }
 
     createItem(signature: string, status: number) {        

@@ -16,10 +16,25 @@
    
   <div class="example-table-container">
 
-    <mat-table [dataSource]="dataSource" class="example-table">
- 
+    <mat-table [dataSource]="dataSource" matSort class="example-table">
+
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>        
+        
       <ng-container matColumnDef="signature">
-        <mat-header-cell *matHeaderCellDef>Signature</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Signature</mat-header-cell>
         <mat-cell *matCellDef="let row">{{row.signature}}</mat-cell>
       </ng-container>
 
@@ -35,8 +50,7 @@
   </div>
 </div>
             
-            
-  <mat-paginator [length]="total" [pageSizeOptions]="[10, 25, 50, 100]" (page)="pageEvent = $event; pageChanged($event)"></mat-paginator>
+  <mat-paginator [length]="total" [pageSize]="perPage" [pageSizeOptions]="[10, 25, 50, 100]" (page)="pageEvent = $event; pageChanged($event)"></mat-paginator>
         </div>
     </div>
 </div>

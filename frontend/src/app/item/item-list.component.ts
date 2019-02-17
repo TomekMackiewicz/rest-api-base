@@ -1,50 +1,34 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { SelectionModel } from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Rx';
 import { TranslateService } from '@ngx-translate/core';
 import { ItemService } from './item.service';
 //import { LoaderService } from '../services/loader.service';
 import { AlertService } from '../alert/alert.service';
-import {MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { Item } from './model/item';
 
 @Component({
     selector: 'item-list',
     templateUrl: './item-list.component.html'  
 })
 
-export class ItemListComponent implements OnInit, AfterViewInit {
+export class ItemListComponent implements AfterViewInit {
     
     private confirmDelete: string;
     private page: number = 1;
     perPage: number = 10;
-    private total: number;
-    public items: Array<Object>;
-    displayedColumns: string[] = ['signature', 'status'];
+    private total: number = 0;
+    public items: Array<Item>;
+    displayedColumns: string[] = ['select', 'signature', 'status'];
     isLoadingResults = true;
-    order: string = 'desc';
     
-    private paginator: MatPaginator;
-    private sort: MatSort;
-    dataSource: any;
-        
-//    @ViewChild(MatSort) set matSort(ms: MatSort) {
-//      this.sort = ms;
-//      this.setDataSourceAttributes();
-//    }
-//
-//    @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
-//      this.paginator = mp;
-//      this.setDataSourceAttributes();
-//    }
-//
-//    setDataSourceAttributes() {
-//      this.dataSource.paginator = this.paginator;
-//      this.dataSource.sort = this.sort;
-//
-//  //    if (this.paginator && this.sort) {
-//  //      this.applyFilter('');
-//  //    }
-//    }
-  
+    dataSource: MatTableDataSource<Item>;
+    selection = new SelectionModel<Item>(true, []);
+    
+    @ViewChild(MatSort) sort: MatSort;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+          
     constructor(
         private itemService: ItemService,
         //private loaderService: LoaderService,
@@ -57,16 +41,27 @@ export class ItemListComponent implements OnInit, AfterViewInit {
         );               
     }
 
-    ngOnInit() {        
+    ngAfterViewInit() {            
+        this.sort.sortChange.subscribe(() => {
+            this.paginator.pageIndex = 0;
+            this.getItems(); 
+        });
+        this.getItems(); 
+    }    
+
+    isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        const numRows = this.dataSource.data.length;
+        return numSelected === numRows;
     }
 
-    ngAfterViewInit() {
-        //this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-        this.getItems();        
+    masterToggle() {
+        this.isAllSelected() ?
+            this.selection.clear() :
+            this.dataSource.data.forEach(row => this.selection.select(row));
     }    
-        
+            
     pageChanged(event) {
-        console.log(event);
         this.page = event.pageIndex+1;
         this.perPage = event.pageSize;
         this.getItems();
@@ -74,14 +69,17 @@ export class ItemListComponent implements OnInit, AfterViewInit {
 
     applyFilter(filterValue: string) {
         this.dataSource.filter = filterValue.trim().toLowerCase();
+        if (this.paginator) {
+            this.paginator.firstPage();
+        }        
     }      
           
     getItems() {
-        this.itemService.getItems(this.sort, this.order, this.page, this.perPage).subscribe(
+        this.itemService.getItems(this.sort.active, this.sort.direction, this.page, this.perPage).subscribe(
             (data: any) => {
                 this.items = data.items;
                 this.total = data.total;
-                this.dataSource = new MatTableDataSource(this.items);
+                this.dataSource = new MatTableDataSource(this.items);   
                 this.isLoadingResults = false;
                 this.ref.detectChanges();
             },

@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ItemService } from './item.service';
 //import { LoaderService } from '../services/loader.service';
 import { AlertService } from '../alert/alert.service';
-import {MatPaginator, MatSort} from '@angular/material';
+import {MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
 @Component({
     selector: 'item-list',
@@ -18,7 +18,6 @@ export class ItemListComponent implements OnInit, AfterViewInit {
     private total: number;
     public items: Array<Object>;
     displayedColumns: string[] = ['signature', 'status'];
-    //resultsLength = this.items.length;
     isLoadingResults = true;
     order: string = 'desc';
     
@@ -70,12 +69,17 @@ export class ItemListComponent implements OnInit, AfterViewInit {
         this.page = event.pageIndex+1;
         this.getItems();
       }       
-    
+
+    applyFilter(filterValue: string) {
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+    }      
+          
     getItems() {
         this.itemService.getItems(this.sort, this.order, this.page).subscribe(
             (data: any) => {
                 this.items = data.items;
                 this.total = data.total;
+                this.dataSource = new MatTableDataSource(this.items);
                 this.isLoadingResults = false;
                 this.ref.detectChanges();
             },

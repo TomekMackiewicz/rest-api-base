@@ -4,17 +4,19 @@
             <h3>{{ 'item.items' | translate }}</h3>
             <button class="btn btn-default" [routerLink]="['/admin/items/create']">{{ 'crud.add' | translate }}</button>
             <hr>
-            
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>            
 <div class="example-container mat-elevation-z8"> 
     
   <div class="example-loading-shade"
        *ngIf="isLoadingResults">
     <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
   </div>    
-    
+   
   <div class="example-table-container">
 
-    <mat-table [dataSource]="items" class="example-table">
+    <mat-table [dataSource]="dataSource" class="example-table">
  
       <ng-container matColumnDef="signature">
         <mat-header-cell *matHeaderCellDef>Signature</mat-header-cell>
@@ -29,6 +31,7 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+      
   </div>
 </div>
             

@@ -92,6 +92,10 @@ export class ItemListComponent implements AfterViewInit {
         );
     }
 
+    test() {
+        console.log(this.selection);
+    }
+
     deleteItem(item: any) {  
         if (confirm(this.confirmDelete + ' ' + item.signature + "?")) {    
             //this.loaderService.displayLoader(true);

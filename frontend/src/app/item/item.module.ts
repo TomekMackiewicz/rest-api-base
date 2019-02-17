@@ -10,7 +10,8 @@ import {
     MatPaginatorModule, 
     MatSortModule, 
     MatProgressSpinnerModule, 
-    MatCheckboxModule 
+    MatCheckboxModule,
+    MatButtonModule 
 } from '@angular/material';
 import { ItemListComponent } from './item-list.component';
 import { ItemEditComponent } from './item-edit.component';
@@ -40,6 +41,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         MatProgressSpinnerModule,
         NgxPaginationModule,
         MatCheckboxModule,
+        MatButtonModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

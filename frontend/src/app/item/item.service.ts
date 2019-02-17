@@ -12,7 +12,7 @@ export class ItemService {
     }
 
     getItems(sort: string, order: string, page: any, perPage: number) {
-        sort = sort ? sort : 'signature';
+        sort = sort ? sort : 'signature'; // fix sorting
         order = order ? order : 'asc';
         return this.http.get(
             'http://localhost:8000/api/admin/items?page=' 

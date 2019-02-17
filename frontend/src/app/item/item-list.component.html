@@ -5,8 +5,9 @@
             <button class="btn btn-default" [routerLink]="['/admin/items/create']">{{ 'crud.add' | translate }}</button>
             <hr>
     <mat-form-field>
-      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-    </mat-form-field>            
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field> 
+    <button mat-raised-button (click)="test()">Test</button>        
 <div class="example-container mat-elevation-z8"> 
     
   <div class="example-loading-shade"

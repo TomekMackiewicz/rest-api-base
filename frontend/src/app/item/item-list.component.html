@@ -4,20 +4,38 @@
             <h3>{{ 'item.items' | translate }}</h3>
             <button class="btn btn-default" [routerLink]="['/admin/items/create']">{{ 'crud.add' | translate }}</button>
             <hr>
-            <table class="table">
-                <tr>
-                    <th>{{ 'item.signature' | translate }}</th>
-                    <th>{{ 'crud.actions' | translate }}</th>
-                </tr>
-                <tr *ngFor="let item of items  | paginate: { itemsPerPage: 10, currentPage: page, totalItems: total}">
-                    <td>{{ item.signature }}</td>
-                    <td>
-                        <button class="btn btn-primary" [routerLink]="['/admin/items', item.id]">{{ 'crud.edit' | translate }}</button>
-                        <button class="btn btn-danger" (click)="deleteItem(item)">{{ 'crud.delete' | translate }}</button>
-                    </td>
-                </tr>
-            </table>
-            <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+            
+<div class="example-container mat-elevation-z8"> 
+    
+  <div class="example-loading-shade"
+       *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>    
+    
+  <div class="example-table-container">
+
+    <mat-table [dataSource]="items" class="example-table">
+ 
+      <ng-container matColumnDef="signature">
+        <mat-header-cell *matHeaderCellDef>Signature</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.signature}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+        <mat-cell *matCellDef="let row">{{row.status}}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</div>
+            
+            
+  <mat-paginator [length]="total" [pageSize]="10" (page)="pageEvent = $event; pageChanged($event)"></mat-paginator>
         </div>
     </div>
 </div>
+
+

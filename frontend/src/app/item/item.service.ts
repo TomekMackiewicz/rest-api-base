@@ -11,7 +11,7 @@ export class ItemService {
         return this.http.get('http://localhost:8000/api/admin/items/' + id);
     }
 
-    getItems(page: any) {
+    getItems(sort, order, page: any) {
         return this.http.get('http://localhost:8000/api/admin/items?page=' + page);
     }
 

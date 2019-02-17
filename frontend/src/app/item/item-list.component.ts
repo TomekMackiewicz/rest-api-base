@@ -15,6 +15,7 @@ export class ItemListComponent implements OnInit, AfterViewInit {
     
     private confirmDelete: string;
     private page: number = 1;
+    perPage: number = 10;
     private total: number;
     public items: Array<Object>;
     displayedColumns: string[] = ['signature', 'status'];
@@ -67,6 +68,7 @@ export class ItemListComponent implements OnInit, AfterViewInit {
     pageChanged(event) {
         console.log(event);
         this.page = event.pageIndex+1;
+        this.perPage = event.pageSize;
         this.getItems();
       }       
 
@@ -75,7 +77,7 @@ export class ItemListComponent implements OnInit, AfterViewInit {
     }      
           
     getItems() {
-        this.itemService.getItems(this.sort, this.order, this.page).subscribe(
+        this.itemService.getItems(this.sort, this.order, this.page, this.perPage).subscribe(
             (data: any) => {
                 this.items = data.items;
                 this.total = data.total;

@@ -36,7 +36,7 @@
 </div>
             
             
-  <mat-paginator [length]="total" [pageSize]="10" (page)="pageEvent = $event; pageChanged($event)"></mat-paginator>
+  <mat-paginator [length]="total" [pageSizeOptions]="[10, 25, 50, 100]" (page)="pageEvent = $event; pageChanged($event)"></mat-paginator>
         </div>
     </div>
 </div>

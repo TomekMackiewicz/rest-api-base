@@ -49,7 +49,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
     public function cgetAction(Request $request)
     {
         $total = $this->getItemRepository()->countItems()->getSingleScalarResult();
-        $limit = 10;
+        $limit = $request->query->get('perPage');
         $page = $request->query->get('page');
         $offset = ($page - 1) * $limit;       
         $items = $this->getItemRepository()->findPaginated($limit, $offset)->getResult();

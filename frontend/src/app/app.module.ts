@@ -6,7 +6,23 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { MatCardModule, MatProgressSpinnerModule } from '@angular/material';
+import { 
+    MatCardModule, 
+    MatProgressSpinnerModule, 
+    MatMenuModule, 
+    MatButtonModule, 
+    MatDividerModule, 
+    MatIconModule, 
+    MatExpansionModule, 
+    MatListModule, 
+    MatToolbarModule, 
+    MatButtonToggleModule,
+    MatRippleModule,
+    MatSidenavModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatChipsModule
+} from '@angular/material';
 import { TokenInterceptor } from './services/token-interceptor';
 import { ItemModule } from './item/item.module';
 import { PostModule } from './post/post.module';
@@ -84,6 +100,19 @@ export function HttpLoaderFactory(http: HttpClient) {
         UserModule,
         FileExplorerModule,
         AppRoutingModule,
+        MatMenuModule,
+        MatButtonModule,
+        MatDividerModule,
+        MatIconModule,
+        MatExpansionModule,
+        MatListModule,
+        MatToolbarModule,
+        MatButtonToggleModule,
+        MatRippleModule,
+        MatSidenavModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatChipsModule,      
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,

@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
+import { AlertService } from '../alert/alert.service';
 
 @Component({
     selector: 'login',
@@ -12,7 +13,8 @@ export class LoginComponent implements OnInit {
     
     constructor(
         private authenticationService: AuthenticationService,
-        private ref: ChangeDetectorRef
+        private ref: ChangeDetectorRef,
+        private alertService: AlertService
     ) {}
 
     ngOnInit() {
@@ -21,7 +23,12 @@ export class LoginComponent implements OnInit {
 
     login() {
         this.authenticationService.login(this.model.username, this.model.password);
-        this.ref.markForCheck();
+        this.authenticationService.loginError.subscribe(
+            (error) => {
+                this.alertService.error(error.message);
+                this.ref.markForCheck();
+            }
+        );
     }
 
 }

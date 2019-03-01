@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import * as decode from 'jwt-decode';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoaderService } from '../services/loader.service';
-import { AlertService } from '../alert/alert.service';
 
 @Injectable()
 export class AuthenticationService {
@@ -15,6 +14,7 @@ export class AuthenticationService {
     public currentUsername: BehaviorSubject<string> = new BehaviorSubject<string>('');
     public admin: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     public loggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    loginError: EventEmitter<any> = new EventEmitter();
     
     getUsername(value: string) {
         this.currentUsername.next(value);
@@ -32,8 +32,7 @@ export class AuthenticationService {
         private http: HttpClient,
         private route: ActivatedRoute,
         private router: Router,
-        private loaderService: LoaderService,
-        private alertService: AlertService           
+        private loaderService: LoaderService           
     ) {};
        
     login(username: string, password: string) {
@@ -61,8 +60,8 @@ export class AuthenticationService {
                 this.loaderService.displayLoader(false);
             },
             error => {
-                this.alertService.error(error);
-                this.loaderService.displayLoader(false);
+                 this.loaderService.displayLoader(false);
+                 this.loginError.emit(error.error);
             }
         );
     }

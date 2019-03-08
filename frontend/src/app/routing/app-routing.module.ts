@@ -14,8 +14,16 @@ import { ProfileEditComponent } from '../profile/profile-edit.component';
 import { AuthGuard } from '../guards/auth.guard';
 import { AccessDeniedComponent } from '../denied/denied.component';
 import { FileComponent } from '../file/file.component';
+import { AboutComponent } from '../front/about/about.component';
+import { ContactComponent } from '../front/contact/contact.component';
 
 const routes: Routes = [
+    {path: 'about', 
+        component: AboutComponent                      
+    },
+    {path: 'contact', 
+        component: ContactComponent                      
+    },    
     {path: 'login', 
         component: LoginComponent,
         data: {

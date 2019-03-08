@@ -7,30 +7,17 @@ import { LoaderService } from './services/loader.service';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject } from "rxjs";
 import * as jwt_decode from 'jwt-decode';
-
-const slide = [
-    query(':enter, :leave', style({ position: 'fixed', width:'100%' }), { optional: true }),
-    group([
-        query(':enter', [
-            style({ transform: 'translateX(100%)' }),
-            animate('0.5s ease-in-out', style({ transform: 'translateX(0%)' }))
-        ], { optional: true }),
-        query(':leave', [
-            style({ transform: 'translateX(0%)' }),
-            animate('0.5s ease-in-out', style({ transform: 'translateX(-100%)' }))
-        ], { optional: true }),
-    ])
-];
+///import { AuthGuard } from './guards/auth.guard';
 
 const fadeIn = [
-    query(':leave', style({ position: 'absolute', left: 0, right: 0, opacity: 1 }), { optional: true }),
-    query(':enter', style({ position: 'absolute', left: 0, right: 0, opacity: 0 }), { optional: true }),
+    query(':leave', style({ position: 'relative', opacity: 1 }), { optional: true }),
+    query(':enter', style({ position: 'absolute', opacity: 0 }), { optional: true }),
     group([
         query(':leave',
-            animate('.4s', style({ opacity: 0 })),
+            animate('1s', style({ opacity: 0 })),
             { optional: true }),
         query(':enter',
-            animate('.4s .4s', style({ opacity: 1 })),
+            animate('1s 1s', style({ opacity: 1 })),
             { optional: true })
     ])
 ];
@@ -54,21 +41,23 @@ export class AppComponent implements OnInit, OnDestroy {
     subscription: Subscription;
     username: string;    
     objLoaderStatus: boolean;
-    isLoggedIn: boolean;
+    isLoggedIn: boolean; // @FIXME - not needed? (logic moved to auth guard)
     isAdmin: boolean;
+    opened: boolean = true;
     
     constructor(
         private translate: TranslateService,
         private loaderService: LoaderService,
         private authenticationService: AuthenticationService,
-        private router: Router
+        private router: Router,
+        ///private authGuard: AuthGuard
     ) {
         translate.addLangs(["pl", "en"]);
         translate.setDefaultLang('en');
         let browserLang = translate.getBrowserLang();
         translate.use(browserLang.match(/pl|en/) ? browserLang : 'en');        
         this.objLoaderStatus = false;
-        this.isLoggedIn = false;
+        this.isLoggedIn = false; // @FIXME - not needed? (logic moved to auth guard)
         this.isAdmin = false;        
         this.username = localStorage.getItem('currentUsername');
     }
@@ -83,6 +72,10 @@ export class AppComponent implements OnInit, OnDestroy {
                 !this.isTokenExpired(localStorage.getItem('token')) 
                 && localStorage.getItem('currentUsername') ? true : val;
         });
+//        this.authGuard.loggedIn.subscribe((val: boolean) => {
+//            this.isLoggedIn = !this.authGuard.isTokenExpired() && this.authGuard.isTokenSet();
+//            console.log(this.isLoggedIn);
+//        });        
         this.authenticationService.admin.subscribe((val: boolean) => {
             this.isAdmin = 
                 localStorage.getItem('userRole') == 'ROLE_ADMIN' 
@@ -90,7 +83,7 @@ export class AppComponent implements OnInit, OnDestroy {
         });
         this.loaderService.loaderStatus.subscribe((val: boolean) => {
             this.objLoaderStatus = val ? val : false;
-        });
+        });      
     }
 
     getState(outlet: any) {
@@ -129,6 +122,11 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     prepareRouteTransition(outlet: any) {
+//        this.authGuard.loggedIn.subscribe((val: boolean) => {
+//            this.isLoggedIn = !this.authGuard.isTokenExpired() && this.authGuard.isTokenSet();
+//            console.log(this.isLoggedIn);
+//        });         
+        //console.log('ttt');
         const animation = outlet.activatedRouteData['animation'] || {};
         return animation['value'] || null;
     }

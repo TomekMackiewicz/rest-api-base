@@ -43,6 +43,8 @@ import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileEditComponent } from './profile/profile-edit.component';
 import { AccessDeniedComponent } from './denied/denied.component';
+import { AboutComponent } from './front/about/about.component';
+import { ContactComponent } from './front/contact/contact.component';
 
 import { LoaderService } from './services/loader.service';
 import { ErrorService } from './services/error.service';
@@ -83,7 +85,9 @@ export function HttpLoaderFactory(http: HttpClient) {
         AccessDeniedComponent,
         FileComponent,
         EqualValidator,
-        PatternValidator     
+        PatternValidator,
+        AboutComponent,
+        ContactComponent    
   ],
   imports: [        
         HttpModule,

@@ -62,7 +62,7 @@ export class FileComponent implements OnInit {
             isFolder: true, 
             name: folder.name, 
             parent: this.currentRoot ? this.currentRoot.id : 'root', 
-            path: this.currentPath 
+            path: this.currentPath ? this.currentPath : ''
         });
     }
     

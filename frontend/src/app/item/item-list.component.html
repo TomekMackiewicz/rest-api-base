@@ -1,59 +1,55 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h3>{{ 'item.items' | translate }}</h3>
-            <button class="btn btn-default" [routerLink]="['/admin/items/create']">{{ 'crud.add' | translate }}</button>
-            <hr>
-    <mat-form-field>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-    </mat-form-field> 
-    <button mat-raised-button (click)="test()">Test</button>        
-<div class="example-container mat-elevation-z8"> 
-    
-  <div class="example-loading-shade"
-       *ngIf="isLoadingResults">
-    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-  </div>    
-   
-  <div class="example-table-container">
-
-    <mat-table [dataSource]="dataSource" matSort class="example-table">
-
-    <ng-container matColumnDef="select">
-      <mat-header-cell *matHeaderCellDef>
-        <mat-checkbox (change)="$event ? masterToggle() : null"
-                      [checked]="selection.hasValue() && isAllSelected()"
-                      [indeterminate]="selection.hasValue() && !isAllSelected()">
-        </mat-checkbox>
-      </mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <mat-checkbox (click)="$event.stopPropagation()"
-                      (change)="$event ? selection.toggle(row) : null"
-                      [checked]="selection.isSelected(row)">
-        </mat-checkbox>
-      </mat-cell>
-    </ng-container>        
-        
-      <ng-container matColumnDef="signature">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Signature</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{row.signature}}</mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="status">
-        <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-        <mat-cell *matCellDef="let row">{{row.status}}</mat-cell>
-      </ng-container>
-
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-      
-  </div>
-</div>
-            
-  <mat-paginator [length]="total" [pageSize]="perPage" [pageSizeOptions]="[10, 25, 50, 100]" (page)="pageEvent = $event; pageChanged($event)"></mat-paginator>
-        </div>
-    </div>
-</div>
-
-
+<h1>{{ 'item.items' | translate }}</h1>
+<mat-toolbar>
+        <button mat-button [routerLink]="['/admin/items/create']">
+            <mat-icon>add</mat-icon> {{ 'crud.add' | translate }}
+        </button>
+        <span class="fill-space"></span>
+        <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field> 
+        <button mat-button (click)="test()">Test</button>     
+</mat-toolbar>
+<mat-card>
+    <mat-card-content>
+        <div class="loading-shade" *ngIf="isLoadingResults">
+            <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+        </div>    
+        <mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="select">
+                <mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                                  [checked]="selection.hasValue() && isAllSelected()"
+                                  [indeterminate]="selection.hasValue() && !isAllSelected()">
+                    </mat-checkbox>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <mat-checkbox (click)="$event.stopPropagation()"
+                                  (change)="$event ? selection.toggle(row) : null"
+                                  [checked]="selection.isSelected(row)">
+                    </mat-checkbox>
+                </mat-cell>
+            </ng-container>        
+            <ng-container matColumnDef="signature">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Signature
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <a [routerLink]="['/admin/items', row.id]" matTooltip="Edit item">
+                        {{row.signature}}
+                    </a>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef>
+                    Status
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    {{row.status}}
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>      
+        <mat-paginator [length]="total" [pageSize]="perPage" [pageSizeOptions]="[10, 25, 50, 100]" (page)="pageEvent = $event; pageChanged($event)"></mat-paginator>        
+    </mat-card-content>
+</mat-card>

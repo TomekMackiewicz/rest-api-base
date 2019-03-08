@@ -1,7 +1,14 @@
 <mat-sidenav-container>
-    <mat-sidenav>Sidenav content</mat-sidenav>
+    <mat-sidenav #sidenav>Sidenav content</mat-sidenav>
     <mat-sidenav-content>
-        <mat-toolbar>My App</mat-toolbar>
+        <mat-toolbar>
+            <div fxShow="true" fxHide.lt-md="true">
+                My App
+            </div>
+            <div fxShow="true" fxHide.gt-sm="true">
+                <mat-icon class="clicable" (click)="sidenav.toggle()">menu</mat-icon>
+            </div>
+        </mat-toolbar>
         <main>
             Main
         </main>

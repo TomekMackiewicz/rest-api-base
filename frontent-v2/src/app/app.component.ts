@@ -36,14 +36,12 @@ const fadeIn = [
 
 export class AppComponent implements OnInit, OnDestroy {
 
-    //stateVal = 'slide';
     title = 'Main page';
     subscription: Subscription;
     username: string;    
     objLoaderStatus: boolean;
     isLoggedIn: boolean; // @FIXME - not needed? (logic moved to auth guard)
     isAdmin: boolean;
-    opened: boolean = true;
     
     constructor(
         private translate: TranslateService,
@@ -52,10 +50,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private router: Router,
         ///private authGuard: AuthGuard
     ) {
-        translate.addLangs(["pl", "en"]);
-        translate.setDefaultLang('en');
-        let browserLang = translate.getBrowserLang();
-        translate.use(browserLang.match(/pl|en/) ? browserLang : 'en');        
+        translate.setDefaultLang(navigator.language);      
         this.objLoaderStatus = false;
         this.isLoggedIn = false; // @FIXME - not needed? (logic moved to auth guard)
         this.isAdmin = false;        
@@ -84,6 +79,10 @@ export class AppComponent implements OnInit, OnDestroy {
         this.loaderService.loaderStatus.subscribe((val: boolean) => {
             this.objLoaderStatus = val ? val : false;
         });      
+    }
+
+    useLanguage(language: string) {
+        this.translate.use(language);
     }
 
     getState(outlet: any) {

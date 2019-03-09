@@ -62,9 +62,8 @@ import { FileService } from './file-explorer/file.service';
 import { FileExplorerModule } from './file-explorer/file-explorer.module';
 import { FileComponent } from './file/file.component';
 
-// AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
-    return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
+    return new TranslateHttpLoader(http);
 }
 
 @NgModule({

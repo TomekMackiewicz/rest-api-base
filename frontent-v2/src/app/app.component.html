@@ -107,16 +107,19 @@
 
 <mat-sidenav-container fxFlexFill *ngIf="!isLoggedIn">
     <mat-sidenav #sidenav>
-        <a routerLink="/about" routerLinkActive="active">About</a>
-        <a routerLink="/contact" routerLinkActive="active">Contact</a>
-        <a routerLink="/login" routerLinkActive="active">Login</a>                
+        <a mat-button routerLink="/about" routerLinkActive="active">About</a>
+        <a mat-button routerLink="/contact" routerLinkActive="active">Contact</a>
+        <a mat-button routerLink="/login" routerLinkActive="active">Login</a> 
+        <span class="fill-space"></span>
+<!--        <button mat-button class="pl" value="pl"></button>
+        <button mat-button class="pl" value="pl"></button>-->
     </mat-sidenav>
-    <mat-sidenav-content>
+    <mat-sidenav-content fxLayout="column" fxLayoutGap="64px">
         <mat-toolbar>
             <div fxShow="true" fxHide.lt-md="true">
-            <a routerLink="/about" routerLinkActive="active">About</a>
-            <a routerLink="/contact" routerLinkActive="active">Contact</a>
-            <a routerLink="/login" routerLinkActive="active">Login</a>
+                <a mat-button routerLink="/about" routerLinkActive="active">About</a>
+                <a mat-button routerLink="/contact" routerLinkActive="active">Contact</a>
+                <a mat-button routerLink="/login" routerLinkActive="active">Login</a>
             </div>
             <div fxShow="true" fxHide.gt-sm="true">
                 <mat-icon class="clicable" (click)="sidenav.toggle()">menu</mat-icon>

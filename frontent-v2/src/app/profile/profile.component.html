@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <h2>{{ 'user.profile' | translate }}</h2>
+            <div *ngIf="user">
+                <p>{{ user.username }}</p>
+                <p>{{ user.email }}</p>
+                <ul *ngFor="let role of user.roles">
+                    <li>{{ role }}</li>
+                </ul> 
+                <div>
+                    <button class="btn btn-primary" [routerLink]="['/user/profile/edit', user.id]">{{ 'crud.edit' | translate }}</button>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>

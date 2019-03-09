@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>{{ 'post.posts' | translate }}</h3>
+            <ul class="nav nav-pills">
+                <li role="presentation">
+                    <button class="btn btn-default" 
+                            [routerLink]="['/admin/posts/create']">
+                        {{ 'crud.add' | translate }}
+                    </button>
+                </li>
+                <li role="presentation">
+                    <input type="text" 
+                           class="form-control" 
+                           name="query" 
+                           placeholder="Search" 
+                           [formControl]="query">
+                </li>
+                <li role="presentation">
+                    <button class="btn btn-default" (click)="getPosts()">
+                        {{ 'ui.reset' | translate }}
+                    </button>
+                </li>
+            </ul>
+            <hr>
+            <table class="table">
+                <tr>
+                    <th>{{ 'post.title' | translate }}</th>
+                    <th>{{ 'post.body' | translate }}</th>
+                    <th>{{ 'crud.actions' | translate }}</th>
+                </tr>
+                <tr *ngFor="let post of posts">
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.body }}</td>
+                    <td>
+                        <button class="btn btn-primary" [routerLink]="['/admin/posts', post.id]">
+                            {{ 'crud.edit' | translate }}
+                        </button>
+                        <button class="btn btn-danger" (click)="deletePost(post)">
+                            {{ 'crud.delete' | translate }}
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

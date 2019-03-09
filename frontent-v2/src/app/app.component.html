@@ -1,16 +1,276 @@
-<mat-sidenav-container>
-    <mat-sidenav #sidenav>Sidenav content</mat-sidenav>
-    <mat-sidenav-content>
+<!--<nav *ngIf="isLoggedIn" class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button
+                type="button"
+                class="navbar-toggle collapsed"
+                data-toggle="collapse"
+                data-target="#bs-example-navbar-collapse-1"
+                aria-expanded="false"
+                >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a routerLink="/" routerLinkActive="active" class="navbar-brand">
+                {{ 'ui.front' | translate }}
+            </a>           
+                    </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul *ngIf="isAdmin" class="nav navbar-nav">
+                <li>
+                    <a routerLink="/admin/items" routerLinkActive="active">
+                        {{ 'item.items' | translate }}
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/admin/posts" routerLinkActive="active">
+                        {{ 'post.posts' | translate }}
+                    </a>
+                </li>                
+                <li>
+                    <a routerLink="/admin/users" routerLinkActive="active">
+                        {{ 'user.users' | translate }}
+                        </a>
+                </li> 
+                <li>
+                    <a routerLink="/admin/files" routerLinkActive="active">
+                        {{ 'file.files' | translate }}
+                        </a>
+                </li>                 
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <select class="navbar-select" 
+                            #langSelect 
+                            (change)="translate.use(langSelect.value)">
+                        <option *ngFor="let lang of translate.getLangs()" 
+                            [value]="lang" 
+                            [selected]="lang === translate.currentLang">{{ lang }}
+                        </option>
+                    </select>
+                </li>                
+                <li class="dropdown">
+                    <a href="#"
+                       class="dropdown-toggle"
+                       data-toggle="dropdown"
+                       role="button"
+                       aria-haspopup="true"
+                       aria-expanded="false"
+                       >
+                        {{ 'ui.hello' | translate }}, {{ username }}
+                        <span class="caret"></span>
+                        </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a routerLink="/user/profile" routerLinkActive="active">
+                                {{ 'ui.profile' | translate }}
+                        </a>
+                        </li>                        
+                        <li>
+                            <a routerLink="/user/change-password" routerLinkActive="active">
+                    {{ 'ui.password_change' | translate }}                       
+                            </a>
+                        </li>
+                        <li>
+                            <a routerLink="/logout" routerLinkActive="active">
+                    {{ 'ui.logout' | translate }}                       
+                            </a>
+                        </li>                       
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<nav *ngIf="!isLoggedIn" class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button
+                type="button"
+                class="navbar-toggle collapsed"
+                data-toggle="collapse"
+                data-target="#bs-example-navbar-collapse-1"
+                aria-expanded="false"
+                >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </button>                    
+            <a routerLink="/" routerLinkActive="active" class="navbar-brand">
+                {{ 'ui.title' | translate }}
+            </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a routerLink="/login" routerLinkActive="active">{{ 'ui.login' | translate }}</a></li>
+                <li><a routerLink="/register" routerLinkActive="active">{{ 'ui.register' | translate }}</a></li>
+                <li>
+                    <a>{{ 'ui.select_language' | translate }}</a></li>
+                <li>
+                    <select class="navbar-select" 
+                            #langSelect 
+                            (change)="translate.use(langSelect.value)">
+                        <option *ngFor="let lang of translate.getLangs()" 
+                            [value]="lang" 
+                            [selected]="lang === translate.currentLang">{{ lang }}
+                        </option>
+                    </select>
+                </li>
+            </ul>
+        </div> /.navbar-collapse 
+    </div> /.container 
+</nav>
+<router-outlet name="header"></router-outlet>
+<div *ngIf="objLoaderStatus" id="loaderWrap">
+        <mat-spinner *ngIf="objLoaderStatus" id="loader"></mat-spinner> 
+</div>
+tu container
+    <div [@routerAnimations]="prepareRouteTransition(outlet)">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+        <alert></alert>  
+    </div>    
+</div>
+</div>
+    <router-outlet #outlet="outlet"></router-outlet>    
+</div>
+tu container
+<router-outlet name="footer"></router-outlet>-->
+
+<mat-sidenav-container *ngIf="isLoggedIn">
+<!--                       over on mobile-->
+    <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidebar" fixedInViewport> 
+
+        <mat-toolbar>R.A.B.</mat-toolbar>
+        <mat-divider></mat-divider>
+        <mat-nav-list>
+            <a mat-list-item routerLink="/admin/dashboard" routerLinkActive="active">
+                <mat-icon matListIcon iconsmall>dashboard</mat-icon>
+                <h3 matLine>Dashboard</h3>
+            </a>           
+        </mat-nav-list> 
+        
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon class="sidebar-icon">storage</mat-icon>
+                    <div class="sidebar-title-wrapper">
+                        <h3 class="sidebar-title">{{ 'item.items' | translate }}</h3> 
+                    </div>
+                </mat-expansion-panel-header>
+                <mat-nav-list>
+                    <a mat-list-item routerLink="/admin/items" routerLinkActive="active">
+                        <h3 matLine>{{ 'item.items' | translate }}</h3>
+                    </a>
+                    <a mat-list-item routerLink="/admin/items/create" routerLinkActive="active">
+                        <h3 matLine>{{ 'crud.add' | translate }}</h3>
+                    </a>
+                </mat-nav-list>                
+            </mat-expansion-panel>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon class="sidebar-icon">create</mat-icon>
+                    <div class="sidebar-title-wrapper">
+                        <h3 class="sidebar-title">{{ 'post.posts' | translate }}</h3> 
+                    </div>                    
+                </mat-expansion-panel-header>
+                    <mat-nav-list>
+                        <a mat-list-item routerLink="/admin/posts" routerLinkActive="active">
+                            <h3 matLine>{{ 'post.posts' | translate }}</h3>
+                        </a>
+                        <a mat-list-item routerLink="/admin/posts/create" routerLinkActive="active">
+                            <h3 matLine>{{ 'crud.add' | translate }}</h3>
+                        </a>
+                    </mat-nav-list>
+            </mat-expansion-panel>           
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon class="sidebar-icon">people</mat-icon>
+                    <div class="sidebar-title-wrapper">
+                        <h3 class="sidebar-title">{{ 'user.users' | translate }}</h3> 
+                    </div>                     
+                </mat-expansion-panel-header>
+                    <mat-nav-list>
+                        <a mat-list-item routerLink="/admin/users" routerLinkActive="active">
+                            <h3 matLine>{{ 'user.users' | translate }}</h3>
+                        </a>
+                    </mat-nav-list>
+            </mat-expansion-panel>            
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-icon class="sidebar-icon">insert_drive_file</mat-icon>
+                    <div class="sidebar-title-wrapper">
+                        <h3 class="sidebar-title">{{ 'file.files' | translate }}</h3> 
+                    </div>                      
+                </mat-expansion-panel-header>
+                    <mat-nav-list>
+                        <a mat-list-item routerLink="/admin/files" routerLinkActive="active">
+                            <h3 matLine>{{ 'file.files' | translate }}</h3>
+                        </a>
+                    </mat-nav-list>
+            </mat-expansion-panel>            
+        </mat-accordion>        
+    </mat-sidenav>
+    <mat-sidenav-content class="dashboard">       
         <mat-toolbar>
-            <div fxShow="true" fxHide.lt-md="true">
-                My App
-            </div>
-            <div fxShow="true" fxHide.gt-sm="true">
-                <mat-icon class="clicable" (click)="sidenav.toggle()">menu</mat-icon>
-            </div>
+            <button mat-button (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span class="fill-space"></span>
+            <mat-button-toggle-group #langSelect="matButtonToggleGroup" (change)="translate.use(langSelect.value)">
+                <mat-button-toggle *ngFor="let lang of translate.getLangs()" [value]="lang">
+                    <img src="/assets/flag-{{ lang }}.png">
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+            {{ 'ui.hello' | translate }}, {{ username }}
+            <button mat-button [matMenuTriggerFor]="menu">
+                <mat-icon>person</mat-icon>
+            </button>                
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item routerLink="/user/profile" routerLinkActive="active">
+                    {{ 'ui.profile' | translate }}
+                </button>
+                <button mat-menu-item routerLink="/user/change-password" routerLinkActive="active">
+                    {{ 'ui.password_change' | translate }}                       
+                </button>
+                <button mat-menu-item routerLink="/logout" routerLinkActive="active">
+                    {{ 'ui.logout' | translate }}                       
+                </button>                    
+            </mat-menu> 
         </mat-toolbar>
-        <main>
-            Main
-        </main>
+
+<!--        <div [@routerAnimations]="prepareRouteTransition(outlet)">-->
+            <main class="container" [@routerAnimations]="prepareRouteTransition(outlet)">
+                <alert></alert>
+                <router-outlet #outlet="outlet"></router-outlet> 
+            </main>
+<!--        </div>-->
+        
     </mat-sidenav-content>
 </mat-sidenav-container>
+
+<div *ngIf="!isLoggedIn">
+    <div *ngIf="objLoaderStatus" id="loaderWrap">
+        <mat-spinner *ngIf="objLoaderStatus" id="loader"></mat-spinner> 
+    </div>    
+    <div [@routerAnimations]="prepareRouteTransition(outlet)">
+        <mat-toolbar>
+            <a routerLink="/about" routerLinkActive="active">About</a>
+            <a routerLink="/contact" routerLinkActive="active">Contact</a>
+            <a routerLink="/admin/items" routerLinkActive="active">Items</a>
+            <a routerLink="/login" routerLinkActive="active">Login</a>
+        </mat-toolbar>
+        <alert></alert>  
+        <router-outlet #outlet="outlet"></router-outlet>    
+    </div>    
+</div>
+
+<!--<div *ngIf="objLoaderStatus" id="loaderWrap">
+    <mat-spinner id="loader"></mat-spinner> 
+</div>-->
+
+<!--        <div [@routerAnimations]="prepareRouteTransition(outlet)" class="anim-wrap"></div>-->

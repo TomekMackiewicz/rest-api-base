@@ -1,0 +1,93 @@
+{
+    "crud": {
+        "actions": "Działania",
+        "add": "Dodaj",
+        "create_success": "Utworzono.",
+        "delete": "Usuń",
+        "delete_confirm": "Czy na pewno chcesz usunąć",
+        "delete_success": "Usunięto.",
+        "duplicated": "Ta nazwa jest już zajęta.",
+        "edit": "Edytuj",
+        "missing_token": "Brak tokena.",
+        "save": "Zapisz",
+        "update_success": "Uaktualniono.",
+        "wrong_token": "Nieprawidłowy token."
+    },
+    "file": {
+        "already_exists": "Element o tej nazwie już isnieje",
+        "create_error": "Wystąpił błąd podczas zapisu",
+        "delete_error": "Wystąpił błąd podczas usuwania",
+        "files": "pliki"
+    },    
+    "form": {
+        "password": "Hasło",
+        "password_change": "Zmień hasło",
+        "password_confirm": "Potwierdź hasło",
+        "password_current": "Aktualne hasło",        
+        "password.forgot": "Zapomniałeś hasła?",
+        "password_mismatch": "Niezgodność haseł.",
+        "password_new": "Nowe hasło",
+        "required": "To pole jest wymagane.",
+        "username": "Nazwa użytkownika",
+        "username_or_email": "Nazwa użytkownika lub email",
+        "validation": {
+            "email.invalid": "Niepoprawny adres e-mail.",
+            "email.required": "E-mail jest wymagany.",            
+            "password.invalid": "Niepoprawne hasło.",
+            "password.regex": "Hasło musi zawierać co najmniej jedną dużą literę i cyfrę.",
+            "password.required": "Hasło jest wymagane.",
+            "password.too_short": "Hasło musi się składać z co najmniej 5 znaków.",
+            "username.regex": "Nazwa użytkownika musi zawierać co najmniej jedną wielką literę.",
+            "username.required": "Nazwa użytkownika jest wymagana.",
+            "username_or_email.required": "Nazwa użytkownika lub email są wymagane.",
+            "username.too_short": "Nazwa użytkownika musi się składać z co najmniej 6 znaków."
+        }        
+    },
+    "item": {
+        "errors": {
+            "delete": "Błąd usuwania.",
+            "load": "Błąd podczas ładowania."
+        },        
+        "items": "Przedmioty",
+        "signature": "Sygnatura",
+        "status": "Status"
+    },
+    "post": {
+        "body": "Treść",
+        "posts": "Posty",
+        "title": "Tytuł"
+    },    
+    "ui": {
+        "back": "Wróć",
+        "front": "Powrót do strony",
+        "hello": "Witaj",
+        "login": "Zaloguj",
+        "logout": "Wyloguj",
+        "password_change": "Zmień hasło",
+        "profile": "Profil",
+        "register": "Zarejestruj się",
+        "select_language": "Wybierz język",
+        "title": "Tytuł"
+    },
+    "user": {
+        "current_password": "Aktualne hasło",
+        "disabled": "Zablokowany",
+        "email": "E-mail",
+        "email.duplicated": "Ten email jest już zarejestrowany.",
+        "enabled": "Aktywny",
+        "last_login": "Ostatnie logowanie",
+        "not_recognised": "Nie ma takiego użytkownika.",
+        "profile": "Profil użytkownika",
+        "register.success": "Użytkownik został zarejestrowany.",
+        "resetting.check_email": "Email został wysłany. Zawiera link do zmiany hasła. Jeśli nie otrzymasz wiadomości, sprawdź folder spam.",
+        "resetting.password_already_requested": "Prośba o zmianę hasła została już wysłana w ciągu 24 godzin.",
+        "resetting.password_mismatch": "Podane hasła nie pasują do siebie.",
+        "roles": "Role",
+        "status": "Status",
+        "status_change": "Status został zmieniony.",
+        "username": "Nazwa", 
+        "username.duplicated": "Ta nazwa użytkownika jest już zajęta.",
+        "users": "Użytkownicy"
+    }
+
+}

@@ -1,0 +1,93 @@
+{
+    "crud": {
+        "actions": "Actions",
+        "add": "Add",
+        "create_success": "Created successfully.",
+        "delete": "Delete",
+        "delete_confirm": "Are you sure you want to delete",
+        "delete_success": "Deleted.",
+        "duplicated": "This value is already in use.",
+        "edit": "Edit",
+        "missing_token": "You must submit a token.",
+        "save": "Save",
+        "update_success": "Updated successfully.",
+        "wrong_token": "Wrong token."
+    },
+    "file": {
+        "already_exists": "Element with this name already exists",
+        "create_error": "An error occurred while creating",
+        "delete_error": "An error occurred while deleting",
+        "files": "files"        
+    },    
+    "form": {
+        "password": "Password",
+        "password_change": "Change password",
+        "password_confirm": "Confirm password",
+        "password_current": "Current password",
+        "password.forgot": "Forgot password?",
+        "password_mismatch": "The entered passwords don't match.",
+        "password_new": "New password",
+        "required": "This field is reguired.",
+        "username": "Username",
+        "username_or_email": "Username or email",
+        "validation": {
+            "email.invalid": "Email is not valid.",
+            "email.required": "Email is required.",
+            "password.invalid": "Invalid password.",
+            "password.regex": "Password must contain at least one uppercase and one digit.",
+            "password.required": "Password is required.",
+            "password.too_short": "Password must be at least 6 characters long.",
+            "username.regex": "Username must contain at least one uppercase.",
+            "username.required": "Username is required.",
+            "username_or_email.required": "Username / email is required.",
+            "username.too_short": "Username must be at least 5 characters long."
+        }        
+    },
+    "item": {
+        "errors": {
+            "delete": "Error deleteing item.",
+            "load": "Error loading items."
+        },
+        "items": "Items",
+        "signature": "Signature",
+        "status": "Status"
+    },
+    "post": {
+        "body": "Body",
+        "posts": "Posts",
+        "title": "Title"
+    },
+    "ui": {
+        "back": "Go back",
+        "front": "Front page",
+        "hello": "Hello",
+        "login": "Login",
+        "logout": "Logout",
+        "password_change": "Change password",
+        "profile": "Profile",
+        "register": "Register",
+        "select_language": "Select language",
+        "title": "Title"
+    },
+    "user": {
+        "current_password": "Current password",
+        "disabled": "Disabled",
+        "email": "E-mail",
+        "email.duplicated": "This email is already in use.",
+        "enabled": "Enabled",
+        "last_login": "Last login",
+        "not_recognised": "User not recognised",
+        "profile": "User profile",
+        "register.success": "The user has been created successfully.",
+        "resetting.check_email": "An email has been sent. It contains a link you must click to reset your password. If you don't get an email check your spam folder or try again.",
+        "resetting.password_already_requested": "The password for this user has already been requested within the last 24 hours.",
+        "resetting.password_mismatch": "Passwords don't match.",
+        "roles": "Roles",
+        "status": "Status",
+        "status_change": "User status changed.",
+        "username": "Username",
+        "username.duplicated": "This username is already in use.",
+        "users": "Users"
+    }
+
+}

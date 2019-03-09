@@ -9,6 +9,31 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+mat-sidenav {
+    width: 250px;
+}
+
 .clicable {
     cursor: pointer;
+}
+
+.fill-space {
+    flex: 1 1 auto;
+}
+
+.sidebar-icon {
+    padding: 4px;
+}
+
+.sidebar-title {
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    font-size: 16px;    
+}
+
+.sidebar-title-wrapper {
+    display: flex; 
+    padding-left: 16px;
+    align-items: center;  
 }

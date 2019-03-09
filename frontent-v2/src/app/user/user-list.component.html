@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>{{ 'user.users' | translate }}</h3>
+            <table class="table">
+                <tr>
+                    <th>{{ 'user.username' | translate }}</th>
+                    <th>{{ 'user.email' | translate }}</th>                   
+                    <th>{{ 'user.roles' | translate }}</th>
+                    <th>{{ 'user.last_login' | translate }}</th>
+                    <th>{{ 'user.status' | translate }}</th>
+                    <th>{{ 'crud.actions' | translate }}</th>
+                </tr>
+                <tr *ngFor="let user of users">
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <ng-container *ngIf="user.roles.length; else isUser">
+                        <td *ngFor="let role of user.roles">Admin</td>
+                    </ng-container>
+                    <ng-template #isUser>
+                        <td>User</td>
+                    </ng-template>                
+                    <td>{{ user.lastLogin | date:'dd.MM.y HH:mm' }}</td>                    
+                    <td *ngIf="user.enabled; else userDisabled">
+                        <button class="btn btn-success btn-sm" (click)="toogleUserStatus(user)">{{ 'user.enabled' | translate }}</button>
+                    </td>
+                    <ng-template #userDisabled>
+                        <td><button class="btn btn-danger btn-sm" (click)="toogleUserStatus(user)">{{ 'user.disabled' | translate }}</button></td>
+                    </ng-template>
+                    <td>
+                        <button class="btn btn-danger btn-sm" (click)="deleteUser(user)">{{ 'crud.delete' | translate }}</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

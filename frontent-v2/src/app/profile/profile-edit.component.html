@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <h2>{{ 'crud.edit' | translate }}</h2>
+            <form *ngIf="user" name="form" (ngSubmit)="f.form.valid && updateProfile()" #f="ngForm" novalidate>
+                <div class="form-group" [ngClass]="{ 'has-error': (f.submitted && !email.valid) || (f.submitted && !validation.email) }">
+                    <label for="user-email">{{ 'user.email' | translate }}</label>
+                    <input type="text"
+                           class="form-control"
+                           id="user-email"
+                           name="user-email" 
+                           [(ngModel)]="user.email"
+                           #email="ngModel">
+                    <div *ngIf="!validation.email" class="help-block">{{ validation.emailMsg | translate }}</div>
+                </div>
+                <div class="form-group" [ngClass]="{ 'has-error': (f.submitted && !currentPassword.valid) || (f.submitted && !validation.currentPassword) }">
+                    <label for="user-currentPassword">{{ 'user.current_password' | translate }}</label>
+                    <input type="password"
+                           class="form-control"
+                           id="user-currentPassword"
+                           name="user-currentPassword" 
+                           [(ngModel)]="user.currentPassword"
+                           #currentPassword="ngModel">
+                    <div *ngIf="!validation.currentPassword" class="help-block">{{ validation.currentPasswordMsg | translate }}</div>
+                </div>                    
+                <div class="form-group">
+                    <button class="btn btn-primary">{{ 'crud.edit' | translate }}</button>
+                </div>
+            </form>
+            <button class="btn btn-default" (click)="goBack()">{{ 'ui.back' | translate }}</button>
+        </div>
+    </div>
+</div>

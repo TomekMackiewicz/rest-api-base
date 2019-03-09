@@ -109,19 +109,30 @@
     <mat-sidenav #sidenav>
         <a mat-button routerLink="/about" routerLinkActive="active">About</a>
         <a mat-button routerLink="/contact" routerLinkActive="active">Contact</a>
-        <a mat-button routerLink="/login" routerLinkActive="active">Login</a> 
-        <span class="fill-space"></span>
-<!--        <button mat-button class="pl" value="pl"></button>
-        <button mat-button class="pl" value="pl"></button>-->
+        <mat-divider></mat-divider>
+        <a mat-button routerLink="/login" routerLinkActive="active">
+            {{ 'ui.login' | translate }}
+        </a> 
+        <a mat-button routerLink="/register" routerLinkActive="active">
+            {{ 'ui.register' | translate }}
+        </a> 
     </mat-sidenav>
     <mat-sidenav-content fxLayout="column" fxLayoutGap="64px">
         <mat-toolbar>
-            <div fxShow="true" fxHide.lt-md="true">
+            <div fxHide.lt-md="true" fxFlex>
                 <a mat-button routerLink="/about" routerLinkActive="active">About</a>
                 <a mat-button routerLink="/contact" routerLinkActive="active">Contact</a>
-                <a mat-button routerLink="/login" routerLinkActive="active">Login</a>
+                <span fxFlex></span>
+                <button *ngIf="language=='en-US'" mat-button class="pl" (click)="useLanguage('pl')">.</button>
+                <button *ngIf="language=='pl'" mat-button class="en" (click)="useLanguage('en-US')">.</button>                
+                <a mat-button routerLink="/login" routerLinkActive="active">
+                    {{ 'ui.login' | translate }}
+                </a>
+                <a mat-button routerLink="/register" routerLinkActive="active">
+                    {{ 'ui.register' | translate }}
+                </a> 
             </div>
-            <div fxShow="true" fxHide.gt-sm="true">
+            <div fxHide.gt-sm="true">
                 <mat-icon class="clicable" (click)="sidenav.toggle()">menu</mat-icon>
             </div>
         </mat-toolbar>

@@ -42,6 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
     objLoaderStatus: boolean;
     isLoggedIn: boolean; // @FIXME - not needed? (logic moved to auth guard)
     isAdmin: boolean;
+    language: string = navigator.language;
     
     constructor(
         private translate: TranslateService,
@@ -82,6 +83,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     useLanguage(language: string) {
+        this.language = language;
         this.translate.use(language);
     }
 

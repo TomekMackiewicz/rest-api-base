@@ -1,150 +1,7 @@
-<!--<nav *ngIf="isLoggedIn" class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button
-                type="button"
-                class="navbar-toggle collapsed"
-                data-toggle="collapse"
-                data-target="#bs-example-navbar-collapse-1"
-                aria-expanded="false"
-                >
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a routerLink="/" routerLinkActive="active" class="navbar-brand">
-                {{ 'ui.front' | translate }}
-            </a>           
-                    </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul *ngIf="isAdmin" class="nav navbar-nav">
-                <li>
-                    <a routerLink="/admin/items" routerLinkActive="active">
-                        {{ 'item.items' | translate }}
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/admin/posts" routerLinkActive="active">
-                        {{ 'post.posts' | translate }}
-                    </a>
-                </li>                
-                <li>
-                    <a routerLink="/admin/users" routerLinkActive="active">
-                        {{ 'user.users' | translate }}
-                        </a>
-                </li> 
-                <li>
-                    <a routerLink="/admin/files" routerLinkActive="active">
-                        {{ 'file.files' | translate }}
-                        </a>
-                </li>                 
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <select class="navbar-select" 
-                            #langSelect 
-                            (change)="translate.use(langSelect.value)">
-                        <option *ngFor="let lang of translate.getLangs()" 
-                            [value]="lang" 
-                            [selected]="lang === translate.currentLang">{{ lang }}
-                        </option>
-                    </select>
-                </li>                
-                <li class="dropdown">
-                    <a href="#"
-                       class="dropdown-toggle"
-                       data-toggle="dropdown"
-                       role="button"
-                       aria-haspopup="true"
-                       aria-expanded="false"
-                       >
-                        {{ 'ui.hello' | translate }}, {{ username }}
-                        <span class="caret"></span>
-                        </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a routerLink="/user/profile" routerLinkActive="active">
-                                {{ 'ui.profile' | translate }}
-                        </a>
-                        </li>                        
-                        <li>
-                            <a routerLink="/user/change-password" routerLinkActive="active">
-                    {{ 'ui.password_change' | translate }}                       
-                            </a>
-                        </li>
-                        <li>
-                            <a routerLink="/logout" routerLinkActive="active">
-                    {{ 'ui.logout' | translate }}                       
-                            </a>
-                        </li>                       
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<nav *ngIf="!isLoggedIn" class="navbar navbar-default">
-    <div class="container">
-        <div class="navbar-header">
-            <button
-                type="button"
-                class="navbar-toggle collapsed"
-                data-toggle="collapse"
-                data-target="#bs-example-navbar-collapse-1"
-                aria-expanded="false"
-                >
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                </button>                    
-            <a routerLink="/" routerLinkActive="active" class="navbar-brand">
-                {{ 'ui.title' | translate }}
-            </a>
-        </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a routerLink="/login" routerLinkActive="active">{{ 'ui.login' | translate }}</a></li>
-                <li><a routerLink="/register" routerLinkActive="active">{{ 'ui.register' | translate }}</a></li>
-                <li>
-                    <a>{{ 'ui.select_language' | translate }}</a></li>
-                <li>
-                    <select class="navbar-select" 
-                            #langSelect 
-                            (change)="translate.use(langSelect.value)">
-                        <option *ngFor="let lang of translate.getLangs()" 
-                            [value]="lang" 
-                            [selected]="lang === translate.currentLang">{{ lang }}
-                        </option>
-                    </select>
-                </li>
-            </ul>
-        </div> /.navbar-collapse 
-    </div> /.container 
-</nav>
-<router-outlet name="header"></router-outlet>
-<div *ngIf="objLoaderStatus" id="loaderWrap">
-        <mat-spinner *ngIf="objLoaderStatus" id="loader"></mat-spinner> 
-</div>
-tu container
-    <div [@routerAnimations]="prepareRouteTransition(outlet)">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-        <alert></alert>  
-    </div>    
-</div>
-</div>
-    <router-outlet #outlet="outlet"></router-outlet>    
-</div>
-tu container
-<router-outlet name="footer"></router-outlet>-->
-
-<mat-sidenav-container *ngIf="isLoggedIn">
+<mat-sidenav-container fxFlexFill *ngIf="isLoggedIn">
 <!--                       over on mobile-->
-    <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="sidebar" fixedInViewport> 
-
+    <mat-sidenav #sidenav mode="side"> 
+        <mat-icon class="clicable" (click)="sidenav.toggle()">close</mat-icon>
         <mat-toolbar>R.A.B.</mat-toolbar>
         <mat-divider></mat-divider>
         <mat-nav-list>
@@ -152,8 +9,7 @@ tu container
                 <mat-icon matListIcon iconsmall>dashboard</mat-icon>
                 <h3 matLine>Dashboard</h3>
             </a>           
-        </mat-nav-list> 
-        
+        </mat-nav-list>         
         <mat-accordion>
             <mat-expansion-panel>
                 <mat-expansion-panel-header>
@@ -215,7 +71,7 @@ tu container
             </mat-expansion-panel>            
         </mat-accordion>        
     </mat-sidenav>
-    <mat-sidenav-content class="dashboard">       
+    <mat-sidenav-content>       
         <mat-toolbar>
             <button mat-button (click)="sidenav.toggle()">
                 <mat-icon>menu</mat-icon>
@@ -242,35 +98,37 @@ tu container
                 </button>                    
             </mat-menu> 
         </mat-toolbar>
-
-<!--        <div [@routerAnimations]="prepareRouteTransition(outlet)">-->
-            <main class="container" [@routerAnimations]="prepareRouteTransition(outlet)">
-                <alert></alert>
-                <router-outlet #outlet="outlet"></router-outlet> 
-            </main>
-<!--        </div>-->
-        
+        <main class="container" [@routerAnimations]="prepareRouteTransition(outlet)">
+            <alert></alert>
+            <router-outlet #outlet="outlet"></router-outlet> 
+        </main>        
     </mat-sidenav-content>
 </mat-sidenav-container>
 
-<div *ngIf="!isLoggedIn">
-    <div *ngIf="objLoaderStatus" id="loaderWrap">
-        <mat-spinner *ngIf="objLoaderStatus" id="loader"></mat-spinner> 
-    </div>    
-    <div [@routerAnimations]="prepareRouteTransition(outlet)">
+<mat-sidenav-container fxFlexFill *ngIf="!isLoggedIn">
+    <mat-sidenav #sidenav>
+        <a routerLink="/about" routerLinkActive="active">About</a>
+        <a routerLink="/contact" routerLinkActive="active">Contact</a>
+        <a routerLink="/login" routerLinkActive="active">Login</a>                
+    </mat-sidenav>
+    <mat-sidenav-content>
         <mat-toolbar>
+            <div fxShow="true" fxHide.lt-md="true">
             <a routerLink="/about" routerLinkActive="active">About</a>
             <a routerLink="/contact" routerLinkActive="active">Contact</a>
-            <a routerLink="/admin/items" routerLinkActive="active">Items</a>
             <a routerLink="/login" routerLinkActive="active">Login</a>
+            </div>
+            <div fxShow="true" fxHide.gt-sm="true">
+                <mat-icon class="clicable" (click)="sidenav.toggle()">menu</mat-icon>
+            </div>
         </mat-toolbar>
-        <alert></alert>  
-        <router-outlet #outlet="outlet"></router-outlet>    
-    </div>    
-</div>
+        <main [@routerAnimations]="prepareRouteTransition(outlet)">
+            <alert></alert>
+            <router-outlet #outlet="outlet"></router-outlet> 
+        </main>
+    </mat-sidenav-content>
+</mat-sidenav-container>
 
-<!--<div *ngIf="objLoaderStatus" id="loaderWrap">
+<div *ngIf="objLoaderStatus" id="loaderWrap">
     <mat-spinner id="loader"></mat-spinner> 
-</div>-->
-
-<!--        <div [@routerAnimations]="prepareRouteTransition(outlet)" class="anim-wrap"></div>-->
+</div> 

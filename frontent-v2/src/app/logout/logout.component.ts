@@ -2,29 +2,26 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../services/authentication.service';
-import { LoaderService } from '../services/loader.service';
+import { AlertService } from '../alert/alert.service';
 
 @Component({
     selector: 'logout',
-    template: 'Bye'
+    template: ''
 })
 
 export class LogoutComponent {
-    //model: any = {};
-    //loading = false;
     returnUrl: string;
 
     constructor(
         private router: Router,
         private authenticationService: AuthenticationService,
-        private loaderService: LoaderService
-        ) {}
+        private alertService: AlertService
+    ) {}
 
     ngOnInit() {
-        this.loaderService.displayLoader(true);
         this.authenticationService.logout();
-        this.returnUrl = '/';
-        this.loaderService.displayLoader(false);                     
+        this.alertService.success('user.logged_out');
+        this.returnUrl = '/';                     
         this.router.navigate([this.returnUrl]);         
     }
    

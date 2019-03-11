@@ -1,7 +1,6 @@
 <mat-sidenav-container fxFlexFill *ngIf="isLoggedIn">
 <!--                       over on mobile-->
-    <mat-sidenav #sidenav mode="side"> 
-        <mat-icon class="clicable" (click)="sidenav.toggle()">close</mat-icon>
+    <mat-sidenav #sidenav mode="side" [(opened)]="opened"> 
         <mat-toolbar>R.A.B.</mat-toolbar>
         <mat-divider></mat-divider>
         <mat-nav-list>
@@ -122,15 +121,15 @@
             <div fxHide.lt-md="true" fxFlex>
                 <a mat-button routerLink="/about" routerLinkActive="active">About</a>
                 <a mat-button routerLink="/contact" routerLinkActive="active">Contact</a>
-                <span fxFlex></span>
-                <button *ngIf="language=='en-US'" mat-button class="pl" (click)="useLanguage('pl')">.</button>
-                <button *ngIf="language=='pl'" mat-button class="en" (click)="useLanguage('en-US')">.</button>                
+                <span fxFlex></span>                
                 <a mat-button routerLink="/login" routerLinkActive="active">
                     {{ 'ui.login' | translate }}
                 </a>
                 <a mat-button routerLink="/register" routerLinkActive="active">
                     {{ 'ui.register' | translate }}
-                </a> 
+                </a>
+                <button *ngIf="language=='en-US'" mat-button class="pl" (click)="useLanguage('pl')">.</button>
+                <button *ngIf="language=='pl'" mat-button class="en" (click)="useLanguage('en-US')">.</button>                
             </div>
             <div fxHide.gt-sm="true">
                 <mat-icon class="clicable" (click)="sidenav.toggle()">menu</mat-icon>

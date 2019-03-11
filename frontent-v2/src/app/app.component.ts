@@ -42,6 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
     objLoaderStatus: boolean;
     isLoggedIn: boolean; // @FIXME - not needed? (logic moved to auth guard)
     isAdmin: boolean;
+    opened: boolean = true;
     language: string = navigator.language;
     
     constructor(

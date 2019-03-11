@@ -58,12 +58,65 @@ mat-sidenav {
   margin: 0 auto;
 }
 
+.mat-card-header-text {
+    margin: 0 !important;
+}
+
 .pl {
     background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjgwIDgwMCI+DQo8cGF0aCBmaWxsPSIjZTllOGU3IiBkPSJtMCwwaDEyODB2NDAwaC0xMjgweiIvPg0KPHBhdGggZmlsbD0iI2Q0MjEzZCIgZD0ibTAsNDAwaDEyODB2NDAwaC0xMjgweiIvPg0KPC9zdmc+DQo=');
     background-size: 100% 100%;
+    min-width: 32px !important;
+    height: 16px !important;
 }
 
 .en {
     background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSIwIDAgNjAgMzAiIGhlaWdodD0iNjAwIj4NCjxkZWZzPg0KPGNsaXBQYXRoIGlkPSJ0Ij4NCjxwYXRoIGQ9Im0zMCwxNWgzMHYxNXp2MTVoLTMwemgtMzB2LTE1enYtMTVoMzB6Ii8+DQo8L2NsaXBQYXRoPg0KPC9kZWZzPg0KPHBhdGggZmlsbD0iIzAwMjQ3ZCIgZD0ibTAsMHYzMGg2MHYtMzB6Ii8+DQo8cGF0aCBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iNiIgZD0ibTAsMGw2MCwzMG0wLTMwbC02MCwzMCIvPg0KPHBhdGggc3Ryb2tlPSIjY2YxNDJiIiBzdHJva2Utd2lkdGg9IjQiIGQ9Im0wLDBsNjAsMzBtMC0zMGwtNjAsMzAiIGNsaXAtcGF0aD0idXJsKCN0KSIvPg0KPHBhdGggc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjEwIiBkPSJtMzAsMHYzMG0tMzAtMTVoNjAiLz4NCjxwYXRoIHN0cm9rZT0iI2NmMTQyYiIgc3Ryb2tlLXdpZHRoPSI2IiBkPSJtMzAsMHYzMG0tMzAtMTVoNjAiLz4NCjwvc3ZnPg0K');
     background-size: 100% 100%;
+    min-width: 32px !important;
+    height: 16px !important;
+}
+
+.alert {
+    position:relative;
+    padding:.75rem 1.25rem;
+    margin-bottom:1rem;
+    border:1px solid transparent;
+    border-radius:.25rem;
+}
+
+.alert-dismissible {
+    padding-right:4rem; 
+    cursor: pointer;
+}
+
+.alert-dismissible .close {
+    position:absolute;
+    top:0;
+    right:0;
+    padding:.75rem 1.25rem;
+}
+
+
+.alert-success {
+    color:#155724;
+    background-color:#d4edda;
+    border-color:#c3e6cb
+}
+
+.alert-info {
+    color:#0c5460;
+    background-color:#d1ecf1;
+    border-color:#bee5eb
+}
+
+.alert-warning {
+    color:#856404;
+    background-color:#fff3cd;
+    border-color:#ffeeba
+}
+
+.alert-danger {
+    color:#721c24;
+    background-color:#f8d7da;
+    border-color:#f5c6cb
 }

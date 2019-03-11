@@ -76,6 +76,7 @@
         "email.duplicated": "Ten email jest już zarejestrowany.",
         "enabled": "Aktywny",
         "last_login": "Ostatnie logowanie",
+        "logged_out": "Zostałeś wylogowany",
         "not_recognised": "Nie ma takiego użytkownika.",
         "profile": "Profil użytkownika",
         "register.success": "Użytkownik został zarejestrowany.",

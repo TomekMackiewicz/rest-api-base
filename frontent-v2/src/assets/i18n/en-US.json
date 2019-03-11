@@ -76,6 +76,7 @@
         "email.duplicated": "This email is already in use.",
         "enabled": "Enabled",
         "last_login": "Last login",
+        "logged_out": "You have been logged out",
         "not_recognised": "User not recognised",
         "profile": "User profile",
         "register.success": "The user has been created successfully.",

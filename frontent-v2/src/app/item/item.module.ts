@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common'; // ?
 import { FormsModule } from '@angular/forms'; // ?
 import { AlertModule } from '../alert/alert.module';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { 
     MatTableModule, 
     MatFormFieldModule, 
@@ -38,6 +39,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         FormsModule,
         ItemRoutingModule,
         AlertModule,
+        FlexLayoutModule,
         MatTableModule,
         MatFormFieldModule,
         MatInputModule,

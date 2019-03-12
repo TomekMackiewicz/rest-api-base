@@ -9,12 +9,12 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-mat-sidenav {
-    width: 250px;
+main {
+    padding: 16px;
 }
 
-.container {
-    padding: 24px;
+mat-sidenav {
+    width: 250px;
 }
 
 .clicable {

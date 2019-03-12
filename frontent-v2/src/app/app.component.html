@@ -75,7 +75,7 @@
             <button mat-button (click)="sidenav.toggle()">
                 <mat-icon>menu</mat-icon>
             </button>
-            <span class="fill-space"></span>
+            <span fxFlex></span>
             <mat-button-toggle-group #langSelect="matButtonToggleGroup" (change)="translate.use(langSelect.value)">
                 <mat-button-toggle *ngFor="let lang of translate.getLangs()" [value]="lang">
                     <img src="/assets/flag-{{ lang }}.png">
@@ -97,7 +97,7 @@
                 </button>                    
             </mat-menu> 
         </mat-toolbar>
-        <main class="container" [@routerAnimations]="prepareRouteTransition(outlet)">
+        <main [@routerAnimations]="prepareRouteTransition(outlet)">
             <alert></alert>
             <router-outlet #outlet="outlet"></router-outlet> 
         </main>        

@@ -49,7 +49,6 @@ export class ItemEditComponent implements OnInit {
                     this.loaderService.displayLoader(false);
                     this.alertService.error(error.error.message);
                     this.ref.detectChanges();
-                    return Observable.throw(error);
                 }                
             );
     }
@@ -72,8 +71,6 @@ export class ItemEditComponent implements OnInit {
                 this.errorService.handleErrors(this.validation, errors.error);
                 this.loaderService.displayLoader(false);
                 this.ref.markForCheck();
-                
-                return Observable.throw(errors);
             }
         );
     }

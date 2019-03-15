@@ -3,7 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs';
-import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { ItemService } from './item.service';
 import { AlertService } from '../alert/alert.service';
 import { LoaderService } from '../services/loader.service';
@@ -42,6 +42,7 @@ export class ItemEditComponent implements OnInit {
             .subscribe(
                 (data: Item) => {
                     this.loaderService.displayLoader(false);
+                    this.itemForm.controls['signature'].setAsyncValidators(this.uniquenessValidator(this.itemService, data.id));
                     data.last_action = new Date();
                     this.item = data;
                     this.itemForm.setValue(data);
@@ -54,7 +55,15 @@ export class ItemEditComponent implements OnInit {
                 }                
             );
     }
-    
+
+    uniquenessValidator(itemService, id: number) {
+        return (control: AbstractControl) => {
+            return itemService.getItem(id).map(res => {
+                return res.item ? null : { duplicated: true };
+            });
+        }
+    }
+
     getSignatureErrorMessage() {          
         return this.itemForm.get('signature').hasError('required') ? 'form.required' :
                this.itemForm.get('signature').hasError('maxlength') ? 'form.validation.field.too_long' :

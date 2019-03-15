@@ -31,8 +31,10 @@
         "username": "Nazwa użytkownika",
         "username_or_email": "Nazwa użytkownika lub email",
         "validation": {
+            "digits": "Dozwolone są tylko cyfry",
             "email.invalid": "Niepoprawny adres e-mail.",
-            "email.required": "E-mail jest wymagany.",            
+            "email.required": "E-mail jest wymagany.",
+            "field.too_long": "Wartość pola jest zbyt długa",
             "password.invalid": "Niepoprawne hasło.",
             "password.regex": "Hasło musi zawierać co najmniej jedną dużą literę i cyfrę.",
             "password.required": "Hasło jest wymagane.",

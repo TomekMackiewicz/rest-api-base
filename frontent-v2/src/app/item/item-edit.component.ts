@@ -3,10 +3,10 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 import { Observable } from 'rxjs';
+import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { ItemService } from './item.service';
 import { AlertService } from '../alert/alert.service';
 import { LoaderService } from '../services/loader.service';
-import { ErrorService } from '../services/error.service';
 import { Item } from './model/item';
 
 @Component({
@@ -16,22 +16,22 @@ import { Item } from './model/item';
 
 export class ItemEditComponent implements OnInit {
 
-    private item: Item;
+    item: Item;
 
-    validation: any = {
-        signature: <string> '',
-        status: <string> '',
-        signatureMsg: <string> '',
-        statusMsg: <string> ''
-    };
+    itemForm = this.fb.group({
+        id: [''],
+        signature: new FormControl('', [Validators.required, Validators.maxLength(32)]),
+        status: new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
+        last_action: ['']
+    });
 
     constructor(
+        private fb: FormBuilder,
         private itemService: ItemService,
         private route: ActivatedRoute,
         private location: Location,
         private alertService: AlertService,
         private loaderService: LoaderService,
-        private errorService: ErrorService,
         private ref: ChangeDetectorRef
     ) {}
 
@@ -40,9 +40,11 @@ export class ItemEditComponent implements OnInit {
         this.route.params
             .switchMap((params: Params) => this.itemService.getItem(+params['id']))
             .subscribe(
-                (data: Item) => { 
+                (data: Item) => {
                     this.loaderService.displayLoader(false);
-                    this.item = data; 
+                    data.last_action = new Date();
+                    this.item = data;
+                    this.itemForm.setValue(data);
                     this.ref.detectChanges();
                 },
                 error => {
@@ -52,27 +54,35 @@ export class ItemEditComponent implements OnInit {
                 }                
             );
     }
-
+    
+    getSignatureErrorMessage() {          
+        return this.itemForm.get('signature').hasError('required') ? 'form.required' :
+               this.itemForm.get('signature').hasError('maxlength') ? 'form.validation.field.too_long' :
+               this.itemForm.get('signature').hasError('duplicated') ? 'crud.duplicated' : '';
+    }
+    
+    getStatusErrorMessage() {
+        return this.itemForm.get('status').hasError('required') ? 'form.required' :
+               this.itemForm.get('status').hasError('pattern') ? 'form.validation.digits' : '';        
+    }
+  
     goBack(): void {
         this.location.back();
     }
 
     updateItem() {
         this.loaderService.displayLoader(true);
-        this.errorService.nullErrors(this.validation);
-        this.itemService.updateItem(this.item).subscribe(
+        this.itemService.updateItem(this.itemForm.value).subscribe(
             (data: string) => {
-                this.errorService.nullErrors(this.validation);
                 this.loaderService.displayLoader(false);
                 this.alertService.success(data, true);
                 this.ref.markForCheck();
             },
-            errors => {
-                this.errorService.handleErrors(this.validation, errors.error);
+            error => {
+                this.alertService.error(error.error);
                 this.loaderService.displayLoader(false);
                 this.ref.markForCheck();
             }
         );
     }
-
 }

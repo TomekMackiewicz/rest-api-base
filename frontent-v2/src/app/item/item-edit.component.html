@@ -6,17 +6,21 @@
                 {{ 'crud.edit' | translate }}
             </mat-card-title>           
         </mat-card-header>
-        <mat-card-content>
-            <form *ngIf="item" name="form" fxLayout="column" (ngSubmit)="f.form.valid && updateItem()" #f="ngForm" novalidate>
-                <mat-form-field fxFlex appearance="outline">
+        <mat-card-content>           
+            <form *ngIf="item" fxLayout="column" [formGroup]="itemForm" (ngSubmit)="itemForm.valid && updateItem()" novalidate>
+                <mat-form-field appearance="outline">
                     <mat-label>{{ 'item.signature' | translate }}</mat-label>
-                    <input matInput type="text" id="item-signature" name="item-signature" [(ngModel)]="item.signature" #signature="ngModel" required>
-                    <mat-error *ngIf="!validation.signature">{{ validation.signatureMsg | translate }}</mat-error>
-                </mat-form-field>
-                <mat-form-field fxFlex appearance="outline">
-                    <mat-label for="item-status">{{ 'item.status' | translate }}</mat-label>
-                    <input matInput type="text" id="item-status" name="item-status" [(ngModel)]="item.status" #status="ngModel" required>
-                    <mat-error *ngIf="!validation.status">{{ validation.statusMsg | translate }}</mat-error>
+                    <input matInput type="text" name="signature" formControlName="signature">
+                    <mat-error *ngIf="itemForm.get('signature').invalid">
+                        {{ getSignatureErrorMessage() | translate }}
+                    </mat-error>                    
+                </mat-form-field>    
+                <mat-form-field appearance="outline">
+                    <mat-label>{{ 'item.status' | translate }}</mat-label>
+                    <input matInput type="text" name="status" formControlName="status">
+                    <mat-error *ngIf="itemForm.get('status').invalid">
+                        {{ getStatusErrorMessage() | translate }}
+                    </mat-error>                     
                 </mat-form-field>
                 <div fxLayout="row">
                     <button mat-raised-button>{{ 'crud.edit' | translate }}</button>

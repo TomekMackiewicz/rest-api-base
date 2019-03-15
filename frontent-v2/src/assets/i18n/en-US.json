@@ -31,8 +31,10 @@
         "username": "Username",
         "username_or_email": "Username or email",
         "validation": {
+            "digits": "Only digits are allowed",
             "email.invalid": "Email is not valid.",
             "email.required": "Email is required.",
+            "field.too_long": "Field value is too long",
             "password.invalid": "Invalid password.",
             "password.regex": "Password must contain at least one uppercase and one digit.",
             "password.required": "Password is required.",

@@ -11,7 +11,6 @@
                 <mat-form-field appearance="outline">
                     <mat-label>{{ 'form.username_or_email' | translate }}</mat-label>
                     <input matInput type="text" name="username"
-                           placeholder="{{ 'form.username_or_email' | translate }}"
                            [(ngModel)]="model.username" #username="ngModel" required>
                     <mat-error *ngIf="f.submitted && !username.valid">
                         {{ 'form.validation.username_or_email.required' | translate }}
@@ -20,7 +19,6 @@
                 <mat-form-field appearance="outline">
                     <mat-label>{{ 'form.password' | translate }}</mat-label>
                     <input matInput type="password" name="password"
-                           placeholder="{{ 'form.password' | translate }}"
                            [(ngModel)]="model.password" #password="ngModel" required>
                     <mat-error *ngIf="f.submitted && !password.valid">
                         {{ 'form.validation.password.required' | translate }}

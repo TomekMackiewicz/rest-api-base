@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common'; // ?
-import { FormsModule } from '@angular/forms'; // ?
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AlertModule } from '../alert/alert.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -37,6 +37,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     imports: [
         CommonModule,
         FormsModule,
+        ReactiveFormsModule,
         ItemRoutingModule,
         AlertModule,
         FlexLayoutModule,

@@ -2,7 +2,7 @@ export class Item {
     id: number;
     signature: string;
     status: number;
-    lastAction: Date
+    last_action: Date
 
     constructor(signature: string, status: any) {
         this.signature = signature;

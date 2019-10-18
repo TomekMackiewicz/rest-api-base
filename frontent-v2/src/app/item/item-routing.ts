@@ -11,7 +11,7 @@ const itemRoutes: Routes = [
     { path: 'admin', 
         children: [
             { path: 'items/create', component: ItemCreateComponent },
-            { path: 'items/:id', component: ItemEditComponent },           
+            { path: 'items/:id', component: ItemEditComponent },
             {
                 path: 'items', 
                 component: ItemListComponent,

@@ -22,7 +22,7 @@ class FileController extends FOSRestController implements ClassResourceInterface
     
     public function __construct(RequestStack $requestStack)
     {
-        $this->baseUrl = $requestStack->getCurrentRequest()->getSchemeAndHttpHost();
+        //$this->baseUrl = $requestStack->getCurrentRequest()->getSchemeAndHttpHost();
     }
 
     private function getBaseUrl()

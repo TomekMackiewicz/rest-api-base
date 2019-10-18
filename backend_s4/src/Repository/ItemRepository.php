@@ -18,6 +18,14 @@ class ItemRepository extends EntityRepository
         return $query;
     }
 
+    public function findOneBySignature(string $signature)
+    {
+        $query = $this->_em->createQuery("SELECT i FROM App:Item i WHERE i.signature = :signature");
+        $query->setParameter('signature', $signature);
+
+        return $query;
+    } //->getSingleResult()   
+    
     public function findAll()
     {
         return $this->_em->createQuery("SELECT i FROM App:Item i");

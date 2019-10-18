@@ -36,13 +36,14 @@ export class ItemEditComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.loaderService.displayLoader(true);
+        this.loaderService.displayLoader(true); 
         this.route.params
             .switchMap((params: Params) => this.itemService.getItem(+params['id']))
             .subscribe(
                 (data: Item) => {
+                    //console.log(this.itemForm.get('signature'));
                     this.loaderService.displayLoader(false);
-                    this.itemForm.controls['signature'].setAsyncValidators(this.uniquenessValidator(this.itemService, data.id));
+                    //this.itemForm.controls['signature'].setAsyncValidators(this.uniquenessValidator(this.itemService, data.id)); //this.itemForm.get('signature').value
                     data.last_action = new Date();
                     this.item = data;
                     this.itemForm.setValue(data);
@@ -54,12 +55,18 @@ export class ItemEditComponent implements OnInit {
                     this.ref.detectChanges();
                 }                
             );
+            
+        this.itemForm.get('signature').valueChanges.subscribe(val => {
+            this.itemForm.controls['signature'].setAsyncValidators(this.uniquenessValidator(this.itemService, val));
+        });    
     }
 
-    uniquenessValidator(itemService, id: number) {
+    uniquenessValidator(itemService, signature: string) {
+        console.log(signature); // tu ok
         return (control: AbstractControl) => {
-            return itemService.getItem(id).map(res => {
-                return res.item ? null : { duplicated: true };
+            return itemService.checkUniqueSignature(signature).map(res => {
+                
+                return res === true ? { duplicated: true } : false;
             });
         }
     }

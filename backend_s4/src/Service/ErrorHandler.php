@@ -16,11 +16,13 @@ class ErrorHandler
      */
     public function handleFormErrors($form)
     {
-        $errors = [];
+        //$errors = [];
+        $errors = '';
         foreach ($form->getErrors(true) as $error) {
             if ($error->getOrigin()) {
                 $formattedKey = $this->toCamelCase($error->getOrigin()->getName());
-                $errors[$formattedKey] = $error->getMessage();
+                //$errors[$formattedKey] = $error->getMessage();
+                $errors .= $error->getMessage();
             }           
         }
 

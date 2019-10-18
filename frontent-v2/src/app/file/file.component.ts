@@ -51,7 +51,7 @@ export class FileComponent implements OnInit {
                 this.alertService.error(error.error.message); // @fixme (translate)
                 this.loaderService.displayLoader(false);
                 this.ref.detectChanges();
-                return Observable.throw(error);
+                //return Observable.throw(error);
             }
         );        
     }

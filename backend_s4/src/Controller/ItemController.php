@@ -10,6 +10,7 @@ use FOS\RestBundle\Routing\ClassResourceInterface;
 use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use FOS\RestBundle\Controller\Annotations\Get;
  
 /**
  * Item controller.
@@ -32,7 +33,7 @@ class ItemController extends FOSRestController implements ClassResourceInterface
      * @return mixed
      */
     public function getAction(int $id)
-    {
+    {       
         $item = $this->getItemRepository()->findOneById($id)->getSingleResult(); 
         if ($item === null) {
             return new View(null, Response::HTTP_NOT_FOUND);
@@ -40,6 +41,25 @@ class ItemController extends FOSRestController implements ClassResourceInterface
         
         return $item;
     }    
+
+    /**
+     * Validate item signature
+     * 
+     * @Get("/items/validate/{signature}")
+     * 
+     * @param string $signature
+     * 
+     * @return mixed
+     */    
+    public function getSignatureAction(string $signature)
+    {       
+        $item = $this->getItemRepository()->findOneBy(['signature' => $signature]); 
+        if ($item === null) {
+            return 'nie ma';
+        }  
+        
+        return 'jest';
+    } 
     
     /**
      * List all item entities.

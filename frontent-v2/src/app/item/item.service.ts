@@ -12,6 +12,10 @@ export class ItemService {
         return this.http.get('http://localhost:8000/api/admin/items/' + id);
     }
 
+    checkUniqueSignature(signature: string) {
+        return this.http.get('http://localhost:8000/api/admin/items/validate/' + signature);
+    }
+
     getItems(sort: string, order: string, page: any, perPage: number) {
         sort = sort ? sort : 'signature'; // fix sorting
         order = order ? order : 'asc';
